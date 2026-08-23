@@ -16,5 +16,3 @@ metrics.jsonl
 train_eps/
 eval_eps/
 *.tmp
-models/**/*.pt
-models/**/*.pth
