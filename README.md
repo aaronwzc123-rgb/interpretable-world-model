@@ -20,6 +20,8 @@ D1 and D3 use seed-held-out evaluations from the same DoorKey generator. They ar
 
 The frozen environment used Python 3.11 and PyTorch 2.8.0+cu126. Install the PyTorch build appropriate for your CPU/CUDA platform first, then install the remaining dependencies:
 
+For a complete setup walkthrough, see [INSTALL.md](INSTALL.md).
+
 ```bash
 python -m venv .venv
 # Windows: .venv\Scripts\activate
