@@ -1,0 +1,17 @@
+{"step": 0, "episode/eval_score": 0.0, "episode/eval_length": 360.0}
+{"step": 66, "train/opt/updates": 0.0, "fps/fps": 0}
+{"step": 360, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 720, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 1080, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 1440, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 1800, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 1995, "episode/score": 0.512499988079071, "episode/length": 195.0}
+{"step": 2213, "episode/score": 0.45500001311302185, "episode/length": 218.0}
+{"step": 2300, "episode/score": 0.7825000286102295, "episode/length": 87.0}
+{"step": 2660, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 3020, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 3380, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 3740, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 4008, "episode/score": 0.33000001311302185, "episode/length": 268.0}
+{"step": 4368, "episode/score": 0.0, "episode/length": 360.0}
+{"step": 4678, "episode/score": 0.22499999403953552, "episode/length": 310.0}

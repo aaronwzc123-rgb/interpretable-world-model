@@ -33,9 +33,15 @@ python scripts/evaluate_d1_unified.py --traj results/doorkey_experiment_1_d1/tra
 
 The trajectory split is 70 train / 15 validation / 15 test episodes. This is a same-generator, seed-held-out test, not unseen-layout generalisation.
 
-## D2 — registered but unexecuted
+## D2 — registered but unexecuted (current protocol)
 
-The planned detached/MSE/BCE DoorKey matrix was not run. There is intentionally no D2 checkpoint, config, or synthetic placeholder result.
+The planned detached/MSE/BCE DoorKey matrix was not run. There is intentionally no checkpoint, config, or synthetic placeholder result for that matrix.
+
+### Historical Model2 / D2 precursor — negative evidence restored
+
+The earlier N-DNF-transition experiment did run, across several long runs and a controlled 300k-step rebuild, but it is a different protocol: it replaced the full RSSM transition with an N-DNF transition rather than comparing detached/MSE/BCE online heads. Its code, metrics, console logs, Hydra configs, postmortems, and final reports are restored under [`archive/d2_model2_legacy/`](../archive/d2_model2_legacy/) and [`docs/d2_model2/`](d2_model2/).
+
+The controlled rebuild reached 312,456 steps and had 12 consecutive evaluation checkpoints (240 episodes) with `eval_return = 0.000` from steps 182,500–302,500. This is retained as a bounded historical negative result, not counted as execution of the current D2 matrix.
 
 ## D3 — DoorKey Experiment 3
 

@@ -1,0 +1,33 @@
+Logdir logdir\m2fix_exp3_optsplit_smoke_s0
+Create envs.
+Simulate agent.
+Encoder CNN shapes: {}
+Encoder MLP shapes: {'symbolic': (147,)}
+Decoder CNN shapes: {}
+Decoder MLP shapes: {'symbolic': (147,)}
+        39,632: rssm
+       146,181: actor
+       210,431: value
+        78,335: reward
+        13,057: cont
+       170,240: encoder
+       182,675: decoder
+Optimizer has: 840551 parameters.
+Evaluating the policy...
+[0] episode/eval_score 0.0 / episode/eval_length 360.0
+[66] train/opt/updates 0.0 / fps/fps 0.0
+[360] episode/score 0.0 / episode/length 360.0
+[720] episode/score 0.0 / episode/length 360.0
+[1080] episode/score 0.0 / episode/length 360.0
+[1440] episode/score 0.0 / episode/length 360.0
+[1800] episode/score 0.0 / episode/length 360.0
+[1995] episode/score 0.5 / episode/length 195.0
+[2213] episode/score 0.5 / episode/length 218.0
+[2300] episode/score 0.8 / episode/length 87.0
+[2660] episode/score 0.0 / episode/length 360.0
+[3020] episode/score 0.0 / episode/length 360.0
+[3380] episode/score 0.0 / episode/length 360.0
+[3740] episode/score 0.0 / episode/length 360.0
+[4008] episode/score 0.3 / episode/length 268.0
+[4368] episode/score 0.0 / episode/length 360.0
+[4678] episode/score 0.2 / episode/length 310.0

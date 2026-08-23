@@ -1,0 +1,18 @@
+﻿task: minigrid_DoorKey-6x6-v0
+steps: 3e5
+env_num: 1
+eval_episode_num: 10
+action_repeat: 1
+train_ratio: 512
+time_limit: 360
+
+seed: ${seed}
+device: ${device}
+
+size: [64, 64]
+encoder:
+  mlp_keys: 'symbolic'
+  cnn_keys: '$^'
+decoder:
+  mlp_keys: 'symbolic'
+  cnn_keys: '$^'

@@ -1,0 +1,11 @@
+- env=minigrid
+- env.task=minigrid_DoorKey-6x6-v0
+- env.steps=300000
+- env.train_ratio=32
+- model=size12M
+- model.compile=False
+- model.rep_loss=dreamer
+- +trainer.demo_steps=20000
+- seed=0
+- logdir=./logdir/ndnf_dreamer_demo_s0
+- +run_name=ndnf_dreamer_demo_s0

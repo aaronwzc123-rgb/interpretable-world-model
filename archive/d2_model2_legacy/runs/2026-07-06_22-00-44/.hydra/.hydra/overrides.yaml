@@ -1,0 +1,5 @@
+- env=minigrid
+- model=size12M
+- model.compile=False
+- env.train_ratio=32
+- +run_name=ndnf_soft_s0

@@ -1,0 +1,12 @@
+- env=minigrid
+- env.task=minigrid_DoorKey-6x6-v0
+- env.steps=300000
+- env.train_ratio=32
+- model=size12M
+- model.compile=False
+- model.rep_loss=dreamer
+- +trainer.demo_steps=0
+- model.rssm.ndnf.delta_delay=500
+- seed=0
+- logdir=./logdir/m2fix_exp2_nodemo_s0
+- +run_name=m2fix_exp2_nodemo_s0
