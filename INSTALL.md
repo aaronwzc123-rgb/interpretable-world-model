@@ -32,7 +32,7 @@ Windows PowerShell:
 
 ```powershell
 py -3.11 -m venv .venv
-.\\.venv\\Scripts\\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 ```
 
@@ -40,7 +40,7 @@ Windows Command Prompt:
 
 ```bat
 py -3.11 -m venv .venv
-.venv\\Scripts\\activate.bat
+.venv\Scripts\activate.bat
 python -m pip install --upgrade pip
 ```
 
