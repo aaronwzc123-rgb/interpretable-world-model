@@ -7,7 +7,7 @@ This repository is the cleaned research artifact for the dissertation *Readable 
 | ID | Paper experiment | Environment | Main artifact |
 |---|---|---|---|
 | D1 | DoorKey Experiment 1: continuous-belief decoding | `MiniGrid-DoorKey-6x6-v0` | `models/doorkey/doorkey_experiment_1_d1/checkpoint.pt` |
-| D2 | Registered online-head comparison | DoorKey-6x6 | Not run; no checkpoint or result is claimed |
+| D2 | DoorKey online N-DNF transition (historical negative result) | DoorKey-6x6 | archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt |
 | D3 | DoorKey Experiment 3: atoms-only causal control | `MiniGrid-DoorKey-6x6-v0` | `models/doorkey/doorkey_experiment_3_d3/checkpoint.pt` |
 | M1 | Memory Experiment 1: supervised continuous memory | `memoryS7_cuestart` | `models/memory/memory_experiment_1_m1/` |
 | M2 | Memory Experiment 2: online BCE symbolic readout | `memoryS7_cuestart` | `models/memory/memory_experiment_2_m2/` |

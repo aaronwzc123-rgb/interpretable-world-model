@@ -5,7 +5,7 @@ These are the results reported in the dissertation. JSON files are authoritative
 | ID | Frozen result | Supported claim | Not supported |
 |---|---|---|---|
 | D1 | 100/100 task success; linear accuracy 95.4–100%; hardened N-DNF accuracy 94.9–99.5% | Nine selected facts are decodable on episode-disjoint same-generator data | Policy use; unseen-layout generalisation |
-| D2 | Historical online N-DNF transition: eight long runs plus a controlled rebuild; late controlled evaluation 0/240; 8/9 predicates near base rate | In the tested DoorKey-6x6 implementation, replacing the complete RSSM transition with online N-DNF was not trainable | Fair detached/MSE/BCE head comparison; impossibility of all N-DNF heads |
+| D2 | Historical online N-DNF transition: eight long runs plus a controlled rebuild; late controlled evaluation 0/260; 8/9 predicates near base rate | In the tested DoorKey-6x6 implementation, replacing the complete RSSM transition with online N-DNF was not trainable | Fair detached/MSE/BCE head comparison; impossibility of all N-DNF heads |
 | D3 | 100/100 normal, 0/100 zero-all; `t_ahead` signed effect 0.507 and `wall_ahead` 0.384 | One checkpoint uses the atom boundary and has local semantically aligned action effects | Retraining robustness; episode-level goal redirection; unseen layouts |
 | M1 | Grounded seeds 0/1 reach 100% pure-memory BA at 84k; current-frame BA 50%; Plain matched controls 50% | Supervision can make the recurrent belief retain the hidden cue in two training seeds | Stable policy success; unsupervised memory |
 | M2 | BCE seeds 0/1 reach 60.0% and 45.9% pure-memory BA, below the 65% gate | This online-head recipe fails its registered gate at 84k in two seeds | Impossibility of online symbolic memory |

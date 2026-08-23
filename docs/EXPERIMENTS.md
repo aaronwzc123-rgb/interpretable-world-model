@@ -9,7 +9,7 @@ D2 is the executed historical N-DNF transition experiment. The later detached/MS
 | ID | Training parameters | Retained checkpoint(s) | Frozen evidence | Evaluation entry |
 |---|---|---|---|---|
 | D1 | `models/doorkey/doorkey_experiment_1_d1/config.yaml` | `models/doorkey/doorkey_experiment_1_d1/checkpoint.pt` | `results/doorkey_experiment_1_d1/d1_unified.json`, `trajectory.npz` | `scripts/evaluate_d1_unified.py` |
-| D2 | `archive/d2_model2_legacy/source/model_base.yaml`, resolved configs under `archive/d2_model2_legacy/runs/` | `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt` | `docs/d2_model2/`, archived console logs and `metrics.jsonl` | archived run logs; no single current evaluator |
+| D2 | `archive/d2_model2_legacy/source/model_base.yaml`, historical resolved configs under `archive/d2_model2_legacy/runs/`; controlled-rebuild parameters in `docs/d2_model2/m2rebuild_log.md` | `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt` | `docs/d2_model2/`, archived console logs and `metrics.jsonl` | historical runs have resolved configs; controlled rebuild uses its parameter log |
 | D3 | `models/doorkey/doorkey_experiment_3_d3/config.yaml` | `models/doorkey/doorkey_experiment_3_d3/checkpoint.pt` | `d3_ablation.json`, `d3_directed_actions.json` | `scripts/ablate_sym.py`, `scripts/evaluate_d3_directed_actions.py` |
 | M1 | `models/memory/memory_experiment_1_m1/config.yaml` | Grounded/Plain seed 0/1 checkpoints | `results/memory_experiment_1_m1/` | `scripts/evaluate_m1_cuestart.py` |
 | M2 | `models/memory/memory_experiment_2_m2/config.yaml` | seed 0/1 84k checkpoints | `results/memory_experiment_2_m2/` | `scripts/evaluate_m2_head.py` |
@@ -38,9 +38,9 @@ The trajectory split is 70 train / 15 validation / 15 test episodes. This is a s
 
 Purpose: test whether a Neural-DNF transition can replace the RSSM recurrent transition in end-to-end Dreamer training on DoorKey-6x6.
 
-This is the executed historical D2 experiment. The N-DNF mechanism is trained online as the recurrent transition, not fitted as a detached post-hoc readout. The restored source is under `archive/d2_model2_legacy/source/`; resolved parameters, console logs, and metrics are under `archive/d2_model2_legacy/runs/`.
+This is the executed historical D2 experiment. The N-DNF mechanism is trained online as the recurrent transition, not fitted as a detached post-hoc readout. The restored source is under `archive/d2_model2_legacy/source/`; historical runs retain resolved parameters under `archive/d2_model2_legacy/runs/`, while the controlled rebuild parameter record is `docs/d2_model2/m2rebuild_log.md`.
 
-The historical line contains eight long runs plus a controlled 300k-step rebuild. The controlled rebuild reached 312,456 steps; from steps 182,500–302,500, 12 consecutive evaluation checkpoints covering 240 episodes had `eval_return = 0.000`. The final failed checkpoint is `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt`.
+The historical line contains eight long runs plus a controlled 300k-step rebuild. The controlled rebuild reached 312,456 steps; from steps 182,500--302,500, 13 consecutive evaluation checkpoints covering 260 episodes had `eval_return = 0.000`. The final failed checkpoint is `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt`.
 
 Supported claim: in the tested DoorKey-6x6 implementation, replacing the complete stochastic RSSM transition with an online N-DNF transition was not trainable. This is a bounded architecture result, not evidence that every N-DNF head or every loss function is impossible.
 

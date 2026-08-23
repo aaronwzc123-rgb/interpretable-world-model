@@ -15,12 +15,12 @@ TensorBoard event files and the other missing checkpoints are intentionally omit
 
 ## Main negative result
 
-The controlled `m2rebuild` run reached 312,456 environment steps. Evaluation declined as the N-DNF transition hardened; from steps 182,500–302,500, 12 consecutive evaluation checkpoints covering 240 episodes had `eval_return = 0.000`.
+The controlled `m2rebuild` run reached 312,456 environment steps. Evaluation declined as the N-DNF transition hardened; from steps 182,500--302,500, 13 consecutive evaluation checkpoints covering 260 episodes had `eval_return = 0.000`.
 
 The evidence supports the bounded D2 claim that this historical N-DNF-only transition was not trainable in the tested DoorKey-6x6 setup. It does not answer the later detached/MSE/BCE head-comparison extension.
 ## Run-to-artifact map
 
-Every restored run keeps its resolved Hydra parameters in `.hydra/config.yaml` and `.hydra/overrides.yaml`, with raw console output and `metrics.jsonl` beside them.
+Historical restored runs keep their resolved Hydra parameters in `.hydra/config.yaml` and `.hydra/overrides.yaml`; the controlled rebuild keeps its parameter record in `runs/m2rebuild_run/m2rebuild_log.md`.
 
 | Run | Parameters / results | Failed model checkpoint |
 |---|---|---|

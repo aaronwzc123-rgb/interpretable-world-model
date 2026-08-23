@@ -17,7 +17,7 @@
 |---|---|---|---|
 | 原版（ndnf_dreamer_demo_anneal_s0） | NDNFRSSM，300k 步 | eval ~0；BFS 热启动期 0.96、一停即崩 | 发现 delta_delay=1e9 配置 bug（300k 步内退火永不启动，delta 全程 0.1）+ delta 上限被硬编码 1.0 【实锤】 |
 | deltafix 复训 | 只改 delta_delay=500 | 22% 处 env worker 崩溃；delta 已爬到 0.418，score 无变化 | 机制验证正确，但数据不足以判死 |
-| 干净重建（m2rebuild） | 以 example 成功代码为底座，唯一变量 = RSSM→NDNFTransition；三优化器 / delta 调度(0.1→4.0, 147.5k 步封顶) / 无热启动 / straight-through 梯度全部验证健康 | 早期 eval 0.10-0.13；~130k（delta 硬化）起单调下滑；182.5k 起 240 局评估零通关 | 基建健康 + 单变量 ⇒ 失败可干净归因到架构本身 【实锤】 |
+| 干净重建（m2rebuild） | 以 example 成功代码为底座，核心架构变量 = RSSM→NDNFTransition；三优化器 / delta 调度(0.1→4.0, 147.5k 步封顶) / 无热启动 / straight-through 梯度全部验证健康 | 早期 eval 0.10-0.13；~130k（delta 硬化）起单调下滑；182.5k 起 260 局评估零通关 | 基建健康 + 单变量 ⇒ 失败可干净归因到架构本身 【实锤】 |
 
 **"再给几次机会"的账到此结清：** 一次是配置事故，一次中断，第三次是基建全绿的受控实验——失败是真实的、可复述的、带机制解释的。
 
