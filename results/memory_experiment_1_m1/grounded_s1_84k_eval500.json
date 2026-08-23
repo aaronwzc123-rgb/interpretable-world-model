@@ -1,0 +1,146 @@
+{
+  "checkpoint": "models/memory/memory_experiment_1_m1/grounded_seed1/checkpoint_084000.pt",
+  "condition": "grounded",
+  "episodes": 500,
+  "evaluation_seeds": [
+    0,
+    499
+  ],
+  "success_rate": 0.0,
+  "split": {
+    "train_episodes": 350,
+    "test_episodes": 150,
+    "train_known_steps": 2100
+  },
+  "probes": {
+    "grid": {
+      "known": {
+        "n": 900,
+        "accuracy": 0.65,
+        "balanced_accuracy": 0.5833333333333334,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.07
+      },
+      "visible": {
+        "n": 150,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "pure_memory": {
+        "n": 750,
+        "accuracy": 0.58,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 150,
+        "accuracy": 0.58,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.0
+      }
+    },
+    "stoch": {
+      "known": {
+        "n": 900,
+        "accuracy": 0.7377777777777778,
+        "balanced_accuracy": 0.7049808429118773,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.26222222222222225
+      },
+      "visible": {
+        "n": 150,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "pure_memory": {
+        "n": 750,
+        "accuracy": 0.6853333333333333,
+        "balanced_accuracy": 0.6459770114942529,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.23066666666666666
+      },
+      "decision": {
+        "n": 150,
+        "accuracy": 0.6866666666666666,
+        "balanced_accuracy": 0.7298850574712643,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.7333333333333333
+      }
+    },
+    "deter": {
+      "known": {
+        "n": 900,
+        "accuracy": 0.93,
+        "balanced_accuracy": 0.9166666666666667,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.35
+      },
+      "visible": {
+        "n": 150,
+        "accuracy": 0.58,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.0
+      },
+      "pure_memory": {
+        "n": 750,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "decision": {
+        "n": 150,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      }
+    },
+    "feat": {
+      "known": {
+        "n": 900,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "visible": {
+        "n": 150,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "pure_memory": {
+        "n": 750,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      },
+      "decision": {
+        "n": 150,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5800000000000001,
+        "predicted_positive_rate": 0.42
+      }
+    }
+  },
+  "acceptance": {
+    "threshold_balanced_accuracy": 0.65,
+    "minimum_gain_over_grid": 0.1,
+    "best_belief_pure_memory_balanced_accuracy": 1.0,
+    "grid_pure_memory_balanced_accuracy": 0.5,
+    "passed": true
+  },
+  "coverage_controller": "fixed upper branch; independent of cue and object identity",
+  "coverage_controller_success_rate": 0.526
+}

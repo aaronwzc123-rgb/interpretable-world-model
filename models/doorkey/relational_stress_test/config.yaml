@@ -1,0 +1,10 @@
+experiment_id: R1
+paper_name: relational_map_size_stress_test
+environment: minigrid_doorkey6x6_rel
+overlays: [minigrid, minigrid_symbolic_nav_rel]
+train_seed: 0
+steps: 50000
+policy_input: atoms
+predicates: 19
+command: python dreamer.py --configs minigrid minigrid_symbolic_nav_rel --steps 50000 --seed 0 --logdir runs/relational_stress_test
+claim_boundary: negative transfer stress test; not robust size generalisation

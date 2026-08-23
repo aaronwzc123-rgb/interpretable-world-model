@@ -1,0 +1,36 @@
+{
+  "checkpoint": "models/memory/memory_experiment_2_m2/seed0/checkpoint_084000.pt",
+  "episodes": 100,
+  "evaluation_seeds": [
+    0,
+    99
+  ],
+  "coverage_controller": "privileged scripted controller; actions only",
+  "controller_success_rate": 1.0,
+  "cue": {
+    "all_known": {
+      "n": 600,
+      "accuracy": 0.5716666666666667,
+      "balanced_accuracy": 0.5833333333333333,
+      "base_rate": 0.5700000000000001,
+      "true_positive_rate": 0.43,
+      "predicted_positive_rate": 0.5716666666666667
+    },
+    "visible": {
+      "n": 100,
+      "accuracy": 0.43,
+      "balanced_accuracy": 0.5,
+      "base_rate": 0.5700000000000001,
+      "true_positive_rate": 0.43,
+      "predicted_positive_rate": 1.0
+    },
+    "pure_memory": {
+      "n": 500,
+      "accuracy": 0.6,
+      "balanced_accuracy": 0.6,
+      "base_rate": 0.5700000000000001,
+      "true_positive_rate": 0.43,
+      "predicted_positive_rate": 0.486
+    }
+  }
+}

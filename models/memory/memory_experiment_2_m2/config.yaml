@@ -1,0 +1,20 @@
+experiment_id: M2
+paper_name: online_bce_symbolic_readout
+environment: minigrid_memoryS7_cuestart
+overlays:
+  - minigrid
+  - minigrid_memory
+  - minigrid_memory_cuestart
+  - minigrid_memory_symbolic_nav_v2
+  - minigrid_memory_symbolic_nav_v2_entropy
+  - minigrid_memory_symbolic_nav_v2_bce
+train_seeds: [0, 1]
+steps: 84000
+symbolic_loss: bce
+policy_input: feat
+actor_entropy: 0.01
+predicates: 10
+evaluation:
+  script: scripts/evaluate_m2_head.py
+  acceptance_balanced_accuracy: 0.65
+claim_boundary: both seeds fail the registered gate; no atoms-only stage was run

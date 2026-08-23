@@ -1,0 +1,146 @@
+{
+  "checkpoint": "models/memory/memory_experiment_1_m1/plain_seed0/checkpoint_052500.pt",
+  "condition": "plain",
+  "episodes": 150,
+  "evaluation_seeds": [
+    0,
+    149
+  ],
+  "success_rate": 0.4866666666666667,
+  "split": {
+    "train_episodes": 105,
+    "test_episodes": 45,
+    "train_known_steps": 630
+  },
+  "probes": {
+    "grid": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.6851851851851852,
+        "balanced_accuracy": 0.5833333333333334,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.06296296296296296
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      }
+    },
+    "stoch": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      }
+    },
+    "deter": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      }
+    },
+    "feat": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      }
+    }
+  },
+  "acceptance": {
+    "threshold_balanced_accuracy": 0.65,
+    "minimum_gain_over_grid": 0.1,
+    "best_belief_pure_memory_balanced_accuracy": 0.5,
+    "grid_pure_memory_balanced_accuracy": 0.5,
+    "passed": false
+  },
+  "coverage_controller": "fixed upper branch; independent of cue and object identity",
+  "coverage_controller_success_rate": 0.5133333333333333
+}

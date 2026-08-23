@@ -1,0 +1,118 @@
+{
+  "checkpoint": "models/doorkey/doorkey_experiment_3_d3/checkpoint.pt",
+  "episodes": 100,
+  "evaluation_seeds": [
+    1000,
+    1099
+  ],
+  "normal_success_rate": 1.0,
+  "selection": "states where predicted atom sign equals simulator truth",
+  "directed_metric": "positive means flipped atom changed its named action probability in the edited semantic direction",
+  "atoms": {
+    "has_key": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.06880108991825613,
+      "mean_total_variation": 0.09029520150854212,
+      "truth_counts": {
+        "0": 391,
+        "1": 1077
+      }
+    },
+    "door_locked": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.0994550408719346,
+      "mean_total_variation": 0.108473774970367,
+      "truth_counts": {
+        "0": 535,
+        "1": 933
+      }
+    },
+    "door_open": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.24659400544959129,
+      "mean_total_variation": 0.2873853253054259,
+      "truth_counts": {
+        "0": 933,
+        "1": 535
+      }
+    },
+    "carrying": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.0681198910081744,
+      "mean_total_variation": 0.053501229636480255,
+      "truth_counts": {
+        "0": 391,
+        "1": 1077
+      }
+    },
+    "t_ahead": {
+      "n_correctly_grounded_states": 1151,
+      "mode_switch_rate": 0.5516941789748045,
+      "mean_total_variation": 0.6028214828707974,
+      "truth_counts": {
+        "0": 287,
+        "1": 864
+      },
+      "mean_semantic_signed_effect": 0.5071571491390457,
+      "semantic_signed_effect_ci95": [
+        0.48052458558350436,
+        0.5330244589566492
+      ],
+      "semantic_alignment_rate": 0.9131190269331017
+    },
+    "t_left": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.0,
+      "mean_total_variation": 0.00803484265899986,
+      "truth_counts": {
+        "0": 1384,
+        "1": 84
+      },
+      "mean_semantic_signed_effect": 0.00026081780787577663,
+      "semantic_signed_effect_ci95": [
+        0.0002382225646170767,
+        0.0002838349724930713
+      ],
+      "semantic_alignment_rate": 0.9025885558583107
+    },
+    "t_right": {
+      "n_correctly_grounded_states": 1467,
+      "mode_switch_rate": 0.0,
+      "mean_total_variation": 0.026031296817368706,
+      "truth_counts": {
+        "0": 1125,
+        "1": 342
+      },
+      "mean_semantic_signed_effect": 0.0014000435560705532,
+      "semantic_signed_effect_ci95": [
+        0.0011038487596975687,
+        0.001756477876243054
+      ],
+      "semantic_alignment_rate": 0.6223585548738922
+    },
+    "t_reach": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.5081743869209809,
+      "mean_total_variation": 0.517606991211559,
+      "truth_counts": {
+        "0": 1068,
+        "1": 400
+      }
+    },
+    "wall_ahead": {
+      "n_correctly_grounded_states": 1468,
+      "mode_switch_rate": 0.38351498637602177,
+      "mean_total_variation": 0.39157586528122496,
+      "truth_counts": {
+        "0": 1153,
+        "1": 315
+      },
+      "mean_semantic_signed_effect": 0.38438483062821976,
+      "semantic_signed_effect_ci95": [
+        0.36119028197601677,
+        0.4087757980667442
+      ],
+      "semantic_alignment_rate": 0.9318801089918256
+    }
+  }
+}

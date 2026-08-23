@@ -1,0 +1,146 @@
+{
+  "checkpoint": "models/memory/memory_experiment_1_m1/grounded_seed1/checkpoint_084000.pt",
+  "condition": "grounded",
+  "episodes": 150,
+  "evaluation_seeds": [
+    0,
+    149
+  ],
+  "success_rate": 0.0,
+  "split": {
+    "train_episodes": 105,
+    "test_episodes": 45,
+    "train_known_steps": 630
+  },
+  "probes": {
+    "grid": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.6851851851851852,
+        "balanced_accuracy": 0.5833333333333334,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.06296296296296296
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      }
+    },
+    "stoch": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.7703703703703704,
+        "balanced_accuracy": 0.7172619047619048,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.22962962962962963
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 0.7244444444444444,
+        "balanced_accuracy": 0.6607142857142857,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.2
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 0.7555555555555555,
+        "balanced_accuracy": 0.8035714285714286,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.6222222222222222
+      }
+    },
+    "deter": {
+      "known": {
+        "n": 270,
+        "accuracy": 0.937037037037037,
+        "balanced_accuracy": 0.9166666666666667,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.3148148148148148
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 0.6222222222222222,
+        "balanced_accuracy": 0.5,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.0
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      }
+    },
+    "feat": {
+      "known": {
+        "n": 270,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "visible": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "pure_memory": {
+        "n": 225,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      },
+      "decision": {
+        "n": 45,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6222222222222222,
+        "predicted_positive_rate": 0.37777777777777777
+      }
+    }
+  },
+  "acceptance": {
+    "threshold_balanced_accuracy": 0.65,
+    "minimum_gain_over_grid": 0.1,
+    "best_belief_pure_memory_balanced_accuracy": 1.0,
+    "grid_pure_memory_balanced_accuracy": 0.5,
+    "passed": true
+  },
+  "coverage_controller": "fixed upper branch; independent of cue and object identity",
+  "coverage_controller_success_rate": 0.5133333333333333
+}

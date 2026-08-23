@@ -1,0 +1,7 @@
+{
+  "n": 20,
+  "n_success": 15,
+  "success_rate": 0.75,
+  "avg_steps_success_only": 6.0,
+  "avg_steps_all": 12.05
+}

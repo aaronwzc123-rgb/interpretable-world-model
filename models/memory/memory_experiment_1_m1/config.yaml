@@ -1,0 +1,25 @@
+experiment_id: M1
+paper_name: supervised_continuous_memory
+environment: minigrid_memoryS7_cuestart
+common_overlays: [minigrid, minigrid_memory, minigrid_memory_cuestart]
+grounded_overlay: minigrid_memory_shape
+plain_overrides:
+  ndnf_enabled: false
+  shape_enabled: false
+  sym_enabled: false
+conditions:
+  grounded_seed0: {train_seed: 0, checkpoints: [52500, 84000]}
+  grounded_seed1: {train_seed: 1, checkpoints: [52500, 84000]}
+  plain_seed0: {train_seed: 0, checkpoints: [52500]}
+  plain_seed1: {train_seed: 1, checkpoints: [52500]}
+evaluation:
+  script: scripts/evaluate_m1_cuestart.py
+  split_seed: 20260813
+  main_episodes: 150
+  robustness_episodes: 500
+  acceptance_balanced_accuracy: 0.65
+  minimum_gain_over_current_frame: 0.10
+notes:
+  - The 52.5k comparison is matched across two seeds and conditions.
+  - The replicated 84k storage claim applies to Grounded seeds 0 and 1.
+  - Policy success is reported separately from representation accuracy.

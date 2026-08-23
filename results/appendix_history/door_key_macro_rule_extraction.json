@@ -1,0 +1,29 @@
+{
+  "target": "stage",
+  "train_acc": 1.0,
+  "per_class": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "test_acc": 0.9993987083435059,
+  "rules": [
+    "Get_Key :- conj_20.",
+    "Get_Key :- not conj_21.",
+    "Get_Key :- not conj_22.",
+    "Get_Key :- not conj_23.",
+    "Open_Door :- not conj_5.",
+    "Open_Door :- conj_16.",
+    "Reach_Goal :- conj_17.",
+    "Reach_Goal :- not conj_19.",
+    "conj_5 :- a_10.",
+    "conj_16 :- not a_1.",
+    "conj_17 :- not a_4.",
+    "conj_19 :- a_8.",
+    "conj_20 :- not a_6.",
+    "conj_21 :- a_7.",
+    "conj_22 :- a_11.",
+    "conj_23 :- a_6."
+  ],
+  "rule_match": 1.0
+}

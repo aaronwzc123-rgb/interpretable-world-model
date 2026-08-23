@@ -1,0 +1,22 @@
+experiment_id: D1
+paper_name: doorkey_belief_decoding
+environment: minigrid_doorkey6x6
+overlays: [minigrid]
+train_seed: 0
+steps: 500000
+time_limit: 300
+envs: 4
+prefill: 2500
+train_ratio: 512
+eval_episode_num: 20
+encoder: {mlp_keys: grid, cnn_keys: '$^'}
+decoder: {mlp_keys: grid, cnn_keys: '$^'}
+actor: {dist: onehot, std: none}
+dyn_hidden: 256
+dyn_deter: 256
+units: 256
+sym_enabled: false
+shape_enabled: false
+ndnf_enabled: false
+policy_input: continuous_1280d_feature
+command: python dreamer.py --configs minigrid --steps 500000 --seed 0 --logdir runs/doorkey_experiment_1_d1

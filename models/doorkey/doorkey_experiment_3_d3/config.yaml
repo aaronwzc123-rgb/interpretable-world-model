@@ -1,0 +1,17 @@
+experiment_id: D3
+paper_name: doorkey_atoms_only_causal_control
+environment: minigrid_doorkey6x6
+overlays: [minigrid, minigrid_symbolic_nav]
+train_seed: 0
+steps: 500000
+time_limit: 300
+sym_enabled: true
+sym_labels: [has_key, door_locked, door_open, carrying, t_ahead, t_left, t_right, t_reach, wall_ahead]
+sym_mask_label: ''
+sym_scale: 2.0
+sym_n_lit: 48
+sym_conj: 12
+sym_anneal: 40000
+sym_policy_input: atoms
+command: python dreamer.py --configs minigrid minigrid_symbolic_nav --steps 500000 --seed 0 --logdir runs/doorkey_experiment_3_d3
+claim_boundary: one checkpoint; same-generator evaluation; local fixed-state semantic edits

@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "episodes": 300,
+    "steps": 20218,
+    "sample_success_rate": 0.5666666666666667,
+    "avg_length": 67.39333333333333,
+    "elapsed_sec": 106.08354806900024
+  },
+  "rows": [
+    {
+      "label": "cue_is_key",
+      "acc": 0.9555042847725774,
+      "base": 0.6351351141929626,
+      "gain": 0.3203691705796148,
+      "pos": 3854,
+      "neg": 2214,
+      "reliable": true
+    },
+    {
+      "label": "wall_ahead",
+      "acc": 0.984179301252472,
+      "base": 0.8706328272819519,
+      "gain": 0.11354647397052009,
+      "pos": 785,
+      "neg": 5283,
+      "reliable": true
+    },
+    {
+      "label": "key_ahead",
+      "acc": 0.7745550428477258,
+      "base": 0.6127224862575531,
+      "gain": 0.1618325565901727,
+      "pos": 2350,
+      "neg": 3718,
+      "reliable": true
+    },
+    {
+      "label": "key_left",
+      "acc": 0.9263348714568227,
+      "base": 0.8432762026786804,
+      "gain": 0.08305866877814228,
+      "pos": 951,
+      "neg": 5117,
+      "reliable": true
+    },
+    {
+      "label": "key_right",
+      "acc": 0.9185893210283455,
+      "base": 0.8721160143613815,
+      "gain": 0.04647330666696392,
+      "pos": 776,
+      "neg": 5292,
+      "reliable": true
+    },
+    {
+      "label": "key_reach",
+      "acc": 1.0,
+      "base": 1.0,
+      "gain": 0.0,
+      "pos": 0,
+      "neg": 6068,
+      "reliable": false
+    },
+    {
+      "label": "ball_ahead",
+      "acc": 0.7747198417930126,
+      "base": 0.6008569598197937,
+      "gain": 0.17386288197321886,
+      "pos": 2422,
+      "neg": 3646,
+      "reliable": true
+    },
+    {
+      "label": "ball_left",
+      "acc": 0.9253460777851021,
+      "base": 0.8620632886886597,
+      "gain": 0.06328278909644247,
+      "pos": 837,
+      "neg": 5231,
+      "reliable": true
+    },
+    {
+      "label": "ball_right",
+      "acc": 0.9258404746209624,
+      "base": 0.8539881408214569,
+      "gain": 0.07185233379950551,
+      "pos": 886,
+      "neg": 5182,
+      "reliable": true
+    },
+    {
+      "label": "ball_reach",
+      "acc": 1.0,
+      "base": 1.0,
+      "gain": 0.0,
+      "pos": 0,
+      "neg": 6068,
+      "reliable": false
+    }
+  ],
+  "cue_pure_memory": {
+    "n": 4983,
+    "acc": 0.9546457957053983,
+    "base": 0.6303431391716003,
+    "pred_pos_rate": 0.6114790439605713,
+    "gain": 0.324302656533798
+  },
+  "grid_control_probe": {
+    "n": 4983,
+    "acc": 0.6536223158739715,
+    "base": 0.6303431391716003,
+    "gain": 0.023279176702371118
+  },
+  "config": {
+    "episodes": 300,
+    "distill_steps": 8000,
+    "policy": "actor.sample()",
+    "seed_pool": "train",
+    "train_test_split": "70/30 by episode"
+  }
+}

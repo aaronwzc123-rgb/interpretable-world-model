@@ -1,0 +1,434 @@
+defaults:
+
+  logdir: null
+  traindir: null
+  evaldir: null
+  offline_traindir: ''
+  offline_evaldir: ''
+  seed: 0
+  deterministic_run: False
+  steps: 1e6
+  parallel: False
+  eval_every: 1e4
+  eval_episode_num: 10
+  log_every: 1e4
+  reset_every: 0
+  device: 'cuda:0'
+  compile: True
+  precision: 32
+  debug: False
+  video_pred_log: True
+
+  # Environment
+  task: 'dmc_walker_walk'
+  size: [64, 64]
+  envs: 1
+  action_repeat: 2
+  time_limit: 1000
+  grayscale: False
+  prefill: 2500
+  reward_EMA: True
+
+  # Model
+  dyn_hidden: 512
+  dyn_deter: 512
+  dyn_stoch: 32
+  dyn_discrete: 32
+  dyn_rec_depth: 1
+  dyn_mean_act: 'none'
+  dyn_std_act: 'sigmoid2'
+  dyn_min_std: 0.1
+  grad_heads: ['decoder', 'reward', 'cont']
+  units: 512
+  act: 'SiLU'
+  norm: True
+  encoder:
+    {mlp_keys: '$^', cnn_keys: 'image', act: 'SiLU', norm: True, cnn_depth: 32, kernel_size: 4, minres: 4, mlp_layers: 5, mlp_units: 1024, symlog_inputs: True}
+  decoder:
+    {mlp_keys: '$^', cnn_keys: 'image', act: 'SiLU', norm: True, cnn_depth: 32, kernel_size: 4, minres: 4, mlp_layers: 5, mlp_units: 1024, cnn_sigmoid: False, image_dist: mse, vector_dist: symlog_mse, outscale: 1.0}
+  actor:
+    {layers: 2, dist: 'normal', entropy: 3e-4, unimix_ratio: 0.01, std: 'learned', min_std: 0.1, max_std: 1.0, temp: 0.1, lr: 3e-5, eps: 1e-5, grad_clip: 100.0, outscale: 1.0}
+  critic:
+    {layers: 2, dist: 'symlog_disc', slow_target: True, slow_target_update: 1, slow_target_fraction: 0.02, lr: 3e-5, eps: 1e-5, grad_clip: 100.0, outscale: 0.0}
+  reward_head:
+    {layers: 2, dist: 'symlog_disc', loss_scale: 1.0, outscale: 0.0}
+  cont_head:
+    {layers: 2, loss_scale: 1.0, outscale: 1.0}
+  dyn_scale: 0.5
+  rep_scale: 0.1
+  kl_free: 1.0
+  weight_decay: 0.0
+  unimix_ratio: 0.01
+  initial: 'learned'
+
+  # MiniGrid / N-DNF（仅 minigrid 相关分支使用）
+  render_obs: False                 # obs["image"] 是否真渲染；False=1x1x3占位（模型本就不看它），提速
+  ndnf_enabled: False               # 训练期挂 N-DNF 谓词头（纯读不塑形，梯度不回传世界模型）
+  ndnf_labels: ['has_key', 'door_locked', 'door_open', 'carrying']
+  ndnf_conj: 8                      # N-DNF 合取子数（可抽出的规则条数上限）
+  ndnf_lr: 1e-3
+  ndnf_anneal: 20000                # delta 从 0.5 退火到硬阈值所用的更新步数
+  ndnf_mask_label: ''               # 监督/统计掩码键（如 cue_known）；空=全时刻等权（DoorKey）
+  # 接地谓词头（塑形 belief）：梯度回传世界模型，强迫其编码某谓词。用于重构会丢弃的记忆谓词。
+  shape_enabled: False
+  shape_labels: ['cue_is_key']
+  shape_mask_label: ''              # 监督掩码键（记忆任务用 cue_known）；空=全时刻
+  shape_scale: 1.0                  # 塑形 loss 在世界模型总损失里的权重
+  shape_hidden: 256
+  shape_layers: 2
+
+  sym_enabled: False                # 符号 belief 层：N-DNF 具名原子塑形 belief + 前馈进 actor/critic
+  sym_labels: ['door_open', 'has_key', 'door_locked', 'carrying']
+  sym_mask_label: ''                # 监督掩码键（记忆任务用 cue_known）；空=全时刻（DoorKey 可观察）
+  sym_loss: 'mse'                   # 'mse'=历史实验；'bce'=显式二分类审计
+  sym_scale: 1.0                    # 符号监督 loss 在世界模型总损失里的权重
+  sym_n_lit: 32                     # 感知层产出的中间 literal（p0..p_{L-1}）数
+  sym_conj: 8                       # N-DNF 合取子数
+  sym_anneal: 40000                 # delta 退火步数（策略要用原子，放慢些）
+  sym_delta_max: 4.0
+  sym_policy_input: 'concat'        # 'concat'=feat+原子（混合）；'atoms'=只喂原子（符号瓶颈）
+  sym_recur_atoms: false            # v5全量原子回流架构总开关：默认false，v1-v4完全不受影响，
+                                     # 只有专门叠加 *_recur overlay 才会激活 AtomRegisterWrapper
+                                     # + img_step 的原子输入端（见 docs/m3_memoryS7_v5_log.md）
+
+  sym_adaptive_delta: false         # v6性能门控自适应delta总开关：默认false，v1-v5完全不受影响，
+                                     # 只有专门叠加 *_adaptive_delta overlay 才会激活（见 neuraldnf.py
+                                     # ::SymbolicHead._adaptive_step，移植 Kitty neural-dnf 2.0.0 的
+                                     # Monitoring 调度器门控逻辑，不import该库，delta范围仍是我们的0.5→sym_delta_max）
+  sym_adaptive_gate_label: null     # 门控用哪个谓词的精度；null=labels[0]（记忆任务里是cue_is_key）
+  sym_adaptive_delay: 2000          # 初始延迟（次更新），跳过训练刚开始的初始化瞬态
+  sym_adaptive_window: 50           # 滑窗大小（次更新），平滑单batch噪声
+  sym_adaptive_check_every: 200     # 每隔多少次更新做一次门控检查
+  sym_adaptive_tol: 0.02            # 门控容差：滑窗精度 ≥ 上次目标精度-容差 才算通过
+
+  # Training
+  batch_size: 16
+  batch_length: 64
+  train_ratio: 512
+  pretrain: 100
+  model_lr: 1e-4
+  opt_eps: 1e-8
+  grad_clip: 1000
+  dataset_size: 1000000
+  opt: 'adam'
+
+  # Behavior.
+  discount: 0.997
+  discount_lambda: 0.95
+  imag_horizon: 15
+  imag_gradient: 'dynamics'
+  imag_gradient_mix: 0.0
+  eval_state_mean: False
+
+  # Exploration
+  expl_behavior: 'greedy'
+  expl_until: 0
+  expl_extr_scale: 0.0
+  expl_intr_scale: 1.0
+  disag_target: 'stoch'
+  disag_log: True
+  disag_models: 10
+  disag_offset: 1
+  disag_layers: 4
+  disag_units: 400
+  disag_action_cond: False
+
+dmc_proprio:
+  steps: 5e5
+  action_repeat: 2
+  envs: 4
+  train_ratio: 512
+  video_pred_log: false
+  encoder: {mlp_keys: '.*', cnn_keys: '$^'}
+  decoder: {mlp_keys: '.*', cnn_keys: '$^'}
+
+dmc_vision:
+  steps: 1e6
+  action_repeat: 2
+  envs: 4
+  train_ratio: 512
+  video_pred_log: true
+  encoder: {mlp_keys: '$^', cnn_keys: 'image'}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image'}
+
+crafter:
+  task: crafter_reward
+  steps: 1e6
+  action_repeat: 1
+  envs: 1
+  train_ratio: 512
+  video_pred_log: true
+  dyn_hidden: 1024
+  dyn_deter: 4096
+  units: 1024
+  encoder: {mlp_keys: '$^', cnn_keys: 'image', cnn_depth: 96, mlp_layers: 5, mlp_units: 1024}
+  decoder: {mlp_keys: '$^', cnn_keys: 'image', cnn_depth: 96, mlp_layers: 5, mlp_units: 1024}
+  actor: {layers: 5, dist: 'onehot', std: 'none'}
+  value: {layers: 5}
+  reward_head: {layers: 5}
+  cont_head: {layers: 5}
+  imag_gradient: 'reinforce'
+
+atari100k:
+  steps: 4e5
+  envs: 1
+  action_repeat: 4
+  train_ratio: 1024
+  video_pred_log: true
+  eval_episode_num: 100
+  actor: {dist: 'onehot', std: 'none'}
+  imag_gradient: 'reinforce'
+  stickey: False
+  lives: unused
+  noops: 30
+  resize: opencv
+  actions: needed
+  time_limit: 108000
+
+minecraft:
+  task: minecraft_diamond
+  steps: 1e8
+  parallel: True
+  envs: 16
+  # no eval
+  eval_episode_num: 0
+  eval_every: 1e4
+  action_repeat: 1
+  train_ratio: 16
+  video_pred_log: true
+  dyn_hidden: 1024
+  dyn_deter: 4096
+  units: 1024
+  encoder: {mlp_keys: 'inventory|inventory_max|equipped|health|hunger|breath|obs_reward', cnn_keys: 'image', cnn_depth: 96, mlp_layers: 5, mlp_units: 1024}
+  decoder: {mlp_keys: 'inventory|inventory_max|equipped|health|hunger|breath', cnn_keys: 'image', cnn_depth: 96, mlp_layers: 5, mlp_units: 1024}
+  actor: {layers: 5, dist: 'onehot', std: 'none'}
+  value: {layers: 5}
+  reward_head: {layers: 5}
+  cont_head: {layers: 5}
+  imag_gradient: 'reinforce'
+  break_speed: 100.0
+  time_limit: 36000
+
+memorymaze:
+  steps: 1e8
+  action_repeat: 2
+  actor: {dist: 'onehot', std: 'none'}
+  imag_gradient: 'reinforce'
+  task: 'memorymaze_9x9'
+
+minigrid:
+  # ── 任务 / 采样 ──
+  task: 'minigrid_doorkey6x6'   # suite=minigrid, task=doorkey6x6（见 envs/minigrid.ENV_IDS）
+  steps: 5e5                    # 第一版预算；6x6 多半更早就够
+  envs: 4                       # 并行采样（in-process），加快墙钟
+  action_repeat: 1             # 网格动作不重复
+  time_limit: 300              # 与 MiniGrid max_steps 对齐
+  prefill: 2500                # 随机预填充
+  train_ratio: 512
+  # ── 评估 / 日志 ──
+  eval_every: 1e4
+  eval_episode_num: 20         # 每次评估跑 20 局（含失败），统计 eval_return / log_success
+  log_every: 5e3
+  video_pred_log: false        # 关：我们没给模型 image 解码头
+  parallel: false
+  compile: false               # Windows 不支持 torch.compile
+  # ── 观察走 MLP（grid 向量），不走 CNN ──
+  encoder: {mlp_keys: 'grid', cnn_keys: '$^'}
+  decoder: {mlp_keys: 'grid', cnn_keys: '$^'}
+  # ── 离散动作设置 ──
+  actor: {dist: 'onehot', std: 'none'}
+  imag_gradient: 'reinforce'
+  # ── 小一号模型，省显存/提速（8GB 足够）──
+  dyn_hidden: 256
+  dyn_deter: 256
+  units: 256
+
+# 在 minigrid 之上叠加：训练期接入 N-DNF + 关渲染提速。
+# 用法：python dreamer.py --configs minigrid minigrid_ndnf --logdir <新目录>
+# 注意：请用新的 logdir（别和旧的大-image replay 混），因为 obs 结构变了（image 占位 + 多了 label_*）。
+minigrid_ndnf:
+  render_obs: false                 # 关每步全图渲染（image 本就没喂模型），主要提速点
+  ndnf_enabled: true                # 挂 N-DNF 谓词头 + 让 env 吐 label_* 标签
+  ndnf_conj: 8
+  ndnf_lr: 1e-3
+  ndnf_anneal: 20000
+
+# 调优版：改善 has_key/carrying 在硬化后崩到近随机的问题。
+# ndnf_run1 观察：delta 退火满(=4.0)后 has_key/carrying 掉到 ~0.57，carrying 规则与 door_locked 完全相同（disj 层塌缩）。
+# 对策：更多合取子(容量) + 退火放慢(让规则先长好再硬化)。用法：
+#   python dreamer.py --configs minigrid minigrid_ndnf minigrid_ndnf_tuned --logdir logs/ndnf_run2
+minigrid_ndnf_tuned:
+  render_obs: false
+  ndnf_enabled: true
+  ndnf_conj: 16                     # 8→16：给 has_key/carrying 更多合取子容量
+  ndnf_lr: 1e-3
+  ndnf_anneal: 50000                # 20000→50000：退火放慢，晚点逼硬逻辑
+
+# 记忆任务：MemoryS7。cue（Key/Ball）只在起始房间可见，走廊/岔口处看不见 → 必须靠 belief 记住。
+# 这是 DoorKey 给不了的干净场景：当前帧 probe 预测不了 cue_is_key（cue_visible=0 时），belief 才行。
+# 用法：python dreamer.py --configs minigrid minigrid_memory --logdir logs/mem_run1
+minigrid_memory:
+  task: 'minigrid_memoryS7'         # 官方原版：随机走廊起点（用于v1/v2历史复现）
+  time_limit: 250                   # MemoryS7 max_steps=5*7^2=245，取 250 对齐
+  render_obs: false
+  ndnf_enabled: true
+  ndnf_labels: ['cue_is_key']       # 头只学"要记住的谓词"；cue_visible 作分析掩码另存于 data，不进头
+  ndnf_mask_label: 'cue_known'      # 只在"cue 曾进入视野"的时刻监督/统计 cue_is_key
+  ndnf_conj: 8
+  ndnf_lr: 1e-3
+  ndnf_anneal: 50000                # 记忆更难，退火放慢
+
+# 显式修改版：每局 t=0 保证看见cue。v3及之后的Memory主实验必须额外叠加本层；
+# 不得把它与官方 minigrid_memory 当成同一个环境。
+minigrid_memory_cuestart:
+  task: 'minigrid_memoryS7_cuestart'
+
+# 在 minigrid_memory 之上叠加：塑形 belief（cue 头梯度回传 WM），强迫 belief 编码+记住 cue。
+# mem_run1 探针证明：纯读(detach)读不出 cue（belief 根本没有它，连当前可见也 0.575）→ 必须塑形。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_shape --logdir logs/mem_shape1
+minigrid_memory_shape:
+  ndnf_enabled: false               # 先隔离塑形效果，不挂 detach 头（emit_labels 由 shape_enabled 触发）
+  shape_enabled: true
+  shape_labels: ['cue_is_key']
+  shape_mask_label: 'cue_known'     # 只在 cue 曾进视野的时刻塑形/统计
+  shape_scale: 1.0
+
+# 在 minigrid(DoorKey) 之上叠加：把 N-DNF 具名原子做进 belief——训练期即塑形 belief，
+# 且原子(door_open/has_key/…)前馈进 actor/critic，策略「透过逻辑」决策（混合：连续 feat 仍在）。
+# 关键新意 vs 之前：N-DNF 不再是训练后的旁观读出，而是活在 RSSM 前向里的在场组件。
+# 用法：python dreamer.py --configs minigrid minigrid_symbolic --logdir logs/sym_run1
+minigrid_symbolic:
+  sym_enabled: true                 # 挂符号 belief 层 + 让 env 吐 label_*
+  sym_labels: ['door_open', 'has_key', 'door_locked', 'carrying']
+  sym_mask_label: ''                # DoorKey 谓词可观察，无需掩码
+  sym_scale: 1.0
+  sym_n_lit: 32
+  sym_conj: 8
+  sym_anneal: 40000
+
+# 阶段2·符号瓶颈：扩到「导航完备」词表(9 谓词) + 策略只看原子(sym_policy_input=atoms)。
+# 词表已用手写反应式控制器验证是控制充分基(300/300 解 DoorKey6x6)。若学出来=策略真的透过逻辑决策。
+# concat 对照(混合，验证 belief 能编码这套词表)：把 sym_policy_input 覆盖成 'concat'。
+# 用法：python dreamer.py --configs minigrid minigrid_symbolic_nav --logdir runs/doorkey_experiment_3_d3_reproduction
+minigrid_symbolic_nav:
+  sym_enabled: true
+  sym_labels: ['has_key', 'door_locked', 'door_open', 'carrying',
+               't_ahead', 't_left', 't_right', 't_reach', 'wall_ahead']
+  sym_mask_label: ''
+  sym_scale: 2.0                    # 词表更大、且策略要靠它，塑形权重加大
+  sym_n_lit: 48                     # 9 谓词需要更多中间 literal 支撑
+  sym_conj: 12
+  sym_anneal: 40000
+  sym_policy_input: 'atoms'         # 瓶颈：actor/critic 只看 9 个逻辑原子
+
+# Model3 relational：保持原 Model3 架构/损失/容量不变，只把 oracle-selected t_*
+# 换成独立 key/door/goal 事实。策略必须自己学会先找钥匙、再过门、最后去 goal。
+# 用法：python dreamer.py --configs minigrid minigrid_symbolic_nav_rel --logdir runs/model3_rel_s0
+minigrid_symbolic_nav_rel:
+  task: 'minigrid_doorkey6x6_rel'
+  sym_enabled: true
+  sym_labels: ['has_key', 'door_locked', 'door_open', 'carrying',
+               'door_between_agent_goal', 'agent_on_door', 'wall_ahead',
+               'key_ahead', 'key_left', 'key_right', 'key_reach',
+               'door_ahead', 'door_left', 'door_right', 'door_reach',
+               'goal_ahead', 'goal_left', 'goal_right', 'goal_reach']
+  sym_mask_label: ''
+  sym_scale: 2.0
+  sym_n_lit: 48
+  sym_conj: 12
+  sym_anneal: 40000
+  sym_policy_input: 'atoms'
+
+# 阶段2·符号瓶颈 on MemoryS7：在 minigrid_memory 之上叠加符号瓶颈（词表=6个记忆导航原子）。
+# word list 已用 memory_nav_god.py 对 30 个测试 seed 断言校验 + 手写反应式控制器 20/20 高效通关验证过
+# （god_state→原子的算法见 envs/minigrid.py::_god_memory，与本条 sym_labels 一一对应）。
+# cue_is_key 才是真正的"记忆"原子；wall_ahead/t_* 是随时可算的导航原子，一起接进符号瓶颈头。
+# sym_mask_label='cue_known'：跟 mem_shape1 一致的做法，只在 cue 曾进视野后才监督/统计——
+#   代价是连带把 5 个导航原子的早期监督也一起遮住了（SymbolicHead 的掩码是全谓词共用一个），
+#   不影响正确性，只是浪费一点本来有效的早期导航监督。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_symbolic_nav --logdir logs/<name>
+minigrid_memory_symbolic_nav:
+  ndnf_enabled: false               # minigrid_memory 自带 ndnf_enabled:true（旧 posterior 头），这里按掉，只留 sym_head
+  sym_enabled: true
+  sym_labels: ['cue_is_key', 'wall_ahead', 't_ahead', 't_left', 't_right', 't_reach']
+  sym_mask_label: 'cue_known'
+  sym_scale: 2.0
+  sym_n_lit: 32
+  sym_conj: 8
+  sym_anneal: 50000                 # 记忆任务退火放慢，对齐 minigrid_memory 的 ndnf_anneal=50000 先例
+  sym_policy_input: 'atoms'         # 瓶颈：actor/critic 只看 6 个逻辑原子
+
+# 阶段2·符号瓶颈 on MemoryS7 · v2（2026-07-27 谓词重设计修复版，见 envs/minigrid.py::_god_memory
+# 顶部注释 + backup/ 下的 v1 原文件）：上面 minigrid_memory_symbolic_nav 的词表有缺陷——
+# t_ahead/t_left/t_right/t_reach 由 cue_is_key 先挑出 target 再算，导致这4个"导航"原子的真值
+# 定义本身就嵌入了 cue 答案，策略跟着箭头走就能赢，不需要读 cue_is_key（m3_memoryS7_s0 那次训练
+# cue_is_key 退化成常数、清零它对通关率无影响，根因就是这个标签泄漏）。
+# v2 改成两套独立、对称、不依赖 cue_is_key 的导航谓词（相对 key/ball 两个候选物各自单独算），
+# 策略必须自己用 cue_is_key 判断该跟哪一套，才能完成任务。
+# 除 sym_labels（6→10 项）外，其余超参数与上面的 v1 完全一致（唯一变量原则，与 m3_memoryS7_s0 对比）。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_symbolic_nav_v2 --logdir logs/<name>
+minigrid_memory_symbolic_nav_v2:
+  ndnf_enabled: false
+  sym_enabled: true
+  sym_labels: ['cue_is_key', 'wall_ahead',
+               'key_ahead', 'key_left', 'key_right', 'key_reach',
+               'ball_ahead', 'ball_left', 'ball_right', 'ball_reach']
+  sym_mask_label: 'cue_known'
+  sym_scale: 2.0
+  sym_n_lit: 32
+  sym_conj: 8
+  sym_anneal: 50000
+  sym_policy_input: 'atoms'         # 瓶颈：actor/critic 只看 10 个逻辑原子
+
+# 阶段2·符号瓶颈 on MemoryS7 · v2 熵修复叠加层（2026-07-28）：单独一层，只改 actor.entropy，
+# 叠加在 minigrid_memory_symbolic_nav_v2 之上使用，不重复其余字段（recursive_update 深合并，
+# 只覆盖 actor 字典里的 entropy 键，dist/std/unimix_ratio/lr 等原样保留自 defaults）。
+# 动机：v1/v2 两次训练 actor_entropy 都在 12500~27500 步内从 ~1.6（=ln(5)，5 动作最大熵）
+# 塌缩到 0.2~0.6 并锁死到训练结束，策略收敛成 left/right 原地自旋（250步里 forward 动作
+# <=5 次），比随机策略还差，永远到不了决策点。默认熵系数 defaults.actor.entropy=3e-4
+# （configs.yaml 第95行附近）显然不足以在这个稀疏奖励任务上维持探索。
+# 取值理由：提高约 33 倍到 1e-2 量级——这是 REINFORCE 类算法应对"熵系数不足、过早锁死到
+# 局部最优"问题时的常见调整幅度（1-2个数量级），不是精调过的最优值，是本次改动想验证的
+# "方向对不对"的量级探针；验证指标见 m3_memoryS7_v3_log.md（actor_entropy 曲线 + forward
+# 动作占比是否显著回升）。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_cuestart minigrid_memory_symbolic_nav_v2 minigrid_memory_symbolic_nav_v2_entropy --logdir logs/<name>
+minigrid_memory_symbolic_nav_v2_entropy:
+  actor: {entropy: 1e-2}
+
+# M2 false-negative audit: the only optimization change from v3 is
+# MSE -> BCE. The actor reads continuous belief only, preventing policy
+# collapse or atom use from confounding whether the symbolic head learns cue.
+minigrid_memory_symbolic_nav_v2_bce:
+  sym_loss: 'bce'
+  sym_policy_input: 'feat'
+
+# 阶段2·符号瓶颈 on MemoryS7 · v5 全量原子回流架构（2026-07-30）：单独一层，只开
+# sym_recur_atoms 总开关，叠加在 v2+v2_entropy 之上使用（v3 的两项修复原样保留：谓词无泄漏、
+# 强制 cue 可见、熵系数 1e-2）。开启后：真实环境路径 encoder 输入变成 148+K 维
+# （K=len(sym_labels)=10，见 envs/wrappers.py::AtomRegisterWrapper）；想象路径的
+# img_step 额外接收当前步 atoms 作为输入（见 networks.py::RSSM.img_step 的 atoms 参数、
+# models.py::ImagBehavior._imagine() 的改动）。用全新 logdir，不加载/兼容旧 148 维 buffer。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_cuestart minigrid_memory_symbolic_nav_v2 minigrid_memory_symbolic_nav_v2_entropy minigrid_memory_symbolic_nav_v2_recur --logdir logs/<name>
+minigrid_memory_symbolic_nav_v2_recur:
+  sym_recur_atoms: true
+
+# 阶段2·符号瓶颈 on MemoryS7 · v6 性能门控自适应 delta（2026-07-30）：单独一层，只开
+# sym_adaptive_delta 总开关，叠加在 v2+v2_entropy+v2_recur 之上使用（v5 的回流架构原样保留，
+# 机制已验证完好；v3 的两项修复也原样保留：谓词无泄漏、强制 cue 可见、熵系数 1e-2）。
+# 单变量声明：v6 与 v5 的唯一区别是 delta 调度——从固定时间表退火改为性能门控自适应退火
+# （移植 Kitty neural-dnf 2.0.0 的 Monitoring 调度器机制，见 neuraldnf.py::SymbolicHead）。
+# 用法：python dreamer.py --configs minigrid minigrid_memory minigrid_memory_cuestart minigrid_memory_symbolic_nav_v2 minigrid_memory_symbolic_nav_v2_entropy minigrid_memory_symbolic_nav_v2_recur minigrid_memory_symbolic_nav_v2_adaptive_delta --logdir runs/memory_v6_adaptive_delta_s0
+minigrid_memory_symbolic_nav_v2_adaptive_delta:
+  sym_adaptive_delta: true
+  sym_adaptive_gate_label: cue_is_key
+  sym_adaptive_delay: 2000
+  sym_adaptive_window: 50
+  sym_adaptive_check_every: 200
+  sym_adaptive_tol: 0.02
+
+debug:
+  debug: True
+  pretrain: 1
+  prefill: 1
+  batch_size: 10
+  batch_length: 20

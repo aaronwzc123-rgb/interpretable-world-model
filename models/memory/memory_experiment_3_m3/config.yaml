@@ -1,0 +1,31 @@
+experiment_id: M3
+paper_name: staged_frozen_memory_interface
+environment: minigrid_memoryS7_cuestart
+shared_world_model:
+  source_environment: official-start MemoryS7
+  role: frozen memory-bearing Dreamer world model
+stage_a:
+  episodes: 300
+  distill_steps: 8000
+  input_dim: 1280
+  n_literals: 32
+  n_conjunctions: 8
+  anneal_steps: 4800
+  mask_label: cue_known
+  predicates: [cue_is_key, wall_ahead, key_ahead, key_left, key_right, key_reach, ball_ahead, ball_left, ball_right, ball_reach]
+stage_b:
+  policy_input: atoms
+  world_model_frozen: true
+  symbolic_head_frozen: true
+  actors:
+    actor_seed0_400demo: {seed: 0, demonstrations: 400, requested_steps: 84000, reached_steps: 100000}
+    actor_seed1_400demo: {seed: 1, demonstrations_per_cue: 200, requested_steps: 300000, reached_steps: 310000}
+    actor_seed0_0demo: {seed: 0, demonstrations: 0, requested_steps: 84000}
+stage_c:
+  script: scripts/evaluate_m3_corrected_flip.py
+  episodes: 500
+  evaluation_seed_start: 1000
+  bootstrap_resamples: 5000
+  outcomes: [target, other, timeout, neither]
+  semantic_event: baseline_target_to_other
+claim_boundary: actor seeds share the world model and head; timeout is disruption, never redirection

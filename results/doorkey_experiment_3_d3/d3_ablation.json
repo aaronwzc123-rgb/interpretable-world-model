@@ -1,0 +1,56 @@
+{
+  "checkpoint": "models/doorkey/doorkey_experiment_3_d3/checkpoint.pt",
+  "task": "doorkey6x6",
+  "episodes_per_condition": 100,
+  "evaluation_seed_start": 1000,
+  "policy_input": "atoms",
+  "normal": {
+    "success": 1.0,
+    "len": 14.68,
+    "atom_acc": {
+      "has_key": 1.0,
+      "door_locked": 1.0,
+      "door_open": 1.0,
+      "carrying": 1.0,
+      "t_ahead": 0.7840599455040872,
+      "t_left": 1.0,
+      "t_right": 0.9993188010899182,
+      "t_reach": 1.0,
+      "wall_ahead": 1.0
+    }
+  },
+  "zero_all": {
+    "success": 0.0,
+    "len": 300.0,
+    "atom_acc": {
+      "has_key": 1.0,
+      "door_locked": 1.0,
+      "door_open": 1.0,
+      "carrying": 1.0,
+      "t_ahead": 0.7,
+      "t_left": 0.9952,
+      "t_right": 0.9983333333333333,
+      "t_reach": 1.0,
+      "wall_ahead": 1.0
+    }
+  },
+  "per_atom_success": {
+    "has_key": 1.0,
+    "door_locked": 1.0,
+    "door_open": 0.79,
+    "carrying": 1.0,
+    "t_ahead": 0.0,
+    "t_left": 1.0,
+    "t_right": 1.0,
+    "t_reach": 0.0,
+    "wall_ahead": 0.06
+  },
+  "rules": [
+    "has_key :- p41.",
+    "carrying :- p41.",
+    "t_right :- p6, not p7, p11, not p12, not p14, not p16, not p18, not p20, p23, not p24, p25, not p28, not p29, not p33, not p37, p39, p40, not p47.",
+    "t_right :- p13, p17.",
+    "t_reach :- p6, not p7, p11, not p12, not p14, not p16, not p18, not p20, p23, not p24, p25, not p28, not p29, not p33, not p37, p39, p40, not p47.",
+    "wall_ahead :- p0, not p2, not p3, p4, p5, not p8, not p9, not p10, p11, p13, p14, p17, not p19, not p20, not p21, p22, p25, p27, p29, not p35, not p36, p38, p44, not p46."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "artifact_type": "curated_summary_from_executed_final_notebook",
+  "experiment_id": "R1",
+  "checkpoint": "models/doorkey/relational_stress_test/checkpoint_050000.pt",
+  "training_steps": 50000,
+  "autonomous_success": {
+    "doorkey_6x6": {"successes": 81, "episodes": 100},
+    "doorkey_8x8": {"successes": 23, "episodes": 100},
+    "doorkey_16x16": {"successes": 0, "episodes": 100}
+  },
+  "hard_oracle_atom_upper_bound": {
+    "doorkey_6x6": {"successes": 32, "episodes": 40},
+    "doorkey_8x8": {"successes": 28, "episodes": 40},
+    "doorkey_16x16": {"successes": 14, "episodes": 40}
+  },
+  "scripted_rule_controller": {
+    "doorkey_6x6": {"successes": 100, "episodes": 100},
+    "doorkey_8x8": {"successes": 100, "episodes": 100},
+    "doorkey_16x16": {"successes": 100, "episodes": 100}
+  },
+  "claim_boundary": "Negative map-size transfer stress test. The vocabulary is control-sufficient, but the learned chain does not transfer robustly.",
+  "provenance_note": "Numbers were frozen from the executed final relational notebook and dissertation. The exploratory notebook was removed from the cleaned acceptance set; this file is a curated summary, not a raw evaluator dump."
+}

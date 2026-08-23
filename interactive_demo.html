@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniGrid Dreamer Lab</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090d; --panel: #10141c; --panel2: #151b25; --line: #252c38;
+      --text: #edf1f7; --muted: #8993a3; --green: #b8f048; --cyan: #58d6d1;
+      --amber: #f6b84a; --red: #ff6b74; --shadow: 0 18px 55px #0008;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 Inter, ui-sans-serif, system-ui, sans-serif; }
+    button, select, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { height: 100vh; min-height: 0; display: grid; grid-template-columns: 294px minmax(440px, 1fr) 360px; overflow: hidden; }
+    aside, main { min-width: 0; }
+    .setup { height: 100vh; overflow-y: auto; border-right: 1px solid var(--line); background: #0b0e14; padding: 28px 22px; display: flex; flex-direction: column; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 11px; letter-spacing: .02em; }
+    .brand-mark { width: 34px; height: 34px; border: 1px solid #53606f; border-radius: 9px; display: grid; place-items: center; color: var(--green); font-size: 19px; box-shadow: inset 0 0 18px #b8f04812; }
+    .brand strong { font-size: 15px; }
+    .brand small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .18em; margin-top: 2px; }
+    .step { display: grid; gap: 9px; }
+    .step-head { display: flex; align-items: center; gap: 9px; color: #c7ced9; font-weight: 650; }
+    .number { width: 23px; height: 23px; border-radius: 50%; border: 1px solid #48515e; display: grid; place-items: center; font-size: 11px; color: var(--muted); }
+    label.sub { color: var(--muted); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    select, input[type=number] { width: 100%; border: 1px solid #303744; border-radius: 9px; background: var(--panel); color: var(--text); padding: 10px 11px; outline: none; }
+    select:focus, input:focus { border-color: #71809a; box-shadow: 0 0 0 3px #71809a1c; }
+    .seed-row { display: grid; grid-template-columns: 1fr 40px; gap: 8px; }
+    .icon-btn { border: 1px solid #303744; border-radius: 9px; background: var(--panel); color: #cfd6df; }
+    .segmented { display: grid; grid-template-columns: 1fr 1fr; background: #090c11; border: 1px solid #303744; border-radius: 9px; padding: 3px; }
+    .segmented button { border: 0; border-radius: 6px; background: transparent; color: var(--muted); padding: 8px 6px; }
+    .segmented button.active { color: var(--text); background: #252d39; box-shadow: 0 2px 8px #0007; }
+    .model-hint { color: var(--muted); font-size: 11px; display: flex; justify-content: space-between; gap: 8px; }
+    .model-view-note { color: var(--amber); font-size: 10px; line-height: 1.45; }
+    .start { position: sticky; bottom: 0; z-index: 2; flex-shrink: 0; margin-top: auto; border: 0; border-radius: 10px; background: var(--green); color: #11170a; font-weight: 800; padding: 12px; box-shadow: 0 -14px 0 #0b0e14, 0 10px 30px #b8f0481c; }
+    .start:hover { filter: brightness(1.06); }
+    .start:disabled { opacity: .45; cursor: wait; }
+    .arena { height: 100vh; overflow-y: auto; display: flex; flex-direction: column; padding: 26px 28px; background: radial-gradient(circle at 50% 38%, #151b24 0, #090c11 58%, #07090d 100%); }
+    .topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    h1 { font-size: 20px; margin: 0; letter-spacing: -.02em; }
+    .meta { display: flex; gap: 14px; color: var(--muted); font-size: 11px; margin-top: 6px; flex-wrap: wrap; }
+    .status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #59616d; }
+    .dot.live { background: var(--green); box-shadow: 0 0 10px #b8f048; }
+    .map-stage { flex: 1; min-height: 0; display: grid; place-items: center; padding: 20px 0; }
+    .map-wrap { width: min(100%, 660px, calc(100vh - 330px)); aspect-ratio: 1; position: relative; display: grid; place-items: center; flex: none; border-radius: 16px; border: 1px solid #303744; background: #0a0d12; overflow: hidden; box-shadow: var(--shadow), inset 0 0 55px #000; }
+    .map-wrap::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(#ffffff05 1px, transparent 1px), linear-gradient(90deg, #ffffff05 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; }
+    #mapImage { max-width: calc(100% - 34px); max-height: calc(100% - 34px); image-rendering: pixelated; display: none; border-radius: 4px; box-shadow: 0 10px 35px #0009; z-index: 1; }
+    .empty { max-width: 330px; color: var(--muted); text-align: center; z-index: 1; }
+    .empty b { display: block; color: #d5dbe4; font-size: 16px; margin-bottom: 7px; }
+    .recommend { border: 1px solid #34402c; background: linear-gradient(135deg, #131b12, #10151a); border-radius: 13px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+    .recommend .eyebrow { color: var(--green); font-size: 10px; text-transform: uppercase; letter-spacing: .16em; }
+    .recommend strong { display: block; font-size: 18px; margin-top: 3px; }
+    .follow { border: 1px solid #708f34; background: #b8f04812; color: var(--green); border-radius: 9px; padding: 9px 13px; font-weight: 700; white-space: nowrap; }
+    .follow:disabled { opacity: .4; cursor: not-allowed; }
+    .actions { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+    .action { position: relative; min-width: 0; text-align: left; border: 1px solid #2c3440; background: #111620; color: var(--text); border-radius: 10px; padding: 10px 10px 12px; overflow: hidden; }
+    .action:hover { border-color: #5a687a; transform: translateY(-1px); }
+    .action.best { border-color: #718e3b; }
+    .action:disabled { opacity: .45; transform: none; cursor: not-allowed; }
+    .action b, .action small { position: relative; z-index: 1; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .action small { color: var(--muted); font-size: 10px; margin-top: 3px; }
+    .prob-fill { position: absolute; inset: auto 0 0; height: 3px; background: var(--cyan); transition: width .25s; }
+    .analysis { border-left: 1px solid var(--line); background: #0c1016; padding: 27px 22px; overflow-y: auto; max-height: 100vh; }
+    .analysis h2 { font-size: 13px; margin: 0 0 16px; letter-spacing: .02em; }
+    .section { padding: 17px 0; border-top: 1px solid var(--line); }
+    .section:first-of-type { border-top: 0; padding-top: 0; }
+    .section-title { display: flex; justify-content: space-between; color: #cbd2dc; font-size: 12px; font-weight: 700; margin-bottom: 11px; }
+    .section-title span { color: var(--muted); font-weight: 400; font-size: 10px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .stat { border: 1px solid #252d38; background: #10151d; border-radius: 8px; padding: 8px; }
+    .stat small { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; }
+    .stat b { display: block; margin-top: 2px; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .bars { display: grid; gap: 5px; margin-top: 11px; }
+    .bar { display: grid; grid-template-columns: 40px 1fr 54px; gap: 7px; align-items: center; color: var(--muted); font-size: 10px; }
+    .track { height: 5px; background: #222936; border-radius: 4px; overflow: hidden; }
+    .track i { display: block; height: 100%; background: var(--cyan); border-radius: inherit; }
+    .atoms { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .atom { border: 1px solid #29313c; background: #111720; border-radius: 8px; padding: 7px 8px; }
+    .atom.true { border-color: #3f5631; background: #121b12; }
+    .atom-name { color: #b8c0cc; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .atom-value { font: 700 12px ui-monospace, SFMono-Regular, monospace; margin-top: 2px; color: var(--red); }
+    .atom.true .atom-value { color: var(--green); }
+    .stoch { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+    .stoch i { height: 24px; display: grid; place-items: center; border: 1px solid #28313c; border-radius: 5px; background: #121923; color: #8793a4; font: 9px ui-monospace, monospace; font-style: normal; }
+    details { color: var(--muted); font-size: 11px; }
+    summary { cursor: pointer; color: #aab3c0; }
+    pre { white-space: pre-wrap; word-break: break-all; max-height: 220px; overflow: auto; background: #080b10; border: 1px solid #232a35; padding: 9px; border-radius: 7px; }
+    .truth { display: flex; flex-wrap: wrap; gap: 5px; }
+    .truth span { border: 1px solid #29313c; border-radius: 20px; padding: 4px 7px; color: var(--muted); font-size: 9px; }
+    .truth span.on { border-color: #4a6335; color: var(--green); }
+    .toast { position: fixed; left: 50%; top: 18px; transform: translate(-50%, -12px); opacity: 0; pointer-events: none; z-index: 10; max-width: 560px; border: 1px solid #693841; background: #29141a; color: #ffd4d8; border-radius: 9px; padding: 10px 14px; box-shadow: var(--shadow); transition: .2s; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .done { color: var(--amber); }
+    .done.success { color: var(--green); }
+    @media (max-width: 1120px) { .shell { grid-template-columns: 260px 1fr; } .analysis { grid-column: 1 / -1; max-height: none; border-left: 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; } .analysis > h2 { grid-column: 1 / -1; } }
+    @media (max-width: 760px) { .shell { display: block; height: auto; overflow: visible; } .setup { height: auto; overflow: visible; border-right: 0; border-bottom: 1px solid var(--line); } .start { position: static; margin-top: 0; box-shadow: 0 10px 30px #b8f0481c; } .arena { height: auto; overflow: visible; padding: 22px 14px; } .map-stage { min-height: 330px; } .map-wrap { width: min(100%, 520px); } .actions { grid-template-columns: repeat(2, 1fr); } .analysis { display: block; padding: 24px 16px; } }
+  </style>
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+  <div class="shell">
+    <aside class="setup">
+      <div class="brand"><div class="brand-mark">⌁</div><div><strong>MiniGrid Dreamer Lab</strong><small>Interactive belief explorer</small></div></div>
+      <div class="step">
+        <div class="step-head"><span class="number">1</span>选择地图</div>
+        <label class="sub" for="mapSelect">MiniGrid Environment</label>
+        <select id="mapSelect" aria-label="地图"></select>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="number">2</span>选择种子</div>
+        <label class="sub" for="seedInput">Test seed · 0–199</label>
+        <div class="seed-row"><input id="seedInput" type="number" value="0" min="0" max="199"><button class="icon-btn" id="randomSeed" title="随机种子" aria-label="随机种子">↻</button></div>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="number">3</span>观察视角</div>
+        <div class="segmented" id="viewButtons"><button data-view="god" class="active">上帝画面</button><button data-view="partial">局部画面</button></div>
+        <div class="model-view-note">模型输入固定为训练时的 7×7 局部观测；此开关只改变你看到的画面。</div>
+      </div>
+      <div class="step">
+        <div class="step-head"><span class="number">4</span>接入模型</div>
+        <label class="sub" for="modelSelect">Trained checkpoint</label>
+        <select id="modelSelect" aria-label="模型"></select>
+        <div class="model-hint"><span id="modelCount">扫描模型中…</span><span id="modelTask"></span></div>
+      </div>
+      <button class="start" id="startButton">载入模型并开始</button>
+    </aside>
+
+    <main class="arena">
+      <div class="topline">
+        <div><h1 id="mapTitle">等待开始</h1><div class="meta"><span id="seedMeta">Seed —</span><span id="stepMeta">Step 0</span><span id="rewardMeta">Reward 0.000</span></div></div>
+        <div class="status"><i class="dot" id="liveDot"></i><span id="statusText">未连接</span></div>
+      </div>
+      <div class="map-stage"><div class="map-wrap"><img id="mapImage" alt="MiniGrid 当前画面"><div class="empty" id="emptyState"><b>配置一次实验</b>在左侧选择地图、种子、视角和 checkpoint，模型会在每一步给出完整动作分布与 belief state。</div></div></div>
+      <div class="recommend">
+        <div><div class="eyebrow">Model recommendation</div><strong id="recommendation">等待模型</strong></div>
+        <button class="follow" id="followButton" disabled>采用建议 ↵</button>
+      </div>
+      <div class="actions" id="actions"></div>
+    </main>
+
+    <aside class="analysis">
+      <h2>模型内部状态</h2>
+      <section class="section">
+        <div class="section-title">连续 belief <span id="beliefDims">—</span></div>
+        <div class="stats"><div class="stat"><small>Mean</small><b id="meanStat">—</b></div><div class="stat"><small>Std</small><b id="stdStat">—</b></div><div class="stat"><small>L2 norm</small><b id="normStat">—</b></div></div>
+        <div class="bars" id="beliefBars"></div>
+        <details style="margin-top:10px"><summary>查看完整 deter 向量</summary><pre id="rawBelief">—</pre></details>
+      </section>
+      <section class="section">
+        <div class="section-title">离散 belief <span id="stochShape">—</span></div>
+        <div class="stoch" id="stochGrid"></div>
+      </section>
+      <section class="section">
+        <div class="section-title">具名原子 / grounded head <span id="atomCount">—</span></div>
+        <div class="atoms" id="atoms"><div class="empty" style="font-size:11px;text-align:left">模型载入后显示。</div></div>
+      </section>
+      <section class="section">
+        <div class="section-title">环境真值 <span>仅用于对照，不喂给模型</span></div>
+        <div class="truth" id="truth"></div>
+        <details style="margin-top:10px"><summary>完整 god state</summary><pre id="rawTruth">—</pre></details>
+      </section>
+    </aside>
+  </div>
+  <script>
+    const $ = id => document.getElementById(id);
+    let catalog, state, chosenView = 'god', busy = false, toastTimer;
+    const format = (n, digits = 3) => Number(n).toFixed(digits);
+
+    function error(message) {
+      $('toast').textContent = message;
+      $('toast').classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => $('toast').classList.remove('show'), 5500);
+    }
+
+    async function api(path, payload) {
+      const response = await fetch(path, {method: payload ? 'POST' : 'GET', headers: {'Content-Type': 'application/json'}, body: payload ? JSON.stringify(payload) : undefined});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || '请求失败');
+      return data;
+    }
+
+    function optionGroup(select, name, items, mapper) {
+      const group = document.createElement('optgroup'); group.label = name;
+      items.forEach(item => { const option = document.createElement('option'); mapper(option, item); group.append(option); });
+      select.append(group);
+    }
+
+    async function init() {
+      try {
+        catalog = await api('/api/catalog');
+        catalog.maps.forEach(map => { const o = new Option(map.name, map.id); $('mapSelect').add(o); });
+        [...new Set(catalog.models.map(model => model.group))].forEach(group => optionGroup(
+          $('modelSelect'), group, catalog.models.filter(model => model.group === group),
+          (o, model) => { o.value = model.id; o.textContent = `${model.name} · ${model.task}`; o.title = model.path; }
+        ));
+        $('modelCount').textContent = `${catalog.models.length} 个可运行 checkpoint`;
+        updateModelTask();
+        renderActions(catalog.actions.map(action => ({...action, probability: 0})));
+      } catch (e) {
+        error(location.protocol === 'file:' ? '该页面需要本地推理服务。请用 interactive_demo.py 启动，而不是双击 HTML。' : e.message);
+        $('statusText').textContent = '服务未启动';
+      }
+    }
+
+    function updateModelTask() {
+      const model = catalog?.models.find(m => m.id === $('modelSelect').value);
+      $('modelTask').textContent = model ? model.task : '';
+    }
+
+    function setBusy(value, label = '正在载入 checkpoint…') {
+      busy = value; $('startButton').disabled = value; $('startButton').textContent = value ? label : '载入模型并开始';
+      document.querySelectorAll('.action, #followButton').forEach(button => button.disabled = value || !state || state.done);
+    }
+
+    async function start() {
+      setBusy(true);
+      $('statusText').textContent = '载入模型…';
+      try {
+        state = await api('/api/start', {task: $('mapSelect').value, seed: Number($('seedInput').value), view: chosenView, model: $('modelSelect').value});
+        render(state);
+      } catch (e) { error(e.message); $('statusText').textContent = '载入失败'; }
+      finally { setBusy(false); }
+    }
+
+    async function act(action) {
+      if (busy || !state || state.done) return;
+      setBusy(true, '模型推理中…');
+      try { state = await api('/api/step', {action}); render(state); }
+      catch (e) { error(e.message); }
+      finally { setBusy(false); }
+    }
+
+    function renderActions(actions) {
+      $('actions').replaceChildren(...actions.map(action => {
+        const button = document.createElement('button');
+        button.className = 'action' + (state?.recommended === action.id ? ' best' : '');
+        button.disabled = busy || !state || state.done;
+        button.innerHTML = `<b>${action.name} · ${format(action.probability * 100, 1)}%</b><small>${action.key}</small><i class="prob-fill" style="width:${action.probability * 100}%"></i>`;
+        button.onclick = () => act(action.id);
+        return button;
+      }));
+    }
+
+    function renderAtoms(belief) {
+      const entries = [...Object.entries(belief.atoms || {}), ...Object.entries(belief.grounded || {}).map(([k, v]) => [`${k} · P`, v * 2 - 1])];
+      $('atomCount').textContent = entries.length ? `${entries.length} 项` : '此模型无具名头';
+      if (!entries.length) { $('atoms').innerHTML = '<div class="empty" style="font-size:11px;text-align:left">该模型使用完整连续 belief，未配置具名符号头。</div>'; return; }
+      $('atoms').replaceChildren(...entries.map(([name, value]) => {
+        const div = document.createElement('div'); div.className = 'atom' + (value > 0 ? ' true' : '');
+        div.innerHTML = `<div class="atom-name" title="${name}">${name}</div><div class="atom-value">${value > 0 ? '+' : ''}${format(value)}</div>`; return div;
+      }));
+    }
+
+    function renderBelief(belief) {
+      $('beliefDims').textContent = `deter ${belief.deter_dim} · feat ${belief.feat_dim}`;
+      $('meanStat').textContent = format(belief.deter_mean); $('stdStat').textContent = format(belief.deter_std); $('normStat').textContent = format(belief.deter_norm);
+      const max = Math.max(...belief.strongest.map(item => Math.abs(item.value)), .001);
+      $('beliefBars').replaceChildren(...belief.strongest.slice(0, 8).map(item => {
+        const row = document.createElement('div'); row.className = 'bar';
+        row.innerHTML = `<span>h[${item.index}]</span><div class="track"><i style="width:${Math.abs(item.value) / max * 100}%;background:${item.value < 0 ? 'var(--red)' : 'var(--cyan)'}"></i></div><span>${item.value > 0 ? '+' : ''}${format(item.value)}</span>`; return row;
+      }));
+      $('rawBelief').textContent = JSON.stringify(belief.deter);
+      $('stochShape').textContent = belief.stoch_shape.join(' × ');
+      $('stochGrid').replaceChildren(...belief.stoch_index.map((index, i) => { const cell = document.createElement('i'); cell.textContent = index; cell.title = `z[${i}] = category ${index}, confidence ${format(belief.stoch_confidence[i])}`; cell.style.borderColor = `rgba(88,214,209,${.15 + belief.stoch_confidence[i] * .65})`; return cell; }));
+      renderAtoms(belief);
+    }
+
+    function renderTruth(truth) {
+      const scalar = Object.entries(truth).filter(([, value]) => typeof value === 'boolean' || typeof value === 'number').slice(0, 20);
+      $('truth').replaceChildren(...scalar.map(([key, value]) => { const item = document.createElement('span'); item.className = value === true ? 'on' : ''; item.textContent = `${key}: ${value}`; return item; }));
+      $('rawTruth').textContent = JSON.stringify(truth, null, 2);
+    }
+
+    function render(next) {
+      state = next;
+      $('mapImage').src = state.image; $('mapImage').style.display = 'block'; $('emptyState').style.display = 'none';
+      const map = catalog.maps.find(m => m.id === state.task);
+      $('mapTitle').textContent = map?.name || state.task; $('seedMeta').textContent = `Seed ${state.seed}`; $('stepMeta').textContent = `Step ${state.step}`; $('rewardMeta').textContent = `Reward ${format(state.total_reward)}`;
+      $('liveDot').classList.add('live');
+      $('statusText').className = state.done ? `done ${state.success ? 'success' : ''}` : '';
+      $('statusText').textContent = state.done ? (state.success ? '通关成功' : '回合结束') : `画面: ${chosenView === 'god' ? '上帝' : '局部'} · 模型: 局部7×7 · ${state.device}`;
+      const best = state.actions[state.recommended];
+      $('recommendation').textContent = state.done ? (state.success ? '目标已完成' : '请开始新回合') : `${best.name} · ${format(best.probability * 100, 1)}%`;
+      $('followButton').disabled = state.done; $('followButton').onclick = () => act(state.recommended);
+      renderActions(state.actions); renderBelief(state.belief); renderTruth(state.god_state);
+    }
+
+    $('startButton').onclick = start;
+    $('randomSeed').onclick = () => $('seedInput').value = Math.floor(Math.random() * 200);
+    $('modelSelect').onchange = updateModelTask;
+    $('viewButtons').onclick = async event => {
+      const button = event.target.closest('button[data-view]'); if (!button) return;
+      chosenView = button.dataset.view; document.querySelectorAll('#viewButtons button').forEach(b => b.classList.toggle('active', b === button));
+      if (state) try { state = await api('/api/view', {view: chosenView}); render(state); } catch (e) { error(e.message); }
+    };
+    document.addEventListener('keydown', event => {
+      if (/INPUT|SELECT/.test(event.target.tagName) || !state || state.done) return;
+      const action = ({ArrowLeft:0, a:0, A:0, ArrowRight:1, d:1, D:1, ArrowUp:2, w:2, W:2, e:3, E:3, ' ':4})[event.key];
+      if (action !== undefined) { event.preventDefault(); act(action); }
+      if (event.key === 'Enter') { event.preventDefault(); act(state.recommended); }
+    });
+    init();
+  </script>
+</body>
+</html>

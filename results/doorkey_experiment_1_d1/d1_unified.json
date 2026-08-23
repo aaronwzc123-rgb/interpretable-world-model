@@ -1,0 +1,382 @@
+{
+  "protocol": {
+    "checkpoint": "models/doorkey/doorkey_experiment_1_d1/checkpoint.pt",
+    "checkpoint_sha256": "d9c6316354941aace10d205d497e6349c82a630d9590e8a3169937b188598251",
+    "trajectory": "results/doorkey_experiment_1_d1/trajectory.npz",
+    "seed": 20260812,
+    "episode_split": {
+      "train": [
+        44,
+        60,
+        88,
+        32,
+        82,
+        40,
+        86,
+        36,
+        85,
+        90,
+        77,
+        5,
+        45,
+        63,
+        26,
+        2,
+        64,
+        61,
+        78,
+        59,
+        47,
+        22,
+        56,
+        46,
+        17,
+        66,
+        29,
+        57,
+        89,
+        74,
+        30,
+        95,
+        34,
+        8,
+        41,
+        0,
+        96,
+        9,
+        52,
+        35,
+        54,
+        71,
+        65,
+        80,
+        16,
+        4,
+        15,
+        23,
+        79,
+        84,
+        38,
+        43,
+        68,
+        94,
+        58,
+        73,
+        42,
+        25,
+        28,
+        10,
+        37,
+        76,
+        12,
+        93,
+        39,
+        14,
+        87,
+        6,
+        13,
+        49
+      ],
+      "validation": [
+        99,
+        72,
+        27,
+        33,
+        20,
+        7,
+        69,
+        50,
+        3,
+        24,
+        48,
+        91,
+        31,
+        18,
+        75
+      ],
+      "test": [
+        55,
+        70,
+        62,
+        67,
+        11,
+        98,
+        19,
+        21,
+        97,
+        53,
+        83,
+        1,
+        51,
+        92,
+        81
+      ]
+    },
+    "feature_dimensions": {
+      "feat": 1280,
+      "stoch": 1024
+    },
+    "ndnf_selected_stoch_units": [
+      46,
+      54,
+      116,
+      130,
+      158,
+      193,
+      220,
+      223,
+      244,
+      255,
+      274,
+      310,
+      317,
+      432,
+      435,
+      468,
+      472,
+      490,
+      590,
+      649,
+      664,
+      679,
+      696,
+      732,
+      737,
+      741,
+      969,
+      973,
+      1017,
+      1023
+    ],
+    "ndnf_train_accuracy": 0.9844669699668884
+  },
+  "task": {
+    "success_rate": 1.0,
+    "successes": 100,
+    "episodes": 100,
+    "mean_length": 12.77
+  },
+  "linear_full_belief": {
+    "has_key": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "base_rate": 0.7384615384615385,
+      "positive_rate": 0.7384615384615385,
+      "n": 195
+    },
+    "door_locked": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "base_rate": 0.558974358974359,
+      "positive_rate": 0.558974358974359,
+      "n": 195
+    },
+    "door_open": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "base_rate": 0.558974358974359,
+      "positive_rate": 0.441025641025641,
+      "n": 195
+    },
+    "carrying": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "base_rate": 0.7384615384615385,
+      "positive_rate": 0.7384615384615385,
+      "n": 195
+    },
+    "t_ahead": {
+      "accuracy": 0.9538461538461539,
+      "balanced_accuracy": 0.9538461538461539,
+      "base_rate": 0.6666666666666666,
+      "positive_rate": 0.6512820512820513,
+      "n": 195
+    },
+    "t_left": {
+      "accuracy": 0.9692307692307692,
+      "balanced_accuracy": 0.8767349636483807,
+      "base_rate": 0.9128205128205128,
+      "positive_rate": 0.07692307692307693,
+      "n": 195
+    },
+    "t_right": {
+      "accuracy": 0.9641025641025641,
+      "balanced_accuracy": 0.9403225806451613,
+      "base_rate": 0.7948717948717949,
+      "positive_rate": 0.2,
+      "n": 195
+    },
+    "t_reach": {
+      "accuracy": 1.0,
+      "balanced_accuracy": 1.0,
+      "base_rate": 0.6923076923076923,
+      "positive_rate": 0.3076923076923077,
+      "n": 195
+    },
+    "wall_ahead": {
+      "accuracy": 0.9897435897435898,
+      "balanced_accuracy": 0.9938271604938271,
+      "base_rate": 0.8307692307692307,
+      "positive_rate": 0.1794871794871795,
+      "n": 195
+    }
+  },
+  "ndnf_selected_stoch": {
+    "has_key": {
+      "soft_delta_1": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9901960784313726,
+        "base_rate": 0.7384615384615385,
+        "positive_rate": 0.7435897435897436,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9901960784313726,
+        "base_rate": 0.7384615384615385,
+        "positive_rate": 0.7435897435897436,
+        "n": 195
+      }
+    },
+    "door_locked": {
+      "soft_delta_1": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9954128440366973,
+        "base_rate": 0.558974358974359,
+        "positive_rate": 0.5538461538461539,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9954128440366973,
+        "base_rate": 0.558974358974359,
+        "positive_rate": 0.5538461538461539,
+        "n": 195
+      }
+    },
+    "door_open": {
+      "soft_delta_1": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9954128440366973,
+        "base_rate": 0.558974358974359,
+        "positive_rate": 0.4461538461538462,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9954128440366973,
+        "base_rate": 0.558974358974359,
+        "positive_rate": 0.4461538461538462,
+        "n": 195
+      }
+    },
+    "carrying": {
+      "soft_delta_1": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9901960784313726,
+        "base_rate": 0.7384615384615385,
+        "positive_rate": 0.7435897435897436,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9901960784313726,
+        "base_rate": 0.7384615384615385,
+        "positive_rate": 0.7435897435897436,
+        "n": 195
+      }
+    },
+    "t_ahead": {
+      "soft_delta_1": {
+        "accuracy": 0.9384615384615385,
+        "balanced_accuracy": 0.926923076923077,
+        "base_rate": 0.6666666666666666,
+        "positive_rate": 0.676923076923077,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9641025641025641,
+        "balanced_accuracy": 0.9615384615384616,
+        "base_rate": 0.6666666666666666,
+        "positive_rate": 0.6615384615384615,
+        "n": 195
+      }
+    },
+    "t_left": {
+      "soft_delta_1": {
+        "accuracy": 0.9230769230769231,
+        "balanced_accuracy": 0.7450429610046265,
+        "base_rate": 0.9128205128205128,
+        "positive_rate": 0.08205128205128205,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9487179487179487,
+        "balanced_accuracy": 0.8921017845340383,
+        "base_rate": 0.9128205128205128,
+        "positive_rate": 0.1076923076923077,
+        "n": 195
+      }
+    },
+    "t_right": {
+      "soft_delta_1": {
+        "accuracy": 0.9487179487179487,
+        "balanced_accuracy": 0.875,
+        "base_rate": 0.7948717948717949,
+        "positive_rate": 0.15384615384615385,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9743589743589743,
+        "balanced_accuracy": 0.9467741935483871,
+        "base_rate": 0.7948717948717949,
+        "positive_rate": 0.18974358974358974,
+        "n": 195
+      }
+    },
+    "t_reach": {
+      "soft_delta_1": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9916666666666667,
+        "base_rate": 0.6923076923076923,
+        "positive_rate": 0.30256410256410254,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9948717948717949,
+        "balanced_accuracy": 0.9916666666666667,
+        "base_rate": 0.6923076923076923,
+        "positive_rate": 0.30256410256410254,
+        "n": 195
+      }
+    },
+    "wall_ahead": {
+      "soft_delta_1": {
+        "accuracy": 0.9743589743589743,
+        "balanced_accuracy": 0.9725028058361391,
+        "base_rate": 0.8307692307692307,
+        "positive_rate": 0.18461538461538463,
+        "n": 195
+      },
+      "hard_delta_4": {
+        "accuracy": 0.9794871794871794,
+        "balanced_accuracy": 0.9514590347923682,
+        "base_rate": 0.8307692307692307,
+        "positive_rate": 0.15897435897435896,
+        "n": 195
+      }
+    }
+  },
+  "rules": [
+    "has_key :- not z6_31, not z30_13.",
+    "door_locked :- not z6_1.",
+    "door_open :- not z7_31, not z30_13.",
+    "carrying :- not z6_31, not z30_13.",
+    "t_ahead :- not z6_1.",
+    "t_left :- z1_14, z1_22, not z4_2, z6_1, z6_31, z7_31, z8_18, not z9_22, not z9_29, z13_16, z14_24, not z20_24, not z23_1, z31_25.",
+    "t_right :- z1_14, z1_22, not z4_2, z6_1, z6_31, z7_31, z8_18, not z9_22, not z9_29, z13_16, z14_24, not z20_24, not z23_1, z31_25.",
+    "t_reach :- not z6_1.",
+    "t_reach :- not z1_22, z4_2, z6_1.",
+    "wall_ahead :- not z31_31."
+  ]
+}

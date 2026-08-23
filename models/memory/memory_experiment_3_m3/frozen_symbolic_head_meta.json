@@ -1,0 +1,20 @@
+{
+  "in_dim": 1280,
+  "labels": [
+    "cue_is_key",
+    "wall_ahead",
+    "key_ahead",
+    "key_left",
+    "key_right",
+    "key_reach",
+    "ball_ahead",
+    "ball_left",
+    "ball_right",
+    "ball_reach"
+  ],
+  "n_lit": 32,
+  "n_conj": 8,
+  "delta_max": 4.0,
+  "anneal_steps": 4800,
+  "mask_label": "cue_known"
+}
