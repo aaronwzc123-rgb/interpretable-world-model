@@ -2,7 +2,7 @@
 
 This directory restores the historical Model2 N-DNF-transition experiment that was moved to the local quarantine during repository pruning.
 
-It is not the later D2 detached/MSE/BCE comparison. That comparison remains unrun. Model2 is retained here because it is the negative architectural precursor that motivated the later D2 protocol.
+This is the executed historical D2 in the original DoorKey experiment programme: an online/end-to-end N-DNF recurrent transition. The later detached/MSE/BCE head comparison is a separate, unexecuted D2 extension.
 
 ## Restored contents
 
@@ -17,7 +17,7 @@ TensorBoard event files and the other missing checkpoints are intentionally omit
 
 The controlled `m2rebuild` run reached 312,456 environment steps. Evaluation declined as the N-DNF transition hardened; from steps 182,500–302,500, 12 consecutive evaluation checkpoints covering 240 episodes had `eval_return = 0.000`.
 
-The evidence supports the bounded claim that this historical N-DNF-only transition was not trainable in the tested DoorKey-6x6 setup. It does not support a claim that the later D2 detached/MSE/BCE matrix was executed.
+The evidence supports the bounded D2 claim that this historical N-DNF-only transition was not trainable in the tested DoorKey-6x6 setup. It does not answer the later detached/MSE/BCE head-comparison extension.
 ## Run-to-artifact map
 
 Every restored run keeps its resolved Hydra parameters in `.hydra/config.yaml` and `.hydra/overrides.yaml`, with raw console output and `metrics.jsonl` beside them.

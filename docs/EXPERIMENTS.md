@@ -2,13 +2,14 @@
 
 All paths are repository-relative. `configs.yaml` uses ordered overlay merging: later overlays override earlier ones. Training outputs should go under ignored `runs/`; paper artifacts in `models/` and `results/` must not be overwritten.
 
-## Six executed experiment artifact map
+## Seven executed experiment artifact map
 
-D2 is registered but unexecuted and is therefore excluded from these six executed artifact rows.
+D2 is the executed historical N-DNF transition experiment. The later detached/MSE/BCE head-comparison extension remains unexecuted.
 
 | ID | Training parameters | Retained checkpoint(s) | Frozen evidence | Evaluation entry |
 |---|---|---|---|---|
 | D1 | `models/doorkey/doorkey_experiment_1_d1/config.yaml` | `models/doorkey/doorkey_experiment_1_d1/checkpoint.pt` | `results/doorkey_experiment_1_d1/d1_unified.json`, `trajectory.npz` | `scripts/evaluate_d1_unified.py` |
+| D2 | `archive/d2_model2_legacy/source/model_base.yaml`, resolved configs under `archive/d2_model2_legacy/runs/` | `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt` | `docs/d2_model2/`, archived console logs and `metrics.jsonl` | archived run logs; no single current evaluator |
 | D3 | `models/doorkey/doorkey_experiment_3_d3/config.yaml` | `models/doorkey/doorkey_experiment_3_d3/checkpoint.pt` | `d3_ablation.json`, `d3_directed_actions.json` | `scripts/ablate_sym.py`, `scripts/evaluate_d3_directed_actions.py` |
 | M1 | `models/memory/memory_experiment_1_m1/config.yaml` | Grounded/Plain seed 0/1 checkpoints | `results/memory_experiment_1_m1/` | `scripts/evaluate_m1_cuestart.py` |
 | M2 | `models/memory/memory_experiment_2_m2/config.yaml` | seed 0/1 84k checkpoints | `results/memory_experiment_2_m2/` | `scripts/evaluate_m2_head.py` |
@@ -33,16 +34,19 @@ python scripts/evaluate_d1_unified.py --traj results/doorkey_experiment_1_d1/tra
 
 The trajectory split is 70 train / 15 validation / 15 test episodes. This is a same-generator, seed-held-out test, not unseen-layout generalisation.
 
-## D2 — registered but unexecuted (current protocol)
+## D2 — DoorKey Experiment 2: online N-DNF transition (negative)
 
-The planned detached/MSE/BCE DoorKey matrix was not run. There is intentionally no checkpoint, config, or synthetic placeholder result for that matrix.
+Purpose: test whether a Neural-DNF transition can replace the RSSM recurrent transition in end-to-end Dreamer training on DoorKey-6x6.
 
-### Historical Model2 / D2 precursor — negative evidence restored
+This is the executed historical D2 experiment. The N-DNF mechanism is trained online as the recurrent transition, not fitted as a detached post-hoc readout. The restored source is under `archive/d2_model2_legacy/source/`; resolved parameters, console logs, and metrics are under `archive/d2_model2_legacy/runs/`.
 
-The earlier N-DNF-transition experiment did run, across several long runs and a controlled 300k-step rebuild, but it is a different protocol: it replaced the full RSSM transition with an N-DNF transition rather than comparing detached/MSE/BCE online heads. Its code, metrics, console logs, Hydra configs, postmortems, and final reports are restored under [`archive/d2_model2_legacy/`](../archive/d2_model2_legacy/) and [`docs/d2_model2/`](d2_model2/).
+The historical line contains eight long runs plus a controlled 300k-step rebuild. The controlled rebuild reached 312,456 steps; from steps 182,500–302,500, 12 consecutive evaluation checkpoints covering 240 episodes had `eval_return = 0.000`. The final failed checkpoint is `archive/d2_model2_legacy/runs/m2rebuild_run/m2rebuild_s0/latest.pt`.
 
-The controlled rebuild reached 312,456 steps and had 12 consecutive evaluation checkpoints (240 episodes) with `eval_return = 0.000` from steps 182,500–302,500. This is retained as a bounded historical negative result, not counted as execution of the current D2 matrix.
+Supported claim: in the tested DoorKey-6x6 implementation, replacing the complete stochastic RSSM transition with an online N-DNF transition was not trainable. This is a bounded architecture result, not evidence that every N-DNF head or every loss function is impossible.
 
+### D2 extension — fair online-head comparison (not executed)
+
+A later detached/MSE/BCE comparison would keep the RSSM transition and vary only an auxiliary online readout/head. That matched matrix was not run and remains an explicit future extension; it is not the definition of the executed D2 result above.
 ## D3 — DoorKey Experiment 3
 
 Purpose: force actor and critic to consume only nine named atoms, then test whole-interface removal, per-atom removal, and valid-state fixed-belief sign edits.
