@@ -1,0 +1,375 @@
+{
+  "protocol": "For each actor and each of the four initial configurations, compare all historical records to the new representative outcome/timing, then freshly execute a second actual seed for the same configuration in baseline and all four negation conditions. No cached rollouts.",
+  "actors": [
+    {
+      "actor": 0,
+      "configurations": [
+        {
+          "representative_seed": 0,
+          "second_actual_seed": 1,
+          "signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+          "historical_seed_count": 59,
+          "historical_outcome_timing_comparisons": 295,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 2,
+          "second_actual_seed": 3,
+          "signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+          "historical_seed_count": 33,
+          "historical_outcome_timing_comparisons": 165,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 147
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 147
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 5,
+          "second_actual_seed": 10,
+          "signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+          "historical_seed_count": 58,
+          "historical_outcome_timing_comparisons": 290,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 7
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 7
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 11,
+          "second_actual_seed": 12,
+          "signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+          "historical_seed_count": 50,
+          "historical_outcome_timing_comparisons": 250,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 6
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actor": 1,
+      "configurations": [
+        {
+          "representative_seed": 0,
+          "second_actual_seed": 1,
+          "signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+          "historical_seed_count": 59,
+          "historical_outcome_timing_comparisons": 295,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 1,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 2,
+          "second_actual_seed": 3,
+          "signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+          "historical_seed_count": 33,
+          "historical_outcome_timing_comparisons": 165,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 149
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 149
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "target",
+              "steps": 6
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 3,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 5,
+          "second_actual_seed": 10,
+          "signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+          "historical_seed_count": 58,
+          "historical_outcome_timing_comparisons": 290,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 7
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 7
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 10,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "timeout",
+              "steps": 250
+            }
+          ]
+        },
+        {
+          "representative_seed": 11,
+          "second_actual_seed": 12,
+          "signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+          "historical_seed_count": 50,
+          "historical_outcome_timing_comparisons": 250,
+          "historical_all_identical": true,
+          "fresh_second_seed_comparisons": [
+            {
+              "condition": "baseline",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 65
+            },
+            {
+              "condition": "cue_early",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 6
+            },
+            {
+              "condition": "cue_mid",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 33
+            },
+            {
+              "condition": "cue_late",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 65
+            },
+            {
+              "condition": "wall_mid",
+              "actual_seed": 12,
+              "full_grounding_trace_and_outcome_identical": true,
+              "outcome": "other",
+              "steps": 33
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

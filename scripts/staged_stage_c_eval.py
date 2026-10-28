@@ -70,16 +70,27 @@ def load(checkpoint, device, distill_meta_path=None, logdir=None):
 
 @torch.no_grad()
 def rollout(wm, behavior, seed, tl, episode_id=None, want_actions=False,
-            flip_idx=None, flip_start=None, force_register=None):
+            flip_idx=None, flip_start=None, force_register=None,
+            eval_seed_mode="pool", flip_mode="negate_current_output", fixed_flip_value=None):
     """无回流架构：atoms 只读不回流进 obs，但 flip 实验需要"篡改 actor 看到的 atoms"——
     通过 force_register 参数在 augment 前替换 atoms 实现（等价于寄存器篡改，只是没有真的
     寄存器，直接在算 policy 输入这一步替换）。"""
-    env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=seed, max_steps=tl, render_obs=False, emit_labels=False)
+    if tl <= 0:
+        raise ValueError("time limit must be positive")
+    if flip_mode not in ("negate_current_output", "fixed_value"):
+        raise ValueError("unknown flip mode")
+    if flip_idx is not None and flip_mode == "fixed_value" and fixed_flip_value is None:
+        raise ValueError("fixed_value intervention requires an explicit fixed_flip_value")
+    env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=seed, max_steps=tl,
+                     render_obs=False, emit_labels=False, eval_seed_mode=eval_seed_mode)
     obs = env.reset()
+    provenance = env.episode_provenance
     latent, action = None, None
     rows, succ, t = [], False, 0
     acts = []
-    for t in range(tl + 1):
+    info = {}
+    intervention_trace = []
+    for t in range(tl):
         obs_b = {k: np.array(v)[None] for k, v in obs.items() if not k.startswith("log_")}
         data = wm.preprocess(obs_b)
         embed = wm.encoder(data)
@@ -87,8 +98,10 @@ def rollout(wm, behavior, seed, tl, episode_id=None, want_actions=False,
         feat = wm.dynamics.get_feat(latent)
         atoms_t = wm._sym_head.atoms(feat).detach()
         pol_atoms = atoms_t.clone()
-        if flip_idx is not None and flip_start is not None and t >= flip_start:
-            pol_atoms[0, flip_idx] = -pol_atoms[0, flip_idx]
+        intervened = flip_idx is not None and flip_start is not None and t >= flip_start
+        if intervened:
+            pol_atoms[0, flip_idx] = (-pol_atoms[0, flip_idx] if flip_mode == "negate_current_output"
+                                      else float(fixed_flip_value))
         if force_register == "zero_all":
             pol_atoms = torch.zeros_like(pol_atoms)
         elif force_register == "zero_cue":
@@ -100,9 +113,23 @@ def rollout(wm, behavior, seed, tl, episode_id=None, want_actions=False,
         if want_actions:
             acts.append(a_idx)
         g = env.god_state()
-        rows.append(dict(atoms=atoms_t[0].cpu().numpy(), cue_is_key=int(g["cue_is_key"]),
-                          cue_known=bool(g["cue_known"]), cue_visible=bool(g["cue_visible"]),
+        predicted_atoms = atoms_t[0].cpu().numpy()
+        policy_atoms = pol_atoms[0].cpu().numpy()
+        cue_correct = bool(g["cue_known"] and predicted_atoms[0] != 0 and
+                           (predicted_atoms[0] > 0) == bool(g["cue_is_key"]))
+        rows.append(dict(atoms=predicted_atoms, policy_atoms=policy_atoms,
+                          cue_is_key=int(g["cue_is_key"]), cue_known=bool(g["cue_known"]),
+                          cue_visible=bool(g["cue_visible"]), cue_sign_correct=cue_correct,
                           episode=episode_id))
+        if intervened:
+            intervention_trace.append(dict(
+                step=t, cue_truth=int(g["cue_is_key"]), cue_known=bool(g["cue_known"]),
+                cue_visible=bool(g["cue_visible"]), predicted_cue=float(predicted_atoms[0]),
+                predicted_cue_sign=int(np.sign(predicted_atoms[0])),
+                predicted_cue_magnitude=float(abs(predicted_atoms[0])),
+                cue_sign_correct=cue_correct, policy_cue=float(policy_atoms[0]),
+                edited_atom_index=int(flip_idx), predicted_atoms=predicted_atoms.tolist(),
+                policy_atoms=policy_atoms.tolist()))
         obs, r, done, info = env.step(a_idx)
         if done:
             succ = bool(r > 0)
@@ -110,10 +137,13 @@ def rollout(wm, behavior, seed, tl, episode_id=None, want_actions=False,
             break
     else:
         final_g = env.god_state()
+        info["discount"] = np.float32(1.0)
     env.close()
     return rows, dict(success=succ, steps=t + 1, final_pos=final_g["agent_pos"],
                        key_pos=final_g["key_pos"], ball_pos=final_g["ball_pos"],
-                       cue_is_key=final_g["cue_is_key"], truncated="discount" in info, actions=acts)
+                       cue_is_key=final_g["cue_is_key"], truncated="discount" in info, actions=acts,
+                       **provenance, intervention_operation=flip_mode if flip_idx is not None else None,
+                       fixed_flip_value=fixed_flip_value, intervention_trace=intervention_trace)
 
 
 def report(mask, atom, y, name):
@@ -260,20 +290,22 @@ def main():
         flip_done = True
 
         def scan_and_flip(seed, flip_idx):
-            rows, _ = rollout(wm, behavior, seed, config.time_limit, episode_id=seed)
+            rows, baseline_out = rollout(wm, behavior, seed, config.time_limit, episode_id=seed)
             hide_step = next((i for i, r in enumerate(rows) if r["cue_known"] and not r["cue_visible"]), None)
             if hide_step is None:
-                return None, None
+                return None, None, baseline_out
             n = len(rows)
             early, mid, late = int(n * 0.2) + hide_step, hide_step + max(1, (n - hide_step) // 2), max(hide_step, n - 3)
-            return hide_step, dict(early=early, mid=mid, late=late)
+            return hide_step, dict(early=early, mid=mid, late=late), baseline_out
 
+        baseline_results = []
         timing_results = {"early": [], "mid": [], "late": []}
         ctrl_results = []
         for i in range(N_FLIP):
-            hide_step, points = scan_and_flip(1000 + i, 0)
+            hide_step, points, baseline_out = scan_and_flip(1000 + i, 0)
             if hide_step is None:
                 continue
+            baseline_results.append(baseline_out)
             for tname, tstep in points.items():
                 _, flip_out = rollout(wm, behavior, 1000 + i, config.time_limit, flip_idx=0, flip_start=tstep)
                 timing_results[tname].append(flip_out)
@@ -283,9 +315,14 @@ def main():
         flip_lines = []
         redirect_rates = []
         for tname, results in timing_results.items():
-            n_flip_to_wrong = sum(1 for r in results if not r["success"])  # success=选中真实cue对应门
-            redirect_rates.append(n_flip_to_wrong / len(results) if results else float("nan"))
-            line = f"  主实验[{tname}翻cue] 有效局={len(results)}: 仍选真实cue(success)={sum(r['success'] for r in results)}  走向翻转后错误门={n_flip_to_wrong}"
+            # A timeout is disruption; only successful-baseline -> opposite endpoint is redirection.
+            from evaluate_m3_corrected_flip import outcome
+            eligible = [(b, r) for b, r in zip(baseline_results, results) if outcome(b) == "target"]
+            n_flip_to_wrong = sum(outcome(r) == "other" for _, r in eligible)
+            n_to_timeout = sum(outcome(r) == "timeout" for _, r in eligible)
+            redirect_rates.append(n_flip_to_wrong / len(eligible) if eligible else float("nan"))
+            line = (f"  主实验[{tname}翻cue] 有效局={len(results)}, 基线正确={len(eligible)}: "
+                    f"正确基线转向另一终点={n_flip_to_wrong}, 正确基线转为超时={n_to_timeout}")
             print(line); flip_lines.append(line)
         flip_redirect_rate = float(np.mean(redirect_rates)) if redirect_rates else None
         ctrl_success_rate = float(np.mean([r["success"] for r in ctrl_results])) if ctrl_results else None
@@ -300,7 +337,9 @@ def main():
     with out_log.open("a", encoding="utf-8") as f:
         f.write("\n".join(md) + "\n---\n\n")
 
-    summary = dict(success_rate=rate, avg_steps=float(np.mean(lens)),
+    summary = dict(sample_sizes={"success": N_EVAL, "cue_probe": N_PROBE, "zero_controls": N_ABL,
+                                 "per_atom_zero": 20, "endpoint_association": 100, "flip_requested": N_FLIP},
+          eval_seed_mode="pool", success_rate=rate, avg_steps=float(np.mean(lens)),
           gate_b_all=res_all, gate_b_mem=res_mem, pred_pos_rate_mem=pred_pos_rate,
           by_cue=by_cue, n_timeout=n_timeout, flip_done=flip_done, ablation=abl_rates,
           flip_redirect_rate=flip_redirect_rate, ctrl_success_rate=ctrl_success_rate)

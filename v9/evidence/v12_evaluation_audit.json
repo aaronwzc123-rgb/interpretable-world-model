@@ -1,0 +1,84 @@
+{
+  "actor0": {
+    "records": 500,
+    "unique_effective_seeds": 200,
+    "groups_with_nonidentical_repeats": 0,
+    "unique_correct": 92,
+    "baseline_by_cue": {
+      "0": {
+        "target": 59,
+        "other": 58
+      },
+      "1": {
+        "target": 33,
+        "timeout": 50
+      }
+    },
+    "binomial_one_sided_p": 0.8853767013701418,
+    "zero_redirection_exact_upper95": 0.032037863175451764,
+    "rule_three_upper95": 0.03260869565217391,
+    "transitions_correct": {
+      "cue_early": {
+        "timeout": 59,
+        "target": 33
+      },
+      "cue_mid": {
+        "timeout": 59,
+        "target": 33
+      },
+      "cue_late": {
+        "target": 92
+      },
+      "wall_mid": {
+        "timeout": 92
+      }
+    }
+  },
+  "actor1": {
+    "records": 500,
+    "unique_effective_seeds": 200,
+    "groups_with_nonidentical_repeats": 0,
+    "unique_correct": 92,
+    "baseline_by_cue": {
+      "0": {
+        "target": 59,
+        "other": 58
+      },
+      "1": {
+        "target": 33,
+        "other": 50
+      }
+    },
+    "binomial_one_sided_p": 0.8853767013701418,
+    "zero_redirection_exact_upper95": 0.032037863175451764,
+    "rule_three_upper95": 0.03260869565217391,
+    "transitions_correct": {
+      "cue_early": {
+        "timeout": 59,
+        "target": 33
+      },
+      "cue_mid": {
+        "timeout": 59,
+        "target": 33
+      },
+      "cue_late": {
+        "timeout": 59,
+        "target": 33
+      },
+      "wall_mid": {
+        "timeout": 92
+      }
+    }
+  },
+  "m1_500_split": {
+    "train_unique_effective_seeds": 191,
+    "test_unique_effective_seeds": 124,
+    "overlap_effective_seeds": 115,
+    "test_episodes_with_seed_in_train": 131,
+    "test_episodes": 150
+  },
+  "actor0_fisher": {
+    "ball_reach_p": 5.087123809979019e-18,
+    "key_reach_p": 0.1955950851688414
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "purpose": "Packaged CLI verification against retained standalone fixed-upper evaluations",
+  "checks": [
+    {
+      "seed": 0,
+      "probes_equal": true,
+      "split_equal": true,
+      "controller_success_equal": true,
+      "actual_seeds_equal": true
+    },
+    {
+      "seed": 1,
+      "probes_equal": true,
+      "split_equal": true,
+      "controller_success_equal": true,
+      "actual_seeds_equal": true
+    }
+  ],
+  "all_checks_pass": true
+}

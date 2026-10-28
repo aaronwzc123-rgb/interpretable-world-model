@@ -1,0 +1,60 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+C:\Users\super\Desktop\test\Xdreamer\tools.py:775: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self._scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+Encoder CNN shapes: {}
+Encoder MLP shapes: {'grid': (148,)}
+Decoder CNN shapes: {}
+Decoder MLP shapes: {'grid': (148,)}
+Symbolic belief head enabled: feat1280->10 atoms labels=['cue_is_key', 'wall_ahead', 'key_ahead', 'key_left', 'key_right', 'key_reach', 'ball_ahead', 'ball_left', 'ball_right', 'ball_reach'] n_lit=32 mask=cue_known loss=bce scale=2.0 (atoms shape WM AND feed policy)
+Optimizer model_opt has 12498180 variables.
+Optimizer actor_opt has 395525 variables.
+Optimizer value_opt has 459775 variables.
+Encoder CNN shapes: {}
+Encoder MLP shapes: {'grid': (148,)}
+Decoder CNN shapes: {}
+Decoder MLP shapes: {'grid': (148,)}
+Symbolic belief head enabled: feat1280->10 atoms labels=['cue_is_key', 'wall_ahead', 'key_ahead', 'key_left', 'key_right', 'key_reach', 'ball_ahead', 'ball_left', 'ball_right', 'ball_reach'] n_lit=32 mask=cue_known loss=bce scale=2.0 (atoms shape WM AND feed policy)
+Optimizer model_opt has 12498180 variables.
+Optimizer actor_opt has 395525 variables.
+Optimizer value_opt has 459775 variables.
+{
+  "checkpoint_sha256": [
+    "182b80e2b4fb364714895943bf7b2fb78fe1aea84b8b9a9797e4758bbaaf9d7c",
+    "ec58ef353cd7b83e376bd78bb3610700b45960643ffccf6d4fa62a013c0778b7"
+  ],
+  "parameter_comparison": {
+    "_wm.encoder": {
+      "tensor_count": 15,
+      "different_tensor_count": 15
+    },
+    "_wm.dynamics": {
+      "tensor_count": 17,
+      "different_tensor_count": 17
+    },
+    "_wm._sym_head": {
+      "tensor_count": 8,
+      "different_tensor_count": 5
+    },
+    "_task_behavior.actor": {
+      "tensor_count": 8,
+      "different_tensor_count": 8
+    }
+  },
+  "scripted_requested_and_actual_seeds": [
+    1000,
+    1007
+  ],
+  "feature_shape_per_checkpoint": [
+    48,
+    1280
+  ],
+  "feature_sha256": [
+    "9ec0fc39e9a5b4fa4613907bb321366cf85746e48154907cca781e05fed68210",
+    "c196ab230a34365b1d1d069096c3610e31ddd0f8ee337f507d8ac79ec30df50a"
+  ],
+  "feature_max_absolute_difference": 1.767952799797058,
+  "feature_root_mean_square_difference": 0.2771775722503662,
+  "interpretation": "Different weights and posterior features can give identical thresholded aggregate probe metrics; identical scores do not establish identical representations."
+}

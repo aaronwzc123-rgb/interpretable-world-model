@@ -5,6 +5,7 @@ enters the model observation; the reported atom is produced from the local-grid
 posterior. Results are separated into visible-cue and pure-memory time steps.
 """
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -22,6 +23,7 @@ import tools
 import envs.minigrid as M
 import envs.wrappers as wrappers
 import probe_memory as P
+from scripts.evaluate_m1_cuestart import evaluation_seed_plan, evaluate as evaluate_probes
 
 OVERLAYS = [
     "defaults", "minigrid", "minigrid_memory", "minigrid_memory_cuestart",
@@ -67,8 +69,18 @@ def main():
     parser.add_argument("--checkpoint", required=True)
     parser.add_argument("--episodes", type=int, default=100)
     parser.add_argument("--device", default="cuda:0")
+    parser.add_argument("--seed-start", type=int, default=0)
+    parser.add_argument("--eval-seed-mode", choices=("pool", "direct"), default="pool")
+    parser.add_argument("--torch-threads", type=int, default=1)
+    parser.add_argument("--offline-probe", action="store_true",
+                        help="Fit separate seed-disjoint linear probes on this same frozen checkpoint")
+    parser.add_argument("--split-seed", type=int, default=20260813)
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
+    requested_seeds, actual_seeds = evaluation_seed_plan(
+        args.episodes, args.seed_start, args.eval_seed_mode)
+    torch.set_num_threads(args.torch_threads)
+    torch.manual_seed(args.split_seed)
 
     config = P.build_config(OVERLAYS)
     config.device = args.device
@@ -92,13 +104,17 @@ def main():
     head = agent._wm._sym_head
     cue_index = head.labels.index("cue_is_key")
     phases = {"all_known": ([], []), "visible": ([], []), "pure_memory": ([], [])}
-    successes = []
-    for episode in range(args.episodes):
+    successes, provenance_rows, probe_rows = [], [], []
+    for episode, requested_seed in enumerate(requested_seeds):
         env = M.MiniGrid(
-            "memoryS7_cuestart", mode="eval", seed=episode,
+            "memoryS7_cuestart", mode="eval", seed=requested_seed,
             max_steps=config.time_limit, emit_labels=True,
+            eval_seed_mode=args.eval_seed_mode,
         )
         obs = env.reset()
+        provenance = env.episode_provenance
+        provenance_rows.append({"episode": episode, **provenance,
+                                "cue": int(env.god_state()["cue_is_key"])})
         latent = action = None
         success = False
         for _ in range(config.time_limit + 1):
@@ -115,6 +131,14 @@ def main():
             pred = int(head.atoms(feat)[0, cue_index].item() > 0)
             g = env.god_state()
             truth = int(g["cue_is_key"])
+            if args.offline_probe:
+                probe_rows.append({"episode": episode, **provenance, "cue": truth,
+                                   "visible": bool(g["cue_visible"]), "known": bool(g["cue_known"]),
+                                   "decision": bool(g["key_reach"] or g["ball_reach"]),
+                                   "grid": np.asarray(obs["grid"], dtype=np.float32),
+                                   "stoch": latent["stoch"][0].reshape(-1).cpu().numpy(),
+                                   "deter": latent["deter"][0].cpu().numpy(),
+                                   "feat": feat[0].cpu().numpy()})
             if g["cue_known"]:
                 phases["all_known"][0].append(truth)
                 phases["all_known"][1].append(pred)
@@ -137,12 +161,24 @@ def main():
 
     result = {
         "checkpoint": str(pathlib.Path(args.checkpoint).resolve()),
+        "checkpoint_sha256": hashlib.sha256(pathlib.Path(args.checkpoint).read_bytes()).hexdigest(),
+        "command": sys.argv, "device": args.device,
+        "time_limit": int(config.time_limit), "torch_threads": args.torch_threads,
         "episodes": args.episodes,
-        "evaluation_seeds": [0, args.episodes - 1],
+        "evaluation_seeds": [args.seed_start, args.seed_start + args.episodes - 1],
+        "eval_seed_mode": args.eval_seed_mode,
+        "episode_provenance": provenance_rows,
+        "unique_actual_seeds": len(set(actual_seeds)),
+        "unique_initial_states": len({r["initial_state_signature"] for r in provenance_rows}),
         "coverage_controller": "privileged scripted controller; actions only",
         "controller_success_rate": float(np.mean(successes)),
         "cue": {name: metrics(*values) for name, values in phases.items()},
     }
+    if args.offline_probe:
+        with torch.enable_grad():
+            probes, split = evaluate_probes(probe_rows, args.split_seed, args.device)
+        result["offline_probes_same_checkpoint"] = probes
+        result["offline_probe_split"] = split
     out = pathlib.Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=2), encoding="utf-8")

@@ -6,9 +6,12 @@ MiniGrid 适配器 —— 把 gymnasium 版 MiniGrid-DoorKey 包成 dreamerv3-to
 - 观察给两路：
     grid  (148,) float32  —— 喂给模型（符号化 7x7x3 归一化 + 方向），走 MLP encoder。
     image (H,W,3) uint8   —— 仅供 dreamer 的日志/视频用，模型不看（cnn_keys='$^' 忽略它）。
-- 训练/测试 seed 严格隔离：train 用 seed>=10000，eval 用测试池 0~199（模型从不在训练里见）。
+- 训练使用 seed>=10000；eval 默认使用 0~199 池，可显式选择 direct seed。不同 seed 不保证不同初始配置。
 - obs 字典必须含 is_first/is_last/is_terminal（dreamer 约定），log_success 走 log_ 前缀（不喂模型）。
 """
+import hashlib
+import json
+
 import gym                      # 老版 gym(0.22)，dreamer 的 wrappers 用它的 spaces
 import numpy as np
 import gymnasium               # MiniGrid 基于 gymnasium
@@ -83,8 +86,10 @@ class MiniGrid:
                          "ball_ahead", "ball_left", "ball_right", "ball_reach")
 
     def __init__(self, task, mode="train", seed=0, max_steps=300, tile_size=8,
-                 render_obs=False, emit_labels=False):
+                 render_obs=False, emit_labels=False, eval_seed_mode="pool"):
         assert task in ENV_IDS, f"未知 task={task}，可选 {list(ENV_IDS)}"
+        if eval_seed_mode not in ("pool", "direct"):
+            raise ValueError("eval_seed_mode must be 'pool' or 'direct'")
         self._task = task
         self._is_memory = task in MEMORY_TASKS
         self._cue_start = task in CUE_START_TASKS
@@ -99,7 +104,9 @@ class MiniGrid:
         )
         self._mode = "train" if "train" in mode else "eval"
         self._rng = np.random.RandomState(seed)        # 训练图随机采样用
-        self._eval_seed = seed % TEST_POOL             # eval 起始测试 seed（各 env 错开）
+        self._eval_seed = int(seed)
+        self._eval_seed_mode = eval_seed_mode
+        self._episode_provenance = None
         self._tile = tile_size
         # render_obs=False：obs["image"] 只是 1x1x3 占位。该图训练本就没喂模型
         #   （encoder cnn_keys='$^' 忽略、video_pred_log=false 不做视频），每步全图渲染纯属白耗时。
@@ -166,19 +173,52 @@ class MiniGrid:
 
     def _next_seed(self):
         if self._mode == "train":
-            return int(TRAIN_SEED_START + self._rng.randint(TRAIN_POOL))
-        seed = int(self._eval_seed % TEST_POOL)        # eval：在测试池里循环
+            seed = int(TRAIN_SEED_START + self._rng.randint(TRAIN_POOL))
+            self._requested_seed = seed
+            return seed
+        self._requested_seed = int(self._eval_seed)
+        # Preserve the historical fixed pool unless direct evaluation is explicit.
+        seed = (self._requested_seed % TEST_POOL if self._eval_seed_mode == "pool"
+                else self._requested_seed)
         self._eval_seed += 1
         return seed
 
+    @property
+    def episode_provenance(self):
+        """Audit metadata, deliberately outside the model observation dictionary.
+
+        Different seeds can still generate the same complete initial state. The
+        signature makes that distinction visible rather than claiming that seed
+        uniqueness implies independent environment configurations.
+        """
+        if self._episode_provenance is None:
+            raise RuntimeError("Call reset() before requesting episode provenance")
+        return dict(self._episode_provenance)
+
+    def _record_provenance(self, actual_seed):
+        base = self._env.unwrapped
+        state = {"task": self._task, "grid": base.grid.encode().tolist(),
+                 "agent_pos": [int(v) for v in base.agent_pos],
+                 "agent_dir": int(base.agent_dir), "mission": base.mission,
+                 "carrying": None if base.carrying is None else list(base.carrying.encode())}
+        signature = hashlib.sha256(json.dumps(state, sort_keys=True,
+                                              separators=(",", ":")).encode()).hexdigest()
+        self._episode_provenance = {
+            "requested_seed": self._requested_seed, "actual_seed": int(actual_seed),
+            "eval_seed_mode": self._eval_seed_mode if self._mode == "eval" else "train",
+            "initial_state_signature": signature,
+        }
+
     # ── gym 老接口（4 元组）────────────────────────────────────
     def reset(self):
-        raw, _ = self._env.reset(seed=self._next_seed())
+        actual_seed = self._next_seed()
+        raw, _ = self._env.reset(seed=actual_seed)
         if self._cue_start:
             base = self._env.unwrapped
             base.agent_pos = np.array((1, base.height // 2))
             base.agent_dir = 0
             raw = base.gen_obs()  # 位置改变后必须重建首帧局部观测
+        self._record_provenance(actual_seed)
         self._cue_seen = False       # 新的一局，清空"曾见过 cue"（须在建 obs 前）
         return self._make_obs(raw, True, False, False, 0.0)
 

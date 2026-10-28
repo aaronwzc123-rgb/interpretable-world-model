@@ -16,3 +16,11 @@ metrics.jsonl
 train_eps/
 eval_eps/
 *.tmp
+
+# Local analysis and generated review artifacts.
+/graphify-out/
+/output/
+/tmp/
+
+# Retained revision execution logs are part of the published evidence.
+!/v9/evidence/*.log

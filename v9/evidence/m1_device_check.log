@@ -1,0 +1,51 @@
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+C:\Users\super\Desktop\test\Xdreamer\tools.py:775: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self._scaler = torch.cuda.amp.GradScaler(enabled=use_amp)
+Encoder CNN shapes: {}
+Encoder MLP shapes: {'grid': (148,)}
+Decoder CNN shapes: {}
+Decoder MLP shapes: {'grid': (148,)}
+Grounded shaping head enabled: 1280->1 labels=['cue_is_key'] mask=cue_known scale=1.0 (grad FLOWS into WM — shapes belief)
+Optimizer model_opt has 12850837 variables.
+Optimizer actor_opt has 395525 variables.
+Optimizer value_opt has 459775 variables.
+Encoder CNN shapes: {}
+Encoder MLP shapes: {'grid': (148,)}
+Decoder CNN shapes: {}
+Decoder MLP shapes: {'grid': (148,)}
+Grounded shaping head enabled: 1280->1 labels=['cue_is_key'] mask=cue_known scale=1.0 (grad FLOWS into WM — shapes belief)
+Optimizer model_opt has 12850837 variables.
+Optimizer actor_opt has 395525 variables.
+Optimizer value_opt has 459775 variables.
+{
+  "cpu": {
+    "success_rate": 0.75,
+    "steps_by_seed": {
+      "1000": 9,
+      "1001": 9,
+      "1002": 15,
+      "1003": 15,
+      "1004": 250,
+      "1005": 15,
+      "1006": 250,
+      "1007": 15
+    },
+    "time_limit": 250
+  },
+  "cuda:0": {
+    "success_rate": 0.75,
+    "steps_by_seed": {
+      "1000": 9,
+      "1001": 9,
+      "1002": 15,
+      "1003": 15,
+      "1004": 250,
+      "1005": 15,
+      "1006": 250,
+      "1007": 15
+    },
+    "time_limit": 250
+  }
+}

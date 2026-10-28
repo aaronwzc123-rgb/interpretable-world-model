@@ -1,0 +1,1259 @@
+diff --git a/envs/minigrid.py b/envs/minigrid.py
+--- a/envs/minigrid.py
++++ b/envs/minigrid.py
+@@ -6,9 +6,12 @@
+ - 观察给两路：
+     grid  (148,) float32  —— 喂给模型（符号化 7x7x3 归一化 + 方向），走 MLP encoder。
+     image (H,W,3) uint8   —— 仅供 dreamer 的日志/视频用，模型不看（cnn_keys='$^' 忽略它）。
+-- 训练/测试 seed 严格隔离：train 用 seed>=10000，eval 用测试池 0~199（模型从不在训练里见）。
++- 训练使用 seed>=10000；eval 默认使用 0~199 池，可显式选择 direct seed。不同 seed 不保证不同初始配置。
+ - obs 字典必须含 is_first/is_last/is_terminal（dreamer 约定），log_success 走 log_ 前缀（不喂模型）。
+ """
++import hashlib
++import json
++
+ import gym                      # 老版 gym(0.22)，dreamer 的 wrappers 用它的 spaces
+ import numpy as np
+ import gymnasium               # MiniGrid 基于 gymnasium
+@@ -83,8 +86,10 @@
+                          "ball_ahead", "ball_left", "ball_right", "ball_reach")
+ 
+     def __init__(self, task, mode="train", seed=0, max_steps=300, tile_size=8,
+-                 render_obs=False, emit_labels=False):
++                 render_obs=False, emit_labels=False, eval_seed_mode="pool"):
+         assert task in ENV_IDS, f"未知 task={task}，可选 {list(ENV_IDS)}"
++        if eval_seed_mode not in ("pool", "direct"):
++            raise ValueError("eval_seed_mode must be 'pool' or 'direct'")
+         self._task = task
+         self._is_memory = task in MEMORY_TASKS
+         self._cue_start = task in CUE_START_TASKS
+@@ -99,7 +104,9 @@
+         )
+         self._mode = "train" if "train" in mode else "eval"
+         self._rng = np.random.RandomState(seed)        # 训练图随机采样用
+-        self._eval_seed = seed % TEST_POOL             # eval 起始测试 seed（各 env 错开）
++        self._eval_seed = int(seed)
++        self._eval_seed_mode = eval_seed_mode
++        self._episode_provenance = None
+         self._tile = tile_size
+         # render_obs=False：obs["image"] 只是 1x1x3 占位。该图训练本就没喂模型
+         #   （encoder cnn_keys='$^' 忽略、video_pred_log=false 不做视频），每步全图渲染纯属白耗时。
+@@ -166,19 +173,52 @@
+ 
+     def _next_seed(self):
+         if self._mode == "train":
+-            return int(TRAIN_SEED_START + self._rng.randint(TRAIN_POOL))
+-        seed = int(self._eval_seed % TEST_POOL)        # eval：在测试池里循环
++            seed = int(TRAIN_SEED_START + self._rng.randint(TRAIN_POOL))
++            self._requested_seed = seed
++            return seed
++        self._requested_seed = int(self._eval_seed)
++        # Preserve the historical fixed pool unless direct evaluation is explicit.
++        seed = (self._requested_seed % TEST_POOL if self._eval_seed_mode == "pool"
++                else self._requested_seed)
+         self._eval_seed += 1
+         return seed
+ 
++    @property
++    def episode_provenance(self):
++        """Audit metadata, deliberately outside the model observation dictionary.
++
++        Different seeds can still generate the same complete initial state. The
++        signature makes that distinction visible rather than claiming that seed
++        uniqueness implies independent environment configurations.
++        """
++        if self._episode_provenance is None:
++            raise RuntimeError("Call reset() before requesting episode provenance")
++        return dict(self._episode_provenance)
++
++    def _record_provenance(self, actual_seed):
++        base = self._env.unwrapped
++        state = {"task": self._task, "grid": base.grid.encode().tolist(),
++                 "agent_pos": [int(v) for v in base.agent_pos],
++                 "agent_dir": int(base.agent_dir), "mission": base.mission,
++                 "carrying": None if base.carrying is None else list(base.carrying.encode())}
++        signature = hashlib.sha256(json.dumps(state, sort_keys=True,
++                                              separators=(",", ":")).encode()).hexdigest()
++        self._episode_provenance = {
++            "requested_seed": self._requested_seed, "actual_seed": int(actual_seed),
++            "eval_seed_mode": self._eval_seed_mode if self._mode == "eval" else "train",
++            "initial_state_signature": signature,
++        }
++
+     # ── gym 老接口（4 元组）────────────────────────────────────
+     def reset(self):
+-        raw, _ = self._env.reset(seed=self._next_seed())
++        actual_seed = self._next_seed()
++        raw, _ = self._env.reset(seed=actual_seed)
+         if self._cue_start:
+             base = self._env.unwrapped
+             base.agent_pos = np.array((1, base.height // 2))
+             base.agent_dir = 0
+             raw = base.gen_obs()  # 位置改变后必须重建首帧局部观测
++        self._record_provenance(actual_seed)
+         self._cue_seen = False       # 新的一局，清空"曾见过 cue"（须在建 obs 前）
+         return self._make_obs(raw, True, False, False, 0.0)
+ 
+diff --git a/scripts/audit_m3_existing_results.py b/scripts/audit_m3_existing_results.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/audit_m3_existing_results.py
+@@ -0,0 +1,76 @@
++"""Audit and deduplicate historical M3 records without rerunning the model.
++
++This is a correction of retained observations, not new evaluation evidence.
++"""
++import argparse
++from collections import defaultdict
++import hashlib
++import json
++from pathlib import Path
++import sys
++
++REPO = Path(__file__).resolve().parents[1]
++sys.path[:0] = [str(REPO), str(REPO / 'scripts')]
++from evaluate_m3_corrected_flip import cohort_comparisons, seed_inventory
++
++
++def audit(source, output):
++    original = json.loads(source.read_text(encoding='utf-8'))
++    groups = defaultdict(list)
++    for row in original['records']:
++        groups[int(row['seed']) % 200].append(row)
++    inconsistent = []
++    for seed, rows in groups.items():
++        normalized = [{k: v for k, v in row.items() if k != 'seed'} for row in rows]
++        if any(row != normalized[0] for row in normalized[1:]):
++            inconsistent.append(seed)
++    if inconsistent:
++        raise ValueError(f'Duplicate-seed records differ: {inconsistent}')
++    inventory = seed_inventory(sorted(groups), 'direct', 250)
++    provenance = {p['actual_seed']: p for p in inventory}
++    records = []
++    configurations = defaultdict(list)
++    for seed, rows in sorted(groups.items()):
++        row = dict(rows[0], **provenance[seed])
++        row['historical_requested_seeds'] = [r['seed'] for r in rows]
++        row['seed'] = seed
++        records.append(row)
++        configurations[row['initial_state_signature']].append(row)
++    config_summary = []
++    for signature, rows in configurations.items():
++        exclude = {'seed', 'requested_seed', 'actual_seed', 'eval_seed_mode',
++                   'initial_state_signature', 'historical_requested_seeds'}
++        values = [{k: v for k, v in row.items() if k not in exclude} for row in rows]
++        config_summary.append({
++            'signature': signature, 'n_actual_seeds': len(rows),
++            'actual_seeds': [r['actual_seed'] for r in rows],
++            'all_stored_outcomes_and_timings_identical': all(v == values[0] for v in values),
++            'representative_record': rows[0],
++        })
++    comparisons = cohort_comparisons(records, ['cue_early', 'cue_mid', 'cue_late', 'wall_mid'], 5000)
++    result = {
++        'audit_type': 'deduplication of historical retained records; no new model execution',
++        'source': str(source.resolve()), 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
++        'historical_nominal_records': len(original['records']),
++        'distinct_actual_seeds': len(records), 'distinct_initial_configurations': len(configurations),
++        'duplicate_actual_seed_groups': sum(len(r) > 1 for r in groups.values()),
++        'inconsistent_duplicate_seed_groups': inconsistent,
++        'historical_seed_mapping': 'requested_seed % TEST_POOL, TEST_POOL=200',
++        'statistics_scope': 'Seed-weighted description of a fixed finite pool. Binomial/bootstrap intervals '
++            'are conditional seed-sampling references, not configuration-independent generalisation bounds. '
++            'The configuration table makes the much smaller structural support explicit.',
++        'zero_controls_in_original_source': False,
++        'grounding_at_intervention_in_original_source': 'not recorded',
++        'comparisons': comparisons, 'configuration_summary': config_summary, 'records': records,
++    }
++    output.write_text(json.dumps(result, indent=2), encoding='utf-8')
++    print(json.dumps({k: result[k] for k in ['historical_nominal_records', 'distinct_actual_seeds',
++        'distinct_initial_configurations', 'duplicate_actual_seed_groups', 'inconsistent_duplicate_seed_groups']},indent=2))
++
++
++if __name__ == '__main__':
++    parser = argparse.ArgumentParser()
++    parser.add_argument('--source', required=True, type=Path)
++    parser.add_argument('--out', required=True, type=Path)
++    args = parser.parse_args()
++    audit(args.source, args.out)
+diff --git a/scripts/evaluate_d3_directed_actions.py b/scripts/evaluate_d3_directed_actions.py
+--- a/scripts/evaluate_d3_directed_actions.py
++++ b/scripts/evaluate_d3_directed_actions.py
+@@ -34,6 +34,23 @@
+     return [float(np.quantile(means, .025)), float(np.quantile(means, .975))]
+ 
+ 
++def bootstrap_episode_mean(values, episode_ids, all_episode_ids, draws, seed):
++    """Resample complete episodes, retaining the pooled-state estimand."""
++    values = np.asarray(values, dtype=float)
++    episode_ids = np.asarray(episode_ids)
++    all_episode_ids = np.asarray(all_episode_ids)
++    if not len(values):
++        return [None, None]
++    totals = np.array([values[episode_ids == e].sum() for e in all_episode_ids])
++    counts = np.array([(episode_ids == e).sum() for e in all_episode_ids])
++    rng = np.random.default_rng(seed)
++    selected = rng.integers(0, len(all_episode_ids), (draws, len(all_episode_ids)))
++    denominators = counts[selected].sum(axis=1)
++    valid = denominators > 0
++    means = totals[selected].sum(axis=1)[valid] / denominators[valid]
++    return [float(np.quantile(means, .025)), float(np.quantile(means, .975))]
++
++
+ @torch.no_grad()
+ def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
+     overlays = ["defaults", "minigrid", "minigrid_symbolic_nav"]
+@@ -43,8 +60,14 @@
+     labels = list(wm._sym_head.labels)
+     rows = {label: [] for label in labels}
+     successes = 0
++    actual_seeds = []
+     for seed in range(seed_start, seed_start + episodes):
+         env = ablate_sym.make_env("doorkey6x6", seed, config.time_limit)
++        actual_seed = int(env._eval_seed % ablate_sym.M.TEST_POOL)
++        if actual_seed in actual_seeds:
++            env.close()
++            raise ValueError("Repeated actual evaluation seed; restrict this historical pool audit to at most 200 episodes")
++        actual_seeds.append(actual_seed)
+         obs = env.reset()
+         latent = action = None
+         for step in range(config.time_limit + 1):
+@@ -66,6 +89,8 @@
+                 edited[0, index] = -edited[0, index]
+                 changed_probs = behavior.actor(edited).probs[0].detach().cpu().numpy()
+                 item = {
++                    "actual_seed": actual_seed,
++                    "step": step,
+                     "truth": int(predicted),
+                     "mode_changed": int(base_mode != int(np.argmax(changed_probs))),
+                     "tv": float(.5 * np.abs(changed_probs - base_probs).sum()),
+@@ -96,7 +121,10 @@
+         if effects:
+             summary.update(
+                 mean_semantic_signed_effect=float(np.mean(effects)),
+-                semantic_signed_effect_ci95=bootstrap_mean(effects, bootstrap, 20260815 + index),
++                semantic_signed_effect_ci95=bootstrap_episode_mean(
++                    effects, [x["actual_seed"] for x in items], actual_seeds,
++                    bootstrap, 20260815 + index),
++                state_resampling_ci95_for_comparison=bootstrap_mean(effects, bootstrap, 20260815 + index),
+                 semantic_alignment_rate=float(np.mean(np.asarray(effects) > 0)),
+             )
+         result[label] = summary
+@@ -104,10 +132,13 @@
+         "checkpoint": str(pathlib.Path(checkpoint).resolve()),
+         "episodes": episodes,
+         "evaluation_seeds": [seed_start, seed_start + episodes - 1],
++        "actual_evaluation_seeds": actual_seeds,
++        "uncertainty_unit": "complete episode; pooled-state mean; conditional on one trained checkpoint",
+         "normal_success_rate": successes / episodes,
+         "selection": "states where predicted atom sign equals simulator truth",
+         "directed_metric": "positive means flipped atom changed its named action probability in the edited semantic direction",
+         "atoms": result,
++        "state_records": rows,
+     }
+ 
+ 
+@@ -124,9 +155,11 @@
+     parser.add_argument("--episodes", type=int, default=100)
+     parser.add_argument("--seed-start", type=int, default=1000)
+     parser.add_argument("--bootstrap", type=int, default=5000)
++    parser.add_argument("--torch-threads", type=int, default=1)
+     parser.add_argument("--out")
+     parser.add_argument("--self-test", action="store_true")
+     args = parser.parse_args()
++    torch.set_num_threads(args.torch_threads)
+     if args.self_test:
+         self_test()
+         return
+diff --git a/scripts/evaluate_d3_interface_controls.py b/scripts/evaluate_d3_interface_controls.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/evaluate_d3_interface_controls.py
+@@ -0,0 +1,77 @@
++"""Re-evaluate a fixed D3 actor under soft, sign-only and oracle inputs."""
++import argparse
++import hashlib
++import json
++from pathlib import Path
++import sys
++import time
++
++import numpy as np
++import torch
++
++
++def main():
++    parser = argparse.ArgumentParser()
++    parser.add_argument('--repo', type=Path, required=True)
++    parser.add_argument('--out', type=Path, required=True)
++    parser.add_argument('--episodes', type=int, default=100)
++    parser.add_argument('--device', default='cpu')
++    args = parser.parse_args()
++    torch.set_num_threads(1)
++    sys.path[:0] = [str(args.repo), str(args.repo / 'scripts')]
++    import ablate_sym
++    from envs.minigrid import MiniGrid
++
++    checkpoint = args.repo / 'models/doorkey/doorkey_experiment_3_d3/checkpoint.pt'
++    agent, config = ablate_sym.load(str(checkpoint), args.device,
++                                   ['defaults', 'minigrid', 'minigrid_symbolic_nav'])
++    wm, behavior = agent._wm, agent._task_behavior
++    labels = list(wm._sym_head.labels)
++    records = []
++    began = time.time()
++    with torch.no_grad():
++        for condition in ('soft', 'sign_only', 'oracle_sign'):
++            for seed in range(args.episodes):
++                env = MiniGrid('doorkey6x6', mode='eval', seed=seed,
++                               max_steps=config.time_limit, emit_labels=False,
++                               eval_seed_mode='direct')
++                obs = env.reset()
++                provenance = env.episode_provenance
++                latent = action = None
++                for step in range(config.time_limit + 1):
++                    batch = {k: np.asarray(v)[None] for k, v in obs.items()
++                             if not k.startswith('log_')}
++                    data = wm.preprocess(batch)
++                    latent, _ = wm.dynamics.obs_step(latent, action, wm.encoder(data),
++                                                     data['is_first'], sample=False)
++                    atoms = wm._sym_head.atoms(wm.dynamics.get_feat(latent)).detach()
++                    if condition == 'sign_only':
++                        atoms = torch.where(atoms > 0, torch.ones_like(atoms), -torch.ones_like(atoms))
++                    elif condition == 'oracle_sign':
++                        truth = env.god_state()
++                        atoms = torch.tensor([[1.0 if truth[label] else -1.0 for label in labels]],
++                                             device=args.device)
++                    action = behavior.actor(atoms).mode()
++                    obs, reward, done, _ = env.step(int(action.argmax(-1)[0]))
++                    if done:
++                        records.append(dict(condition=condition, success=bool(reward > 0),
++                                            steps=step + 1, **provenance))
++                        break
++                env.close()
++            print(condition, sum(x['success'] for x in records if x['condition'] == condition),
++                  '/', args.episodes, 'elapsed', round(time.time() - began, 1), flush=True)
++    result = {
++        'checkpoint': str(checkpoint.relative_to(args.repo)),
++        'checkpoint_sha256': hashlib.sha256(checkpoint.read_bytes()).hexdigest(),
++        'purpose': 'post-training input intervention; no policy retraining; oracle is privileged evaluation control',
++        'conditions': {c: {'successes': sum(x['success'] for x in records if x['condition'] == c),
++                           'episodes': args.episodes,
++                           'mean_steps': float(np.mean([x['steps'] for x in records if x['condition'] == c]))}
++                       for c in ('soft', 'sign_only', 'oracle_sign')},
++        'device': args.device, 'torch_threads': 1, 'records': records,
++    }
++    args.out.write_text(json.dumps(result, indent=2), encoding='utf-8')
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/scripts/evaluate_m1_cuestart.py b/scripts/evaluate_m1_cuestart.py
+--- a/scripts/evaluate_m1_cuestart.py
++++ b/scripts/evaluate_m1_cuestart.py
+@@ -1,7 +1,9 @@
+ """Evaluate CueStart continuous-belief memory with episode-disjoint probes."""
+ 
+ import argparse
++import hashlib
+ import json
++import os
+ import pathlib
+ import tempfile
+ import sys
+@@ -10,7 +12,7 @@
+ import torch
+ from sklearn.metrics import balanced_accuracy_score
+ 
+-REPO = pathlib.Path(__file__).resolve().parent.parent
++REPO = pathlib.Path(os.environ.get("XDREAMER_REPO_ROOT", pathlib.Path(__file__).resolve().parent.parent))
+ sys.path.insert(0, str(REPO))
+ 
+ import dreamer
+@@ -26,6 +28,53 @@
+                  "minigrid_memory_cuestart", "minigrid_memory_shape"],
+ }
+ FEATURES = ("grid", "stoch", "deter", "feat")
++
++
++def evaluation_seed_plan(episodes, seed_start=0, eval_seed_mode="pool"):
++    """Reject accidental repeated seeds before collecting model trajectories."""
++    if episodes < 2 or seed_start < 0:
++        raise ValueError("Evaluation needs at least two episodes and nonnegative seeds")
++    if eval_seed_mode not in ("pool", "direct"):
++        raise ValueError("eval_seed_mode must be 'pool' or 'direct'")
++    requested = list(range(seed_start, seed_start + episodes))
++    actual = [s % M.TEST_POOL if eval_seed_mode == "pool" else s for s in requested]
++    if len(set(actual)) != len(actual):
++        raise ValueError("Repeated actual evaluation seeds: pool mode wraps after "
++                         f"{M.TEST_POOL} episodes. Use <= {M.TEST_POOL} episodes or "
++                         "explicit --eval-seed-mode direct with held-out seeds.")
++    if any(M.TRAIN_SEED_START <= s < M.TRAIN_SEED_START + M.TRAIN_POOL for s in actual):
++        raise ValueError("Requested evaluation seeds overlap the training seed pool")
++    return requested, actual
++
++
++def fixed_upper_action(god_state):
++    """A fixed path chosen only from wall geometry, never cue/candidate identity."""
++    return 0 if god_state["wall_ahead"] else 2
++
++
++def grouped_split(rows, split_seed):
++    """Keep every timestep/episode with the same actual seed in one partition."""
++    groups = np.array([r["actual_seed"] for r in rows])
++    unique = np.unique(groups)
++    if len(unique) < 2:
++        raise ValueError("At least two distinct actual seeds are required for a probe split")
++    rng = np.random.RandomState(split_seed)
++    rng.shuffle(unique)
++    cut = max(1, min(len(unique) - 1, int(0.7 * len(unique))))
++    train_seeds, test_seeds = set(unique[:cut]), set(unique[cut:])
++    train = np.array([g in train_seeds for g in groups])
++    train_signatures = {r["initial_state_signature"] for r, keep in zip(rows, train) if keep}
++    test_signatures = {r["initial_state_signature"] for r, keep in zip(rows, train) if not keep}
++    meta = {"grouping_unit": "actual_environment_seed", "split_seed": int(split_seed),
++            "train_actual_seeds": sorted(int(s) for s in train_seeds),
++            "test_actual_seeds": sorted(int(s) for s in test_seeds),
++            "actual_seed_overlap": len(train_seeds & test_seeds),
++            "train_unique_initial_states": len(train_signatures),
++            "test_unique_initial_states": len(test_signatures),
++            "initial_state_overlap": len(train_signatures & test_signatures),
++            "train_episodes": len({r["episode"] for r, keep in zip(rows, train) if keep}),
++            "test_episodes": len({r["episode"] for r, keep in zip(rows, train) if not keep})}
++    return train, ~train, meta
+ 
+ 
+ def score(y, pred):
+@@ -58,13 +107,19 @@
+ 
+ 
+ @torch.no_grad()
+-def collect(agent, config, condition, episodes):
++def collect(agent, config, condition, episodes, seed_start=0, eval_seed_mode="pool",
++            coverage_controller="actor"):
++    if coverage_controller not in ("actor", "fixed_upper"):
++        raise ValueError("coverage_controller must be 'actor' or 'fixed_upper'")
+     rows, successes = [], []
+     emit = condition == "grounded"
+-    for episode in range(episodes):
+-        env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=episode,
+-                         max_steps=config.time_limit, emit_labels=emit)
++    requested, _ = evaluation_seed_plan(episodes, seed_start, eval_seed_mode)
++    for episode, requested_seed in enumerate(requested):
++        env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=requested_seed,
++                         max_steps=config.time_limit, emit_labels=emit,
++                         eval_seed_mode=eval_seed_mode)
+         obs, latent, action = env.reset(), None, None
++        provenance = env.episode_provenance
+         success = False
+         for _ in range(config.time_limit + 1):
+             batch = {k: np.asarray(v)[None] for k, v in obs.items()
+@@ -74,10 +129,15 @@
+             latent, _ = agent._wm.dynamics.obs_step(
+                 latent, action, embed, model_data["is_first"], sample=False)
+             feat = agent._wm.dynamics.get_feat(latent)
+-            action = agent._task_behavior.actor(agent._wm.augment(feat)).mode()
+-            action_index = int(action.argmax(-1)[0].item())
+             g = env.god_state()
+-            rows.append({"episode": episode, "cue": int(g["cue_is_key"]),
++            if coverage_controller == "actor":
++                action = agent._task_behavior.actor(agent._wm.augment(feat)).mode()
++                action_index = int(action.argmax(-1)[0].item())
++            else:
++                action_index = fixed_upper_action(g)
++                action = torch.nn.functional.one_hot(
++                    torch.tensor([action_index], device=config.device), 5).float()
++            rows.append({"episode": episode, **provenance, "cue": int(g["cue_is_key"]),
+                          "visible": bool(g["cue_visible"]), "known": bool(g["cue_known"]),
+                          "decision": bool(g["key_reach"] or g["ball_reach"]),
+                          "grid": np.asarray(obs["grid"], dtype=np.float32),
+@@ -90,17 +150,13 @@
+                 break
+         successes.append(success)
+         env.close()
++        if (episode + 1) % 25 == 0:
++            print(f"Collected {episode + 1}/{episodes} episodes", flush=True)
+     return rows, float(np.mean(successes))
+ 
+ 
+ def evaluate(rows, split_seed, device):
+-    episodes = np.array([r["episode"] for r in rows])
+-    unique = np.unique(episodes)
+-    rng = np.random.RandomState(split_seed)
+-    rng.shuffle(unique)
+-    train_episodes = set(unique[:int(0.7 * len(unique))])
+-    train = np.array([e in train_episodes for e in episodes])
+-    test = ~train
++    train, test, split = grouped_split(rows, split_seed)
+     y = np.array([r["cue"] for r in rows], dtype=np.float32)
+     visible = np.array([r["visible"] for r in rows])
+     known = np.array([r["known"] for r in rows])
+@@ -111,7 +167,8 @@
+     result = {}
+     test_indices = np.flatnonzero(test)
+     local = {index: position for position, index in enumerate(test_indices)}
+-    for feature in FEATURES:
++    for feature_index, feature in enumerate(FEATURES):
++        torch.manual_seed(split_seed + feature_index)
+         x = np.stack([r[feature] for r in rows])
+         train_mask = train & known
+         prediction = (fit_probe(x[train_mask], y[train_mask], x[test], device) > 0.5).astype(int)
+@@ -120,9 +177,8 @@
+             indices = np.flatnonzero(mask)
+             positions = np.array([local[i] for i in indices], dtype=int)
+             result[feature][phase] = score(y[indices].astype(int), prediction[positions])
+-    return result, {"train_episodes": len(train_episodes),
+-                    "test_episodes": len(unique) - len(train_episodes),
+-                    "train_known_steps": int((train & known).sum())}
++    split["train_known_steps"] = int((train & known).sum())
++    return result, split
+ 
+ 
+ def main():
+@@ -131,18 +187,40 @@
+     parser.add_argument("--condition", choices=OVERLAYS, required=True)
+     parser.add_argument("--episodes", type=int, default=150)
+     parser.add_argument("--split-seed", type=int, default=20260813)
++    parser.add_argument("--seed-start", type=int, default=0)
++    parser.add_argument("--eval-seed-mode", choices=("pool", "direct"), default="pool")
++    parser.add_argument("--torch-threads", type=int, default=1)
++    parser.add_argument("--coverage-controller", choices=("actor", "fixed_upper"), default="actor",
++                        help="Actor trajectories or cue-independent fixed upper-branch coverage")
+     parser.add_argument("--device", default="cuda:0")
+     parser.add_argument("--out", required=True)
+     args = parser.parse_args()
++    evaluation_seed_plan(args.episodes, args.seed_start, args.eval_seed_mode)
++    torch.set_num_threads(args.torch_threads)
++    torch.manual_seed(args.split_seed)
+     agent, config = load_agent(args.checkpoint, args.condition, args.device)
+-    rows, success = collect(agent, config, args.condition, args.episodes)
++    rows, success = collect(agent, config, args.condition, args.episodes,
++                            args.seed_start, args.eval_seed_mode, args.coverage_controller)
+     probes, split = evaluate(rows, args.split_seed, args.device)
+     grid_ba = probes["grid"]["pure_memory"]["balanced_accuracy"]
+     belief_ba = max(probes[key]["pure_memory"]["balanced_accuracy"] or 0
+                     for key in ("stoch", "deter", "feat"))
+     result = {"checkpoint": str(pathlib.Path(args.checkpoint).resolve()),
++              "checkpoint_sha256": hashlib.sha256(pathlib.Path(args.checkpoint).read_bytes()).hexdigest(),
++              "command": sys.argv, "device": args.device,
++              "time_limit": int(config.time_limit), "torch_threads": args.torch_threads,
+               "condition": args.condition, "episodes": args.episodes,
+-              "evaluation_seeds": [0, args.episodes - 1], "success_rate": success,
++              "evaluation_seeds": [args.seed_start, args.seed_start + args.episodes - 1],
++              "eval_seed_mode": args.eval_seed_mode,
++              "coverage_controller": args.coverage_controller,
++              "coverage_controller_success_rate": success,
++              "success_rate": success if args.coverage_controller == "actor" else None,
++              "episode_provenance": [
++                  {k: r[k] for k in ("episode", "requested_seed", "actual_seed",
++                                     "initial_state_signature", "cue")}
++                  for r in {r["episode"]: r for r in rows}.values()],
++              "unique_actual_seeds": len({r["actual_seed"] for r in rows}),
++              "unique_initial_states": len({r["initial_state_signature"] for r in rows}),
+               "split": split, "probes": probes,
+               "acceptance": {"threshold_balanced_accuracy": 0.65,
+                              "minimum_gain_over_grid": 0.10,
+diff --git a/scripts/evaluate_m2_head.py b/scripts/evaluate_m2_head.py
+--- a/scripts/evaluate_m2_head.py
++++ b/scripts/evaluate_m2_head.py
+@@ -5,6 +5,7 @@
+ posterior. Results are separated into visible-cue and pure-memory time steps.
+ """
+ import argparse
++import hashlib
+ import json
+ import pathlib
+ import sys
+@@ -22,6 +23,7 @@
+ import envs.minigrid as M
+ import envs.wrappers as wrappers
+ import probe_memory as P
++from scripts.evaluate_m1_cuestart import evaluation_seed_plan, evaluate as evaluate_probes
+ 
+ OVERLAYS = [
+     "defaults", "minigrid", "minigrid_memory", "minigrid_memory_cuestart",
+@@ -67,8 +69,18 @@
+     parser.add_argument("--checkpoint", required=True)
+     parser.add_argument("--episodes", type=int, default=100)
+     parser.add_argument("--device", default="cuda:0")
++    parser.add_argument("--seed-start", type=int, default=0)
++    parser.add_argument("--eval-seed-mode", choices=("pool", "direct"), default="pool")
++    parser.add_argument("--torch-threads", type=int, default=1)
++    parser.add_argument("--offline-probe", action="store_true",
++                        help="Fit separate seed-disjoint linear probes on this same frozen checkpoint")
++    parser.add_argument("--split-seed", type=int, default=20260813)
+     parser.add_argument("--out", required=True)
+     args = parser.parse_args()
++    requested_seeds, actual_seeds = evaluation_seed_plan(
++        args.episodes, args.seed_start, args.eval_seed_mode)
++    torch.set_num_threads(args.torch_threads)
++    torch.manual_seed(args.split_seed)
+ 
+     config = P.build_config(OVERLAYS)
+     config.device = args.device
+@@ -92,13 +104,17 @@
+     head = agent._wm._sym_head
+     cue_index = head.labels.index("cue_is_key")
+     phases = {"all_known": ([], []), "visible": ([], []), "pure_memory": ([], [])}
+-    successes = []
+-    for episode in range(args.episodes):
++    successes, provenance_rows, probe_rows = [], [], []
++    for episode, requested_seed in enumerate(requested_seeds):
+         env = M.MiniGrid(
+-            "memoryS7_cuestart", mode="eval", seed=episode,
++            "memoryS7_cuestart", mode="eval", seed=requested_seed,
+             max_steps=config.time_limit, emit_labels=True,
++            eval_seed_mode=args.eval_seed_mode,
+         )
+         obs = env.reset()
++        provenance = env.episode_provenance
++        provenance_rows.append({"episode": episode, **provenance,
++                                "cue": int(env.god_state()["cue_is_key"])})
+         latent = action = None
+         success = False
+         for _ in range(config.time_limit + 1):
+@@ -115,6 +131,14 @@
+             pred = int(head.atoms(feat)[0, cue_index].item() > 0)
+             g = env.god_state()
+             truth = int(g["cue_is_key"])
++            if args.offline_probe:
++                probe_rows.append({"episode": episode, **provenance, "cue": truth,
++                                   "visible": bool(g["cue_visible"]), "known": bool(g["cue_known"]),
++                                   "decision": bool(g["key_reach"] or g["ball_reach"]),
++                                   "grid": np.asarray(obs["grid"], dtype=np.float32),
++                                   "stoch": latent["stoch"][0].reshape(-1).cpu().numpy(),
++                                   "deter": latent["deter"][0].cpu().numpy(),
++                                   "feat": feat[0].cpu().numpy()})
+             if g["cue_known"]:
+                 phases["all_known"][0].append(truth)
+                 phases["all_known"][1].append(pred)
+@@ -137,12 +161,24 @@
+ 
+     result = {
+         "checkpoint": str(pathlib.Path(args.checkpoint).resolve()),
++        "checkpoint_sha256": hashlib.sha256(pathlib.Path(args.checkpoint).read_bytes()).hexdigest(),
++        "command": sys.argv, "device": args.device,
++        "time_limit": int(config.time_limit), "torch_threads": args.torch_threads,
+         "episodes": args.episodes,
+-        "evaluation_seeds": [0, args.episodes - 1],
++        "evaluation_seeds": [args.seed_start, args.seed_start + args.episodes - 1],
++        "eval_seed_mode": args.eval_seed_mode,
++        "episode_provenance": provenance_rows,
++        "unique_actual_seeds": len(set(actual_seeds)),
++        "unique_initial_states": len({r["initial_state_signature"] for r in provenance_rows}),
+         "coverage_controller": "privileged scripted controller; actions only",
+         "controller_success_rate": float(np.mean(successes)),
+         "cue": {name: metrics(*values) for name, values in phases.items()},
+     }
++    if args.offline_probe:
++        with torch.enable_grad():
++            probes, split = evaluate_probes(probe_rows, args.split_seed, args.device)
++        result["offline_probes_same_checkpoint"] = probes
++        result["offline_probe_split"] = split
+     out = pathlib.Path(args.out)
+     out.parent.mkdir(parents=True, exist_ok=True)
+     out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+diff --git a/scripts/evaluate_m3_corrected_flip.py b/scripts/evaluate_m3_corrected_flip.py
+--- a/scripts/evaluate_m3_corrected_flip.py
++++ b/scripts/evaluate_m3_corrected_flip.py
+@@ -1,6 +1,9 @@
+ """Re-evaluate staged M3 cue flips without counting timeouts as redirection."""
+ 
+ import argparse
++import hashlib
++import time
++from collections import Counter
+ import json
+ import pathlib
+ import sys
+@@ -52,74 +55,169 @@
+         "base": {name: int(np.sum(base_out == name)) for name in labels},
+         "changed": {name: int(np.sum(changed_out == name)) for name in labels},
+         "other_rate_gain": float(paired_gain.mean()) if n else None,
+-        "other_rate_gain_ci95": [float(np.quantile(means, .025)), float(np.quantile(means, .975))],
++        "other_rate_gain_ci95": [float(np.quantile(means, .025)), float(np.quantile(means, .975))] if n and bootstrap else None,
+         "baseline_target_n": target_n,
+         "baseline_target_to_other_rate": target_to_other / target_n if target_n else None,
++        "zero_redirection_upper95_one_sided": 1 - .05 ** (1 / target_n)
++            if target_n and target_to_other == 0 and bootstrap else None,
+         "baseline_target_to_timeout_rate": target_to_timeout / target_n if target_n else None,
+         "transitions": transition,
+     }
+ 
+ 
+-def evaluate(checkpoint, rundir, distill_meta, device, episodes, seed_start, bootstrap):
++def assert_unique_actual_seeds(provenance):
++    actual = [p["actual_seed"] for p in provenance]
++    if len(set(actual)) != len(actual):
++        repeated = {s: n for s, n in Counter(actual).items() if n > 1}
++        raise ValueError(f"Repeated actual evaluation seeds: {repeated}. Use direct mode or reduce the cohort.")
++
++
++def seed_inventory(seeds, seed_mode, time_limit):
++    result = []
++    for seed in seeds:
++        env = stage_c.M.MiniGrid("memoryS7_cuestart", mode="eval", seed=seed,
++                                max_steps=time_limit, eval_seed_mode=seed_mode)
++        try:
++            env.reset()
++            result.append(env.episode_provenance)
++        finally:
++            env.close()
++    assert_unique_actual_seeds(result)
++    return result
++
++
++def result_record(result):
++    trace = result["intervention_trace"]
++    signs = [r["predicted_cue_sign"] for r in trace]
++    return {
++        "outcome": outcome(result), "steps": result["steps"],
++        "truncated": result["truncated"],
++        "initial_state_signature": result["initial_state_signature"],
++        "intervention_operation": result["intervention_operation"],
++        "grounding_at_intervention": trace[0] if trace else None,
++        "intervened_steps": len(trace),
++        "cue_correct_steps": sum(r["cue_sign_correct"] for r in trace),
++        "cue_prediction_sign_switches": sum(a != b for a, b in zip(signs, signs[1:])),
++        "intervention_trace": trace,
++    }
++
++
++def cohort_comparisons(records, names, bootstrap):
++    result = {}
++    for i, name in enumerate(names):
++        selected = [r for r in records if r.get(name) is not None]
++        result[name] = summarize([r["baseline"] for r in selected],
++                                 [r[name] for r in selected], bootstrap, 20260815 + i)
++    return result
++
++
++def evaluate(checkpoint, rundir, distill_meta, device, episodes, seed_start, bootstrap,
++             seed_mode="direct", representative_configs=False, zero_controls=False):
+     agent, config = stage_c.load(checkpoint, device, distill_meta_path=distill_meta, logdir=rundir)
+     wm, behavior = agent._wm, agent._task_behavior
+     assert wm._sym_policy_input == "atoms"
+-    records = []
+-    for seed in range(seed_start, seed_start + episodes):
+-        rows, base_result = stage_c.rollout(wm, behavior, seed, config.time_limit, episode_id=seed)
++    inventory = seed_inventory(range(seed_start, seed_start + episodes), seed_mode, config.time_limit)
++    selected = inventory
++    if representative_configs:
++        by_signature = {}
++        for entry in inventory:
++            by_signature.setdefault(entry["initial_state_signature"], entry)
++        selected = list(by_signature.values())
++    records, skipped = [], []
++    names = ["cue_early", "cue_mid", "cue_late", "wall_mid"]
++    if zero_controls:
++        names += ["zero_all", "zero_cue"]
++    started = time.perf_counter()
++    for episode_i, provenance in enumerate(selected):
++        seed = provenance["requested_seed"]
++        rows, base_result = stage_c.rollout(wm, behavior, seed, config.time_limit,
++                                            episode_id=seed, eval_seed_mode=seed_mode)
+         hide = next((i for i, row in enumerate(rows) if row["cue_known"] and not row["cue_visible"]), None)
+         if hide is None:
++            skipped.append(dict(**provenance, reason="cue_never_hidden_after_known"))
+             continue
+         last = max(hide, len(rows) - 1)
+         points = {"early": hide, "mid": hide + (last - hide) // 2, "late": last}
+         record = {
+-            "seed": seed,
++            "seed": seed, **provenance,
+             "cue_is_key": int(base_result["cue_is_key"]),
+-            "baseline": {"outcome": outcome(base_result), "steps": base_result["steps"]},
+-            "flip_steps": points,
++            "baseline": result_record(base_result), "flip_steps": points,
+         }
+         for timing, step in points.items():
+-            _, result = stage_c.rollout(
+-                wm, behavior, seed, config.time_limit, flip_idx=0, flip_start=step
+-            )
+-            record[f"cue_{timing}"] = {"outcome": outcome(result), "steps": result["steps"]}
+-        _, result = stage_c.rollout(
+-            wm, behavior, seed, config.time_limit, flip_idx=1, flip_start=points["mid"]
+-        )
+-        record["wall_mid"] = {"outcome": outcome(result), "steps": result["steps"]}
++            _, result = stage_c.rollout(wm, behavior, seed, config.time_limit,
++                flip_idx=0, flip_start=step, eval_seed_mode=seed_mode)
++            record[f"cue_{timing}"] = result_record(result)
++        _, result = stage_c.rollout(wm, behavior, seed, config.time_limit,
++            flip_idx=1, flip_start=points["mid"], eval_seed_mode=seed_mode)
++        record["wall_mid"] = result_record(result)
++        if zero_controls:
++            for mode in ("zero_all", "zero_cue"):
++                _, result = stage_c.rollout(wm, behavior, seed, config.time_limit,
++                    force_register=mode, eval_seed_mode=seed_mode)
++                record[mode] = result_record(result)
+         records.append(record)
+-
+-    base = [x["baseline"] for x in records]
+-    comparisons = {
+-        name: summarize(base, [x[name] for x in records], bootstrap, 20260815 + i)
+-        for i, name in enumerate(("cue_early", "cue_mid", "cue_late", "wall_mid"))
+-    }
+-    primary = comparisons["cue_mid"]
+-    control = comparisons["wall_mid"]
+-    supported = bool(
+-        primary["other_rate_gain"] >= .20
++        print(f"[progress] {episode_i + 1}/{len(selected)} seed={seed} "
++              f"baseline={record['baseline']['outcome']} elapsed={time.perf_counter()-started:.1f}s", flush=True)
++
++    if representative_configs:
++        bootstrap = 0  # finite configuration census: descriptive counts, no sampling intervals
++    comparisons = cohort_comparisons(records, names, bootstrap)
++    grounding_comparisons = {}
++    grounding_coverage = {}
++    for name in ("cue_early", "cue_mid", "cue_late"):
++        correct = [r for r in records if r[name]["grounding_at_intervention"] and
++                   r[name]["grounding_at_intervention"]["cue_sign_correct"]]
++        grounding_comparisons[name] = cohort_comparisons(correct, [name], bootstrap)[name]
++        grounding_coverage[name] = {
++            "evaluated": len(records), "grounding_correct_at_start": len(correct),
++            "baseline_target_grounding_correct": sum(r["baseline"]["outcome"] == "target" for r in correct),
++            "continuous_cue_correct": sum(r[name]["cue_correct_steps"] == r[name]["intervened_steps"]
++                                           and r[name]["intervened_steps"] > 0 for r in records),
++            "trajectories_with_cue_prediction_sign_switch": sum(r[name]["cue_prediction_sign_switches"] > 0
++                                                                  for r in records),
++        }
++    primary, control = comparisons["cue_mid"], comparisons["wall_mid"]
++    supported = bool(primary["n"] and primary["other_rate_gain"] >= .20
++        and primary["other_rate_gain_ci95"] is not None
+         and primary["other_rate_gain_ci95"][0] > 0
+         and primary["baseline_target_to_other_rate"] is not None
+         and primary["baseline_target_to_other_rate"] >= .50
+         and primary["baseline_target_to_other_rate"] > primary["baseline_target_to_timeout_rate"]
+-        and primary["other_rate_gain"] >= control["other_rate_gain"] + .10
+-    )
++        and primary["other_rate_gain"] >= control["other_rate_gain"] + .10)
++    signatures = Counter(p["initial_state_signature"] for p in inventory)
+     return {
++        "schema_version": 2,
+         "checkpoint": str(pathlib.Path(checkpoint).resolve()),
+-        "episodes_requested": episodes,
+-        "episodes_valid": len(records),
++        "checkpoint_sha256": hashlib.sha256(pathlib.Path(checkpoint).read_bytes()).hexdigest(),
++        "distill_meta": str(pathlib.Path(distill_meta).resolve()),
++        "device": device, "time_limit": config.time_limit,
++        "bootstrap_resamples": bootstrap,
++        "inferential_intervals_enabled": bool(bootstrap) and not representative_configs,
++        "episodes_requested": episodes, "episodes_evaluated": len(selected),
++        "episodes_valid": len(records), "skipped": skipped,
+         "evaluation_seeds": [seed_start, seed_start + episodes - 1],
+-        "outcome_definition": "target/edited-target(other)/timeout/neither; timeout is never redirection",
++        "eval_seed_mode": seed_mode, "unique_actual_seeds": len(inventory),
++        "unique_initial_state_signatures": len(signatures),
++        "initial_state_multiplicities": dict(signatures), "seed_inventory": inventory,
++        "representative_config_diagnostic": representative_configs,
++        "sampling_statement": ("One newly executed rollout per initial configuration and condition; "
++            "unweighted descriptive diagnostic, NOT a fresh run for each seed or an independent sample expansion."
++            if representative_configs else "One newly executed rollout per actual seed and condition. "
++            "Distinct seeds need not produce distinct initial configurations; report multiplicities."),
++        "intervention_operation": "negate_current_output at every step from the selected onset; "
++            "not a fixed counterfactual value and not a truth-labelled flip",
++        "outcome_definition": "target/other/timeout/neither; timeout is never redirection",
++        "zero_controls_in_this_cohort": zero_controls,
+         "primary_condition": "cue_mid",
+         "predeclared_support_gate": {
+-            "other_gain_min": .20,
+-            "paired_ci_lower_above_zero": True,
++            "other_gain_min": .20, "paired_ci_lower_above_zero": True,
+             "baseline_target_to_other_min": .50,
+             "target_to_other_exceeds_target_to_timeout": True,
+-            "cue_gain_exceeds_wall_gain_by": .10,
+-            "passed": supported,
++            "cue_gain_exceeds_wall_gain_by": .10, "passed": supported,
+         },
+-        "comparisons": comparisons,
++        "comparisons": comparisons, "grounding_correct_comparisons": grounding_comparisons,
++        "grounding_coverage": grounding_coverage,
++        "elapsed_seconds": time.perf_counter() - started,
+         "records": records,
+     }
+ 
+@@ -149,6 +247,11 @@
+     parser.add_argument("--episodes", type=int, default=100)
+     parser.add_argument("--seed-start", type=int, default=1000)
+     parser.add_argument("--bootstrap", type=int, default=5000)
++    parser.add_argument("--seed-mode", choices=("pool", "direct"), default="direct")
++    parser.add_argument("--representative-configs", action="store_true",
++                        help="execute only one seed per initial state; descriptive diagnostic only")
++    parser.add_argument("--zero-controls", action="store_true")
++    parser.add_argument("--torch-threads", type=int, default=1)
+     parser.add_argument("--out")
+     parser.add_argument("--self-test", action="store_true")
+     args = parser.parse_args()
+@@ -158,9 +261,13 @@
+     missing = [name for name in ("checkpoint", "rundir", "distill_meta", "out") if not getattr(args, name)]
+     if missing:
+         parser.error("required unless --self-test: " + ", ".join(missing))
++    import torch
++    torch.set_num_threads(args.torch_threads)
++    torch.set_num_interop_threads(1)
+     result = evaluate(
+         args.checkpoint, args.rundir, args.distill_meta, args.device,
+-        args.episodes, args.seed_start, args.bootstrap,
++        args.episodes, args.seed_start, args.bootstrap, args.seed_mode,
++        args.representative_configs, args.zero_controls,
+     )
+     pathlib.Path(args.out).write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+     print(json.dumps({
+diff --git a/scripts/staged_stage_c_eval.py b/scripts/staged_stage_c_eval.py
+--- a/scripts/staged_stage_c_eval.py
++++ b/scripts/staged_stage_c_eval.py
+@@ -70,16 +70,27 @@
+ 
+ @torch.no_grad()
+ def rollout(wm, behavior, seed, tl, episode_id=None, want_actions=False,
+-            flip_idx=None, flip_start=None, force_register=None):
++            flip_idx=None, flip_start=None, force_register=None,
++            eval_seed_mode="pool", flip_mode="negate_current_output", fixed_flip_value=None):
+     """无回流架构：atoms 只读不回流进 obs，但 flip 实验需要"篡改 actor 看到的 atoms"——
+     通过 force_register 参数在 augment 前替换 atoms 实现（等价于寄存器篡改，只是没有真的
+     寄存器，直接在算 policy 输入这一步替换）。"""
+-    env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=seed, max_steps=tl, render_obs=False, emit_labels=False)
++    if tl <= 0:
++        raise ValueError("time limit must be positive")
++    if flip_mode not in ("negate_current_output", "fixed_value"):
++        raise ValueError("unknown flip mode")
++    if flip_idx is not None and flip_mode == "fixed_value" and fixed_flip_value is None:
++        raise ValueError("fixed_value intervention requires an explicit fixed_flip_value")
++    env = M.MiniGrid("memoryS7_cuestart", mode="eval", seed=seed, max_steps=tl,
++                     render_obs=False, emit_labels=False, eval_seed_mode=eval_seed_mode)
+     obs = env.reset()
++    provenance = env.episode_provenance
+     latent, action = None, None
+     rows, succ, t = [], False, 0
+     acts = []
+-    for t in range(tl + 1):
++    info = {}
++    intervention_trace = []
++    for t in range(tl):
+         obs_b = {k: np.array(v)[None] for k, v in obs.items() if not k.startswith("log_")}
+         data = wm.preprocess(obs_b)
+         embed = wm.encoder(data)
+@@ -87,8 +98,10 @@
+         feat = wm.dynamics.get_feat(latent)
+         atoms_t = wm._sym_head.atoms(feat).detach()
+         pol_atoms = atoms_t.clone()
+-        if flip_idx is not None and flip_start is not None and t >= flip_start:
+-            pol_atoms[0, flip_idx] = -pol_atoms[0, flip_idx]
++        intervened = flip_idx is not None and flip_start is not None and t >= flip_start
++        if intervened:
++            pol_atoms[0, flip_idx] = (-pol_atoms[0, flip_idx] if flip_mode == "negate_current_output"
++                                      else float(fixed_flip_value))
+         if force_register == "zero_all":
+             pol_atoms = torch.zeros_like(pol_atoms)
+         elif force_register == "zero_cue":
+@@ -100,9 +113,23 @@
+         if want_actions:
+             acts.append(a_idx)
+         g = env.god_state()
+-        rows.append(dict(atoms=atoms_t[0].cpu().numpy(), cue_is_key=int(g["cue_is_key"]),
+-                          cue_known=bool(g["cue_known"]), cue_visible=bool(g["cue_visible"]),
++        predicted_atoms = atoms_t[0].cpu().numpy()
++        policy_atoms = pol_atoms[0].cpu().numpy()
++        cue_correct = bool(g["cue_known"] and predicted_atoms[0] != 0 and
++                           (predicted_atoms[0] > 0) == bool(g["cue_is_key"]))
++        rows.append(dict(atoms=predicted_atoms, policy_atoms=policy_atoms,
++                          cue_is_key=int(g["cue_is_key"]), cue_known=bool(g["cue_known"]),
++                          cue_visible=bool(g["cue_visible"]), cue_sign_correct=cue_correct,
+                           episode=episode_id))
++        if intervened:
++            intervention_trace.append(dict(
++                step=t, cue_truth=int(g["cue_is_key"]), cue_known=bool(g["cue_known"]),
++                cue_visible=bool(g["cue_visible"]), predicted_cue=float(predicted_atoms[0]),
++                predicted_cue_sign=int(np.sign(predicted_atoms[0])),
++                predicted_cue_magnitude=float(abs(predicted_atoms[0])),
++                cue_sign_correct=cue_correct, policy_cue=float(policy_atoms[0]),
++                edited_atom_index=int(flip_idx), predicted_atoms=predicted_atoms.tolist(),
++                policy_atoms=policy_atoms.tolist()))
+         obs, r, done, info = env.step(a_idx)
+         if done:
+             succ = bool(r > 0)
+@@ -110,10 +137,13 @@
+             break
+     else:
+         final_g = env.god_state()
++        info["discount"] = np.float32(1.0)
+     env.close()
+     return rows, dict(success=succ, steps=t + 1, final_pos=final_g["agent_pos"],
+                        key_pos=final_g["key_pos"], ball_pos=final_g["ball_pos"],
+-                       cue_is_key=final_g["cue_is_key"], truncated="discount" in info, actions=acts)
++                       cue_is_key=final_g["cue_is_key"], truncated="discount" in info, actions=acts,
++                       **provenance, intervention_operation=flip_mode if flip_idx is not None else None,
++                       fixed_flip_value=fixed_flip_value, intervention_trace=intervention_trace)
+ 
+ 
+ def report(mask, atom, y, name):
+@@ -260,20 +290,22 @@
+         flip_done = True
+ 
+         def scan_and_flip(seed, flip_idx):
+-            rows, _ = rollout(wm, behavior, seed, config.time_limit, episode_id=seed)
++            rows, baseline_out = rollout(wm, behavior, seed, config.time_limit, episode_id=seed)
+             hide_step = next((i for i, r in enumerate(rows) if r["cue_known"] and not r["cue_visible"]), None)
+             if hide_step is None:
+-                return None, None
++                return None, None, baseline_out
+             n = len(rows)
+             early, mid, late = int(n * 0.2) + hide_step, hide_step + max(1, (n - hide_step) // 2), max(hide_step, n - 3)
+-            return hide_step, dict(early=early, mid=mid, late=late)
+-
++            return hide_step, dict(early=early, mid=mid, late=late), baseline_out
++
++        baseline_results = []
+         timing_results = {"early": [], "mid": [], "late": []}
+         ctrl_results = []
+         for i in range(N_FLIP):
+-            hide_step, points = scan_and_flip(1000 + i, 0)
++            hide_step, points, baseline_out = scan_and_flip(1000 + i, 0)
+             if hide_step is None:
+                 continue
++            baseline_results.append(baseline_out)
+             for tname, tstep in points.items():
+                 _, flip_out = rollout(wm, behavior, 1000 + i, config.time_limit, flip_idx=0, flip_start=tstep)
+                 timing_results[tname].append(flip_out)
+@@ -283,9 +315,14 @@
+         flip_lines = []
+         redirect_rates = []
+         for tname, results in timing_results.items():
+-            n_flip_to_wrong = sum(1 for r in results if not r["success"])  # success=选中真实cue对应门
+-            redirect_rates.append(n_flip_to_wrong / len(results) if results else float("nan"))
+-            line = f"  主实验[{tname}翻cue] 有效局={len(results)}: 仍选真实cue(success)={sum(r['success'] for r in results)}  走向翻转后错误门={n_flip_to_wrong}"
++            # A timeout is disruption; only successful-baseline -> opposite endpoint is redirection.
++            from evaluate_m3_corrected_flip import outcome
++            eligible = [(b, r) for b, r in zip(baseline_results, results) if outcome(b) == "target"]
++            n_flip_to_wrong = sum(outcome(r) == "other" for _, r in eligible)
++            n_to_timeout = sum(outcome(r) == "timeout" for _, r in eligible)
++            redirect_rates.append(n_flip_to_wrong / len(eligible) if eligible else float("nan"))
++            line = (f"  主实验[{tname}翻cue] 有效局={len(results)}, 基线正确={len(eligible)}: "
++                    f"正确基线转向另一终点={n_flip_to_wrong}, 正确基线转为超时={n_to_timeout}")
+             print(line); flip_lines.append(line)
+         flip_redirect_rate = float(np.mean(redirect_rates)) if redirect_rates else None
+         ctrl_success_rate = float(np.mean([r["success"] for r in ctrl_results])) if ctrl_results else None
+@@ -300,7 +337,9 @@
+     with out_log.open("a", encoding="utf-8") as f:
+         f.write("\n".join(md) + "\n---\n\n")
+ 
+-    summary = dict(success_rate=rate, avg_steps=float(np.mean(lens)),
++    summary = dict(sample_sizes={"success": N_EVAL, "cue_probe": N_PROBE, "zero_controls": N_ABL,
++                                 "per_atom_zero": 20, "endpoint_association": 100, "flip_requested": N_FLIP},
++          eval_seed_mode="pool", success_rate=rate, avg_steps=float(np.mean(lens)),
+           gate_b_all=res_all, gate_b_mem=res_mem, pred_pos_rate_mem=pred_pos_rate,
+           by_cue=by_cue, n_timeout=n_timeout, flip_done=flip_done, ablation=abl_rates,
+           flip_redirect_rate=flip_redirect_rate, ctrl_success_rate=ctrl_success_rate)
+diff --git a/tests/test_episode_bootstrap.py b/tests/test_episode_bootstrap.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_episode_bootstrap.py
+@@ -0,0 +1,17 @@
++import unittest
++
++from scripts.evaluate_d3_directed_actions import bootstrap_episode_mean
++
++
++class EpisodeBootstrapTests(unittest.TestCase):
++    def test_identical_within_episode_states_do_not_increase_precision(self):
++        short = bootstrap_episode_mean([0, 1], [0, 1], [0, 1], 2000, 12)
++        repeated = bootstrap_episode_mean([0] * 100 + [1] * 100,
++                                          [0] * 100 + [1] * 100,
++                                          [0, 1], 2000, 12)
++        self.assertEqual(short, repeated)
++        self.assertEqual(short, [0.0, 1.0])
++
++    def test_constant_effect(self):
++        self.assertEqual(bootstrap_episode_mean([0.4] * 4, [0, 0, 1, 1],
++                                               [0, 1], 100, 0), [0.4, 0.4])
+diff --git a/tests/test_evaluation_seed_provenance.py b/tests/test_evaluation_seed_provenance.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_evaluation_seed_provenance.py
+@@ -0,0 +1,103 @@
++"""Regressions for seed wrapping and evaluation partition leakage."""
++import sys
++import unittest
++from pathlib import Path
++
++import numpy as np
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
++from envs.minigrid import MiniGrid, TRAIN_SEED_START, TRAIN_POOL
++from scripts.evaluate_m1_cuestart import evaluation_seed_plan, grouped_split, fixed_upper_action
++
++
++class EvaluationSeedTests(unittest.TestCase):
++    def reset_provenance(self, seed, mode="pool", train=False):
++        env = MiniGrid("memoryS7_cuestart", mode="train" if train else "eval",
++                       seed=seed, eval_seed_mode=mode)
++        try:
++            observation = env.reset()
++            self.assertNotIn("actual_seed", observation)
++            self.assertNotIn("initial_state_signature", observation)
++            return env.episode_provenance
++        finally:
++            env.close()
++
++    def test_historical_pool_wraps_and_records_both_seed_values(self):
++        first = self.reset_provenance(0)
++        wrapped = self.reset_provenance(200)
++        self.assertEqual(wrapped["requested_seed"], 200)
++        self.assertEqual(wrapped["actual_seed"], 0)
++        self.assertEqual(first["initial_state_signature"], wrapped["initial_state_signature"])
++
++    def test_direct_mode_does_not_wrap_and_increments_on_reset(self):
++        env = MiniGrid("memoryS7_cuestart", mode="eval", seed=1199,
++                       eval_seed_mode="direct")
++        try:
++            env.reset()
++            self.assertEqual(env.episode_provenance["actual_seed"], 1199)
++            env.reset()
++            self.assertEqual(env.episode_provenance["actual_seed"], 1200)
++        finally:
++            env.close()
++
++    def test_eval_option_does_not_change_training_seed_stream(self):
++        pool = self.reset_provenance(123, "pool", train=True)
++        direct = self.reset_provenance(123, "direct", train=True)
++        expected = TRAIN_SEED_START + np.random.RandomState(123).randint(TRAIN_POOL)
++        self.assertEqual(pool["actual_seed"], expected)
++        self.assertEqual(pool, direct)
++
++    def test_repeated_eval_seeds_fail_before_rollout(self):
++        with self.assertRaisesRegex(ValueError, "Repeated actual"):
++            evaluation_seed_plan(500, 0, "pool")
++        _, actual = evaluation_seed_plan(200, 1000, "direct")
++        self.assertEqual(actual, list(range(1000, 1200)))
++
++    def test_evaluator_rejects_training_seed_overlap(self):
++        with self.assertRaisesRegex(ValueError, "training seed pool"):
++            evaluation_seed_plan(200, 9990, "direct")
++
++    def test_grouped_split_keeps_repeated_episode_seeds_together(self):
++        rows = [{"episode": i, "actual_seed": i % 200,
++                 "initial_state_signature": f"configuration-{i % 4}"}
++                for i in range(500)]
++        train, test, meta = grouped_split(rows, 20260813)
++        train_seeds = {r["actual_seed"] for r, keep in zip(rows, train) if keep}
++        test_seeds = {r["actual_seed"] for r, keep in zip(rows, test) if keep}
++        self.assertEqual(train_seeds & test_seeds, set())
++        self.assertEqual(meta["actual_seed_overlap"], 0)
++        self.assertEqual(meta["initial_state_overlap"], 4)
++        self.assertTrue(np.all(train ^ test))
++
++    def test_fixed_upper_controller_never_reads_cue_or_object_identity(self):
++        self.assertEqual(fixed_upper_action({"wall_ahead": False}), 2)
++        self.assertEqual(fixed_upper_action({"wall_ahead": True}), 0)
++        for wall in (False, True):
++            left_cue = {"wall_ahead": wall, "cue_is_key": False, "key_left": True}
++            right_cue = {"wall_ahead": wall, "cue_is_key": True, "key_left": False}
++            self.assertEqual(fixed_upper_action(left_cue), fixed_upper_action(right_cue))
++
++    def test_fixed_upper_coverage_is_six_step_path_on_all_four_initial_states(self):
++        paths = {}
++        for seed in range(32):
++            env = MiniGrid("memoryS7_cuestart", mode="eval", seed=seed,
++                           eval_seed_mode="direct", max_steps=20)
++            try:
++                env.reset()
++                actions = []
++                for _ in range(20):
++                    action = fixed_upper_action(env.god_state())
++                    actions.append(action)
++                    _, _, done, _ = env.step(action)
++                    if done:
++                        break
++                self.assertTrue(done)
++                self.assertEqual(actions, [2, 2, 2, 2, 0, 2])
++                paths[env.episode_provenance["initial_state_signature"]] = actions
++            finally:
++                env.close()
++        self.assertEqual(len(paths), 4)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_m3_evaluation_audit.py b/tests/test_m3_evaluation_audit.py
+new file mode 100644
+--- /dev/null
++++ b/tests/test_m3_evaluation_audit.py
+@@ -0,0 +1,80 @@
++"""Regression checks for actual-seed accounting and M3 intervention semantics."""
++import sys
++from pathlib import Path
++from types import SimpleNamespace
++import unittest
++import numpy as np
++import torch
++
++HERE = Path(__file__).resolve()
++REPO = HERE.parents[1]
++sys.path[:0] = [str(HERE.parents[1] / 'scripts'), str(REPO / 'scripts'), str(REPO)]
++import evaluate_m3_corrected_flip as evaluation
++import staged_stage_c_eval as sc
++
++
++class FakeHead:
++    def __init__(self): self.index = 0
++    def atoms(self, feat):
++        values = [-.3, .2, -.1]
++        value = values[self.index % len(values)]
++        self.index += 1
++        return torch.tensor([[value, .4, -.5, .6, -.7, .8, -.9, .1, -.2, .3]])
++
++
++def fake_components():
++    wm = SimpleNamespace(preprocess=lambda x:x, encoder=lambda x:None,
++        dynamics=SimpleNamespace(obs_step=lambda *a, **k:(None,None), get_feat=lambda x:None),
++        _sym_head=FakeHead())
++    behavior = SimpleNamespace(actor=lambda atoms:SimpleNamespace(mode=lambda:torch.tensor([[1.,0.,0.,0.,0.]])))
++    return wm, behavior
++
++
++class M3EvaluationAuditTests(unittest.TestCase):
++    def test_wraparound_is_rejected_before_rollouts(self):
++        with self.assertRaisesRegex(ValueError, 'Repeated actual'):
++            evaluation.seed_inventory(range(201), 'pool', 3)
++        inventory = evaluation.seed_inventory(range(201), 'direct', 3)
++        self.assertEqual(len({p['actual_seed'] for p in inventory}),201)
++        self.assertEqual(inventory[-1]['actual_seed'],200)
++
++    def test_timeout_near_alternative_endpoint_never_redirects(self):
++        row = dict(truncated=True, final_pos=(5,4), key_pos=(1,1), ball_pos=(5,5),cue_is_key=1)
++        self.assertEqual(evaluation.outcome(row), 'timeout')
++        result = evaluation.summarize([{'outcome':'target'}],[{'outcome':evaluation.outcome(row)}],10,0)
++        self.assertEqual(result['baseline_target_to_other_rate'],0)
++        self.assertEqual(result['baseline_target_to_timeout_rate'],1)
++
++    def test_timeout_stops_at_exact_environment_limit(self):
++        wm, behavior = fake_components()
++        rows, result = sc.rollout(wm, behavior, 0, 3, eval_seed_mode='direct')
++        self.assertEqual(result['steps'],3)
++        self.assertEqual(len(rows),3)
++        self.assertTrue(result['truncated'])
++        self.assertEqual(result['actual_seed'],0)
++
++    def test_negation_tracks_current_output_and_preserves_other_atoms(self):
++        wm, behavior = fake_components()
++        _, result = sc.rollout(wm, behavior, 0, 3, flip_idx=0, flip_start=0, eval_seed_mode='direct')
++        trace = result['intervention_trace']
++        np.testing.assert_allclose([r['policy_cue'] for r in trace],[.3,-.2,.1])
++        for row in trace:
++            np.testing.assert_array_equal(row['predicted_atoms'][1:],row['policy_atoms'][1:])
++        self.assertEqual(result['intervention_operation'],'negate_current_output')
++
++    def test_fixed_value_is_explicit_and_distinct(self):
++        wm, behavior = fake_components()
++        with self.assertRaisesRegex(ValueError,'requires an explicit'):
++            sc.rollout(wm, behavior, 0, 3, flip_idx=0, flip_start=0, flip_mode='fixed_value')
++        _, result = sc.rollout(wm, behavior, 0, 3, flip_idx=0, flip_start=0,
++            flip_mode='fixed_value', fixed_flip_value=.8, eval_seed_mode='direct')
++        np.testing.assert_allclose([r['policy_cue'] for r in result['intervention_trace']],[.8,.8,.8])
++
++    def test_no_intervals_for_descriptive_summary(self):
++        result=evaluation.summarize([{'outcome':'target'}],[{'outcome':'timeout'}],0,0)
++        self.assertIsNone(result['other_rate_gain_ci95'])
++        self.assertIsNone(result['zero_redirection_upper95_one_sided'])
++
++
++if __name__ == '__main__':
++    unittest.main()

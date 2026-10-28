@@ -1,0 +1,64 @@
+{
+  "source": "d3_episode_clustered.json",
+  "source_sha256": "56bd31e29b291b283c19f0c31c80bfea1ef81436743815efe0548ba8c4abc0ac",
+  "method": "Percentile bootstrap of 100 complete episodes; pooled-state mean",
+  "all_intervals_match_exactly": true,
+  "intervals": [
+    {
+      "label": "t_ahead",
+      "bootstrap_draws": 5000,
+      "bootstrap_seed": 20260819,
+      "saved_interval": [
+        0.4955920208588139,
+        0.5186753026486098
+      ],
+      "recomputed_interval": [
+        0.4955920208588139,
+        0.5186753026486098
+      ],
+      "exact_match": true
+    },
+    {
+      "label": "t_left",
+      "bootstrap_draws": 5000,
+      "bootstrap_seed": 20260820,
+      "saved_interval": [
+        0.0002464049773653792,
+        0.0002744110418124973
+      ],
+      "recomputed_interval": [
+        0.0002464049773653792,
+        0.0002744110418124973
+      ],
+      "exact_match": true
+    },
+    {
+      "label": "t_right",
+      "bootstrap_draws": 5000,
+      "bootstrap_seed": 20260821,
+      "saved_interval": [
+        0.0011581905329773458,
+        0.0017164969334862493
+      ],
+      "recomputed_interval": [
+        0.0011581905329773458,
+        0.0017164969334862493
+      ],
+      "exact_match": true
+    },
+    {
+      "label": "wall_ahead",
+      "bootstrap_draws": 5000,
+      "bootstrap_seed": 20260823,
+      "saved_interval": [
+        0.3717887660845314,
+        0.3969536207966961
+      ],
+      "recomputed_interval": [
+        0.3717887660845314,
+        0.3969536207966961
+      ],
+      "exact_match": true
+    }
+  ]
+}

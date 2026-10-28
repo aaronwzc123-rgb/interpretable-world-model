@@ -2,3 +2,9 @@
 *.npz binary
 *.png binary
 *.pdf binary
+
+# Keep canonical source digests consistent in Windows and POSIX checkouts.
+*.py text eol=lf
+
+# Preserve archived bytes, including original whitespace, on every platform.
+/v9/** -text -whitespace

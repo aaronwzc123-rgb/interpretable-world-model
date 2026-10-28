@@ -1,0 +1,2726 @@
+{
+  "checkpoint": "models\\doorkey\\doorkey_experiment_3_d3\\checkpoint.pt",
+  "checkpoint_sha256": "cc37e71075a88725508cd96e9f8d89ddc8e7c5cbef4ab99d51199f1c6f32502e",
+  "purpose": "post-training input intervention; no policy retraining; oracle is privileged evaluation control",
+  "conditions": {
+    "soft": {
+      "successes": 100,
+      "episodes": 100,
+      "mean_steps": 14.68
+    },
+    "sign_only": {
+      "successes": 13,
+      "episodes": 100,
+      "mean_steps": 262.72
+    },
+    "oracle_sign": {
+      "successes": 100,
+      "episodes": 100,
+      "mean_steps": 14.64
+    }
+  },
+  "device": "cpu",
+  "torch_threads": 1,
+  "records": [
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 0,
+      "actual_seed": 0,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ade985eacec06c98524da2603d1d458f797b2ab70235532bed6eb274b7e52154"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 1,
+      "actual_seed": 1,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4c9b916f40d56dedfcbe6d8699021a7fba6a51b0c0a9b30e603d7f41590da324"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 2,
+      "actual_seed": 2,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7388d268ae0ff18af6bd459ea02171a9271309eac5c0f341ab193840fcd33b42"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 3,
+      "actual_seed": 3,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "aec5e968336ea454ac1166846e3561412594bb1cfb3630cb9e0f72ad31926b07"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 4,
+      "actual_seed": 4,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c4167504c0711a083fefbeddc4994ca9822843138878de55d9aeeb4bcaaca7d4"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 5,
+      "actual_seed": 5,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e166de636bb623a58c8928c61265e2f479b8ae38bd035767e8687422e3fb30d0"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 6,
+      "actual_seed": 6,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "9e44f046e738e75b8d18bb1778ed36a417a769ecb5c75afeb5b4e73605fcb8c7"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 7,
+      "actual_seed": 7,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 8,
+      "actual_seed": 8,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "38e345edcb0a8b67961181bc66ffb8c1647c6809071e18a1e7afea117c44df89"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 9,
+      "actual_seed": 9,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0341135f221814b591bdc86e9546524be735a76e56f56e2d2d66d660c6f9a087"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 10,
+      "actual_seed": 10,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1ae90df99b0f428956f5664ab5185ad0370fc6a8b41c8b0c8021fe20d3956edf"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 11,
+      "actual_seed": 11,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5994b589b7366f4bf0931593231c53f2fb3814be046f20ef31f7dfdc2e3816c7"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 12,
+      "actual_seed": 12,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "66ad8fbfc75baaab528fe030446625754926d5f312686ed2fc1b856fc7cb6fbc"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 13,
+      "actual_seed": 13,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2057f44a08cfb49fd080e237788cd754780d4a1a0ff078d99897e569008b18cc"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 14,
+      "actual_seed": 14,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "602f928cf128abeea5f2cb60aa58608838ef28f25efe55f9435403ff8e7d2256"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 15,
+      "actual_seed": 15,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8328120efe3712493df5bc2e566af1f36d6b1cf5e589bb5c25a67ad0f2f2e429"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 16,
+      "actual_seed": 16,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "67fb5375eb6830851b9f4bb1dcc036fdbbee81866549e03c37816a465884e121"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 17,
+      "actual_seed": 17,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2d05d21136ae6a7b42a6533d164c845076e552e89cd55ac918f47b7d29d7023e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 18,
+      "actual_seed": 18,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "41d2a8a0c84570db1f826b3886cede37d0e9b200cd0e3c0908a3e921cce0718f"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 19,
+      "actual_seed": 19,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d9f89f078cd2223ad8bcfd327c7688940b4dab15c1fce483ff433a2f450dfc61"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 20,
+      "actual_seed": 20,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0bb9787c99e489c28c5b79f130065244502381c6b47bd86b88000db2d7432877"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 21,
+      "actual_seed": 21,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 22,
+      "actual_seed": 22,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "fad7d8ee6caaa2fe394eb594b8807befce6e3312c2d3d4e5e057491eea67e069"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 23,
+      "actual_seed": 23,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960f268710195968de74d6659392154d10a522dfbfb49c60b473ce899b2653c5"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 24,
+      "actual_seed": 24,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 25,
+      "actual_seed": 25,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e91e08e3e1d5a88ec6ea7d5c93962615b45ec05658db00f01077bd9047d72782"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 26,
+      "actual_seed": 26,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "58a5279fa14078dd2a0337e193f28eba34788168cd9a6c7560b04a0cd82725b1"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 27,
+      "actual_seed": 27,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d8702c2a2613252025dd970d4dcaadf048262dbf2cbfcee2db6b3758c11c456e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 28,
+      "actual_seed": 28,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "707a4ada656c54ba1618cafaae013f163b47505db934b8735d6e748d762d28dd"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 29,
+      "actual_seed": 29,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "93b6535412a2a7c7fe292d0396f42ebf36bd5b627de7d0fd720e481ed87d1963"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 30,
+      "actual_seed": 30,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b9f048b7b78ad6a1afb2606cc022ea6203b3b9674839a25c6d41e96ae94a7b88"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 31,
+      "actual_seed": 31,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5f85cb7b0b852c60d12e424c34dc2585485b2a0c75963b6af534df01ac500b9c"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 32,
+      "actual_seed": 32,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960b3b1997a22f23b14d30ae3e69e8e03ac554c59f4527905eb17e967db4b256"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 33,
+      "actual_seed": 33,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28ca218b5265b79ba41b72fb44c89093e81cf2d942bd318732e85bb920b1166f"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 34,
+      "actual_seed": 34,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1b884d01b02994821779577cb4ac1fb9df09b0a59bae2c4fdb85878a78f8ddfb"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 35,
+      "actual_seed": 35,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4dc2b62a3ad3fc46df6c42dfddb934e5bac9355f500b3ebdc7931d5880aabb04"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 36,
+      "actual_seed": 36,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 37,
+      "actual_seed": 37,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f491e787a654596c5d172a072f03b82b5928e8f1a27ffc83ade6747dd56fe16e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 38,
+      "actual_seed": 38,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 39,
+      "actual_seed": 39,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "050a1ee315975fce9ed6f17c6cff4121d87786cabbf2f130224460ed7c04c283"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 40,
+      "actual_seed": 40,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5cd6060648f630132d924f97f9f8fd20e458332157bb8e1fe8c187030ed2f1e2"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 8,
+      "requested_seed": 41,
+      "actual_seed": 41,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "6cb88b35032f16eb9a28df738abd9e786acb9fe9e717272a39620c868336f65e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 42,
+      "actual_seed": 42,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "29b2afe208ede0170cb3df30634d6b2254392a89c592ba0844f86e9465bcfdfc"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 8,
+      "requested_seed": 43,
+      "actual_seed": 43,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a16a2dde3c3e27daa5741e4000c104971a3d07366fd99bcd58f4a7c32021abd2"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 44,
+      "actual_seed": 44,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 45,
+      "actual_seed": 45,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "47a09b22e074d7b81bf13c671fb12139b6ec0f2629736d70ac83da33e3770a72"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 46,
+      "actual_seed": 46,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ab9e8bf45b575cf6bc05e9b651ae6fbab3b4f1c8abb3f8039eaebd8cc32420e5"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 47,
+      "actual_seed": 47,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0c94029cefd85abedab2dfc4fd18882976df1fa4ffb3bc05bc2f7831d679b812"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 48,
+      "actual_seed": 48,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5b09905745486d8d9bfc8ef8bfa450a675b236be1bc101ce8138fbd03059c9a6"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 49,
+      "actual_seed": 49,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18279913b96bd0c6b48e2897f26b9e77c75f971e632fdab2983f597345406031"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 24,
+      "requested_seed": 50,
+      "actual_seed": 50,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18cf393687748bda77a5ce2ab2486522681b4c413b436e6f62f92483633d1550"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 51,
+      "actual_seed": 51,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 52,
+      "actual_seed": 52,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 53,
+      "actual_seed": 53,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 54,
+      "actual_seed": 54,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "85441ad537fd7fc20dee082ab230a59c019a19f4733f8d5275e4a0a9ddb9d779"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 55,
+      "actual_seed": 55,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf3ae01eec3d27b944e723daaf4ba701fbd5f4041e86664effe114ddbe540139"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 56,
+      "actual_seed": 56,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e0715a68294b1b48e93f1e73ee80e52fb84215363ad083006ae2e74cfee64756"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 57,
+      "actual_seed": 57,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf03b95c66103e1c4aa0ff83dc5058aff5890870cf7a30104427950f34cbfdc1"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 58,
+      "actual_seed": 58,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68135d64285c4780ed0b75c80bd41efc76a024cc1cf22164d51f26f2cae8f98"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 59,
+      "actual_seed": 59,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 60,
+      "actual_seed": 60,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "56f38766b4eb74555f1e45c9e2ac5bf1afc5809f160bb087697a411013b3d34a"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 61,
+      "actual_seed": 61,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 62,
+      "actual_seed": 62,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 63,
+      "actual_seed": 63,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 27,
+      "requested_seed": 64,
+      "actual_seed": 64,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cddcd8843075fece8f58db736de805aa661b24e3a247c065ce650ad2d9692b9c"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 65,
+      "actual_seed": 65,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "eb31b09e9bebda0161aedd009d3fce11f1185dd43bc50d487f88ff14d5a62989"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 66,
+      "actual_seed": 66,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee94f6c71ae23d6b6924ce3461b63b93333cddfa09d2c256562fadedc62ca4c4"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 67,
+      "actual_seed": 67,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "681a25d2bd279ad696f5c2bbe7eba1687a80cdcde56c8f44d1fe2b9906fc87f3"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 68,
+      "actual_seed": 68,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2cb54d1f8a3c167b3ddbcfbaf64bc195cfd54a306b5a591399f884ed0ed0f92b"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 69,
+      "actual_seed": 69,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a45858b088f4f3a52de7f6e8c9a84b7ec8eb369142f5006f22db0e0f7c64a5e6"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 70,
+      "actual_seed": 70,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8bb6724dd9ba3d710af87cc6f5122f01da91fc0a4bacdfc038eef30f387c650e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 71,
+      "actual_seed": 71,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "536043c9758c69bf15671985bc0f36a39ef6a1c1ed02cabcc596f6ce818b3c32"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 72,
+      "actual_seed": 72,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "26851d4ca075eeb21656737ff5a959673ab3f80fca0f765fa925edca36b10aeb"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 23,
+      "requested_seed": 73,
+      "actual_seed": 73,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee7c0f545b168f573b1a888318ff330bdb0280afc30e9e478812ecbfc42e2af5"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 74,
+      "actual_seed": 74,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ec18ab16b4374072b839dc55300e4f010f4ca0816b4afddec2c7383b8c9feb9a"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 75,
+      "actual_seed": 75,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c354b25fb21161714ea8044dbec51596555c97dcd5548e46a5798b218049ac85"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 76,
+      "actual_seed": 76,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dba81c7de2dcb21ae861182ffadcd7b0331c4dbb92e540b8a3fef134b6c01d40"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 77,
+      "actual_seed": 77,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 78,
+      "actual_seed": 78,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a511efc0c5c374ff7f2f5bb58b0c080b601b60e0a03b4bbffb127ae6117787ab"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 79,
+      "actual_seed": 79,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "697c88b053e1bb72c67c77e2f817754200e3a32ead19578b89543e9d3d9fe8c3"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 80,
+      "actual_seed": 80,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 81,
+      "actual_seed": 81,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd17fa063aac6f185e16c88f5194e523d6add550020cce31891b722796c35e5a"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 82,
+      "actual_seed": 82,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2a7bb1977d767d535f00093c1547281ebd468de92d7eed175d26a5403d12e99b"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 83,
+      "actual_seed": 83,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a9bba586843c6db98283a608113935eb5ec3485e52fc0794f3e3dd78dc53f7d6"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 84,
+      "actual_seed": 84,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f5abc724d8eb9fa9f0ee5302590d0d4bf13c21f17a583a30fb118687ee2683b7"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 85,
+      "actual_seed": 85,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "323346a3ea7cf1dfd37f7777ee38700de22fa8fefdfacfbc3edf2f4129fefcb6"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 86,
+      "actual_seed": 86,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "be3cc570c7ee7a2427f9516c1b8548d44a8480765624fe3b39427819d8be41b5"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 87,
+      "actual_seed": 87,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 9,
+      "requested_seed": 88,
+      "actual_seed": 88,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cc5936ae9778e0161ae27a40f5e83a734d9e2cb8e3421ca16f3beda65ae6021c"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 89,
+      "actual_seed": 89,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a3ed6f42e970464294041e3188fd096fac09176f4d67634b375869df851b950e"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 90,
+      "actual_seed": 90,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28d5f2af1d88e40ef240e248a8b9cdc6d5f40bcadb107aba3c5fe80d4309d75d"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 91,
+      "actual_seed": 91,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 92,
+      "actual_seed": 92,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 93,
+      "actual_seed": 93,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3ca870c932e5f75aa5a45b8cb5ac73d652f1b3ae06c37ae9b3b89e3120276948"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 94,
+      "actual_seed": 94,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7eed8a659a9afd80f17168741552cb75e9328eaac45a2245b183be19a98d04b0"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 95,
+      "actual_seed": 95,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5ef307ea806205f6150767c6f8fa9dafdef8b94f16966fa4cf9c38a5a16b1335"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 96,
+      "actual_seed": 96,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3fa3ad6cabf77498e5ae592ea3ee91ac6cbef27ded0886d7b22c164ac126affa"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 97,
+      "actual_seed": 97,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "df2bb16a707751b4a87d05b3b56f444d8842170ed74b3d88a53afee22e3531af"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 98,
+      "actual_seed": 98,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68501d8c8f526e1277c9ca2ea9e068c33ea0167ac21c7fad3e1468fb29fd945"
+    },
+    {
+      "condition": "soft",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 99,
+      "actual_seed": 99,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4906325f013d0f9fa0fac2d57cd915db2954501ce28bc5b831a3f557cc474731"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 0,
+      "actual_seed": 0,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ade985eacec06c98524da2603d1d458f797b2ab70235532bed6eb274b7e52154"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 1,
+      "actual_seed": 1,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4c9b916f40d56dedfcbe6d8699021a7fba6a51b0c0a9b30e603d7f41590da324"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 2,
+      "actual_seed": 2,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7388d268ae0ff18af6bd459ea02171a9271309eac5c0f341ab193840fcd33b42"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 3,
+      "actual_seed": 3,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "aec5e968336ea454ac1166846e3561412594bb1cfb3630cb9e0f72ad31926b07"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 4,
+      "actual_seed": 4,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c4167504c0711a083fefbeddc4994ca9822843138878de55d9aeeb4bcaaca7d4"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 5,
+      "actual_seed": 5,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e166de636bb623a58c8928c61265e2f479b8ae38bd035767e8687422e3fb30d0"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 6,
+      "actual_seed": 6,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "9e44f046e738e75b8d18bb1778ed36a417a769ecb5c75afeb5b4e73605fcb8c7"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 7,
+      "actual_seed": 7,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 8,
+      "actual_seed": 8,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "38e345edcb0a8b67961181bc66ffb8c1647c6809071e18a1e7afea117c44df89"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 9,
+      "actual_seed": 9,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0341135f221814b591bdc86e9546524be735a76e56f56e2d2d66d660c6f9a087"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 10,
+      "actual_seed": 10,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1ae90df99b0f428956f5664ab5185ad0370fc6a8b41c8b0c8021fe20d3956edf"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 11,
+      "actual_seed": 11,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5994b589b7366f4bf0931593231c53f2fb3814be046f20ef31f7dfdc2e3816c7"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 12,
+      "actual_seed": 12,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "66ad8fbfc75baaab528fe030446625754926d5f312686ed2fc1b856fc7cb6fbc"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 13,
+      "actual_seed": 13,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2057f44a08cfb49fd080e237788cd754780d4a1a0ff078d99897e569008b18cc"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 14,
+      "actual_seed": 14,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "602f928cf128abeea5f2cb60aa58608838ef28f25efe55f9435403ff8e7d2256"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 15,
+      "actual_seed": 15,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8328120efe3712493df5bc2e566af1f36d6b1cf5e589bb5c25a67ad0f2f2e429"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 16,
+      "actual_seed": 16,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "67fb5375eb6830851b9f4bb1dcc036fdbbee81866549e03c37816a465884e121"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 17,
+      "actual_seed": 17,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2d05d21136ae6a7b42a6533d164c845076e552e89cd55ac918f47b7d29d7023e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 18,
+      "actual_seed": 18,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "41d2a8a0c84570db1f826b3886cede37d0e9b200cd0e3c0908a3e921cce0718f"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 19,
+      "actual_seed": 19,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d9f89f078cd2223ad8bcfd327c7688940b4dab15c1fce483ff433a2f450dfc61"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 20,
+      "actual_seed": 20,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0bb9787c99e489c28c5b79f130065244502381c6b47bd86b88000db2d7432877"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 21,
+      "actual_seed": 21,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 22,
+      "actual_seed": 22,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "fad7d8ee6caaa2fe394eb594b8807befce6e3312c2d3d4e5e057491eea67e069"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 23,
+      "actual_seed": 23,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960f268710195968de74d6659392154d10a522dfbfb49c60b473ce899b2653c5"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 24,
+      "actual_seed": 24,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 25,
+      "actual_seed": 25,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e91e08e3e1d5a88ec6ea7d5c93962615b45ec05658db00f01077bd9047d72782"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 26,
+      "actual_seed": 26,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "58a5279fa14078dd2a0337e193f28eba34788168cd9a6c7560b04a0cd82725b1"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 27,
+      "actual_seed": 27,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d8702c2a2613252025dd970d4dcaadf048262dbf2cbfcee2db6b3758c11c456e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 28,
+      "actual_seed": 28,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "707a4ada656c54ba1618cafaae013f163b47505db934b8735d6e748d762d28dd"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 29,
+      "actual_seed": 29,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "93b6535412a2a7c7fe292d0396f42ebf36bd5b627de7d0fd720e481ed87d1963"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 30,
+      "actual_seed": 30,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b9f048b7b78ad6a1afb2606cc022ea6203b3b9674839a25c6d41e96ae94a7b88"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 31,
+      "actual_seed": 31,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5f85cb7b0b852c60d12e424c34dc2585485b2a0c75963b6af534df01ac500b9c"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 32,
+      "actual_seed": 32,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960b3b1997a22f23b14d30ae3e69e8e03ac554c59f4527905eb17e967db4b256"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 33,
+      "actual_seed": 33,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28ca218b5265b79ba41b72fb44c89093e81cf2d942bd318732e85bb920b1166f"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 34,
+      "actual_seed": 34,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1b884d01b02994821779577cb4ac1fb9df09b0a59bae2c4fdb85878a78f8ddfb"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 35,
+      "actual_seed": 35,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4dc2b62a3ad3fc46df6c42dfddb934e5bac9355f500b3ebdc7931d5880aabb04"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 36,
+      "actual_seed": 36,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 37,
+      "actual_seed": 37,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f491e787a654596c5d172a072f03b82b5928e8f1a27ffc83ade6747dd56fe16e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 38,
+      "actual_seed": 38,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 39,
+      "actual_seed": 39,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "050a1ee315975fce9ed6f17c6cff4121d87786cabbf2f130224460ed7c04c283"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 40,
+      "actual_seed": 40,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5cd6060648f630132d924f97f9f8fd20e458332157bb8e1fe8c187030ed2f1e2"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 41,
+      "actual_seed": 41,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "6cb88b35032f16eb9a28df738abd9e786acb9fe9e717272a39620c868336f65e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 42,
+      "actual_seed": 42,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "29b2afe208ede0170cb3df30634d6b2254392a89c592ba0844f86e9465bcfdfc"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 8,
+      "requested_seed": 43,
+      "actual_seed": 43,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a16a2dde3c3e27daa5741e4000c104971a3d07366fd99bcd58f4a7c32021abd2"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 44,
+      "actual_seed": 44,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 45,
+      "actual_seed": 45,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "47a09b22e074d7b81bf13c671fb12139b6ec0f2629736d70ac83da33e3770a72"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 46,
+      "actual_seed": 46,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ab9e8bf45b575cf6bc05e9b651ae6fbab3b4f1c8abb3f8039eaebd8cc32420e5"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 47,
+      "actual_seed": 47,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0c94029cefd85abedab2dfc4fd18882976df1fa4ffb3bc05bc2f7831d679b812"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 48,
+      "actual_seed": 48,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5b09905745486d8d9bfc8ef8bfa450a675b236be1bc101ce8138fbd03059c9a6"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 49,
+      "actual_seed": 49,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18279913b96bd0c6b48e2897f26b9e77c75f971e632fdab2983f597345406031"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 50,
+      "actual_seed": 50,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18cf393687748bda77a5ce2ab2486522681b4c413b436e6f62f92483633d1550"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 51,
+      "actual_seed": 51,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 52,
+      "actual_seed": 52,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 53,
+      "actual_seed": 53,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 54,
+      "actual_seed": 54,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "85441ad537fd7fc20dee082ab230a59c019a19f4733f8d5275e4a0a9ddb9d779"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 55,
+      "actual_seed": 55,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf3ae01eec3d27b944e723daaf4ba701fbd5f4041e86664effe114ddbe540139"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 56,
+      "actual_seed": 56,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e0715a68294b1b48e93f1e73ee80e52fb84215363ad083006ae2e74cfee64756"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 57,
+      "actual_seed": 57,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf03b95c66103e1c4aa0ff83dc5058aff5890870cf7a30104427950f34cbfdc1"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 58,
+      "actual_seed": 58,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68135d64285c4780ed0b75c80bd41efc76a024cc1cf22164d51f26f2cae8f98"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 59,
+      "actual_seed": 59,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 60,
+      "actual_seed": 60,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "56f38766b4eb74555f1e45c9e2ac5bf1afc5809f160bb087697a411013b3d34a"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 61,
+      "actual_seed": 61,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 62,
+      "actual_seed": 62,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 63,
+      "actual_seed": 63,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 64,
+      "actual_seed": 64,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cddcd8843075fece8f58db736de805aa661b24e3a247c065ce650ad2d9692b9c"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 65,
+      "actual_seed": 65,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "eb31b09e9bebda0161aedd009d3fce11f1185dd43bc50d487f88ff14d5a62989"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 66,
+      "actual_seed": 66,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee94f6c71ae23d6b6924ce3461b63b93333cddfa09d2c256562fadedc62ca4c4"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 67,
+      "actual_seed": 67,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "681a25d2bd279ad696f5c2bbe7eba1687a80cdcde56c8f44d1fe2b9906fc87f3"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 68,
+      "actual_seed": 68,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2cb54d1f8a3c167b3ddbcfbaf64bc195cfd54a306b5a591399f884ed0ed0f92b"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 69,
+      "actual_seed": 69,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a45858b088f4f3a52de7f6e8c9a84b7ec8eb369142f5006f22db0e0f7c64a5e6"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 70,
+      "actual_seed": 70,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8bb6724dd9ba3d710af87cc6f5122f01da91fc0a4bacdfc038eef30f387c650e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 71,
+      "actual_seed": 71,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "536043c9758c69bf15671985bc0f36a39ef6a1c1ed02cabcc596f6ce818b3c32"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 72,
+      "actual_seed": 72,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "26851d4ca075eeb21656737ff5a959673ab3f80fca0f765fa925edca36b10aeb"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 73,
+      "actual_seed": 73,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee7c0f545b168f573b1a888318ff330bdb0280afc30e9e478812ecbfc42e2af5"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 74,
+      "actual_seed": 74,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ec18ab16b4374072b839dc55300e4f010f4ca0816b4afddec2c7383b8c9feb9a"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 75,
+      "actual_seed": 75,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c354b25fb21161714ea8044dbec51596555c97dcd5548e46a5798b218049ac85"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 76,
+      "actual_seed": 76,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dba81c7de2dcb21ae861182ffadcd7b0331c4dbb92e540b8a3fef134b6c01d40"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 77,
+      "actual_seed": 77,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 78,
+      "actual_seed": 78,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a511efc0c5c374ff7f2f5bb58b0c080b601b60e0a03b4bbffb127ae6117787ab"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 79,
+      "actual_seed": 79,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "697c88b053e1bb72c67c77e2f817754200e3a32ead19578b89543e9d3d9fe8c3"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 80,
+      "actual_seed": 80,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 81,
+      "actual_seed": 81,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd17fa063aac6f185e16c88f5194e523d6add550020cce31891b722796c35e5a"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 82,
+      "actual_seed": 82,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2a7bb1977d767d535f00093c1547281ebd468de92d7eed175d26a5403d12e99b"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 83,
+      "actual_seed": 83,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a9bba586843c6db98283a608113935eb5ec3485e52fc0794f3e3dd78dc53f7d6"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 84,
+      "actual_seed": 84,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f5abc724d8eb9fa9f0ee5302590d0d4bf13c21f17a583a30fb118687ee2683b7"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 85,
+      "actual_seed": 85,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "323346a3ea7cf1dfd37f7777ee38700de22fa8fefdfacfbc3edf2f4129fefcb6"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 86,
+      "actual_seed": 86,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "be3cc570c7ee7a2427f9516c1b8548d44a8480765624fe3b39427819d8be41b5"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 87,
+      "actual_seed": 87,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 88,
+      "actual_seed": 88,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cc5936ae9778e0161ae27a40f5e83a734d9e2cb8e3421ca16f3beda65ae6021c"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 89,
+      "actual_seed": 89,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a3ed6f42e970464294041e3188fd096fac09176f4d67634b375869df851b950e"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 90,
+      "actual_seed": 90,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28d5f2af1d88e40ef240e248a8b9cdc6d5f40bcadb107aba3c5fe80d4309d75d"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 91,
+      "actual_seed": 91,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 92,
+      "actual_seed": 92,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 93,
+      "actual_seed": 93,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3ca870c932e5f75aa5a45b8cb5ac73d652f1b3ae06c37ae9b3b89e3120276948"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 94,
+      "actual_seed": 94,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7eed8a659a9afd80f17168741552cb75e9328eaac45a2245b183be19a98d04b0"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 95,
+      "actual_seed": 95,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5ef307ea806205f6150767c6f8fa9dafdef8b94f16966fa4cf9c38a5a16b1335"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 96,
+      "actual_seed": 96,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3fa3ad6cabf77498e5ae592ea3ee91ac6cbef27ded0886d7b22c164ac126affa"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 97,
+      "actual_seed": 97,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "df2bb16a707751b4a87d05b3b56f444d8842170ed74b3d88a53afee22e3531af"
+    },
+    {
+      "condition": "sign_only",
+      "success": false,
+      "steps": 300,
+      "requested_seed": 98,
+      "actual_seed": 98,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68501d8c8f526e1277c9ca2ea9e068c33ea0167ac21c7fad3e1468fb29fd945"
+    },
+    {
+      "condition": "sign_only",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 99,
+      "actual_seed": 99,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4906325f013d0f9fa0fac2d57cd915db2954501ce28bc5b831a3f557cc474731"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 0,
+      "actual_seed": 0,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ade985eacec06c98524da2603d1d458f797b2ab70235532bed6eb274b7e52154"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 1,
+      "actual_seed": 1,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4c9b916f40d56dedfcbe6d8699021a7fba6a51b0c0a9b30e603d7f41590da324"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 2,
+      "actual_seed": 2,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7388d268ae0ff18af6bd459ea02171a9271309eac5c0f341ab193840fcd33b42"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 3,
+      "actual_seed": 3,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "aec5e968336ea454ac1166846e3561412594bb1cfb3630cb9e0f72ad31926b07"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 4,
+      "actual_seed": 4,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c4167504c0711a083fefbeddc4994ca9822843138878de55d9aeeb4bcaaca7d4"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 5,
+      "actual_seed": 5,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e166de636bb623a58c8928c61265e2f479b8ae38bd035767e8687422e3fb30d0"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 6,
+      "actual_seed": 6,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "9e44f046e738e75b8d18bb1778ed36a417a769ecb5c75afeb5b4e73605fcb8c7"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 7,
+      "actual_seed": 7,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 8,
+      "actual_seed": 8,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "38e345edcb0a8b67961181bc66ffb8c1647c6809071e18a1e7afea117c44df89"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 9,
+      "actual_seed": 9,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0341135f221814b591bdc86e9546524be735a76e56f56e2d2d66d660c6f9a087"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 10,
+      "actual_seed": 10,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1ae90df99b0f428956f5664ab5185ad0370fc6a8b41c8b0c8021fe20d3956edf"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 11,
+      "actual_seed": 11,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5994b589b7366f4bf0931593231c53f2fb3814be046f20ef31f7dfdc2e3816c7"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 12,
+      "actual_seed": 12,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "66ad8fbfc75baaab528fe030446625754926d5f312686ed2fc1b856fc7cb6fbc"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 13,
+      "actual_seed": 13,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2057f44a08cfb49fd080e237788cd754780d4a1a0ff078d99897e569008b18cc"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 14,
+      "actual_seed": 14,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "602f928cf128abeea5f2cb60aa58608838ef28f25efe55f9435403ff8e7d2256"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 15,
+      "actual_seed": 15,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8328120efe3712493df5bc2e566af1f36d6b1cf5e589bb5c25a67ad0f2f2e429"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 16,
+      "actual_seed": 16,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "67fb5375eb6830851b9f4bb1dcc036fdbbee81866549e03c37816a465884e121"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 17,
+      "actual_seed": 17,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2d05d21136ae6a7b42a6533d164c845076e552e89cd55ac918f47b7d29d7023e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 18,
+      "actual_seed": 18,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "41d2a8a0c84570db1f826b3886cede37d0e9b200cd0e3c0908a3e921cce0718f"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 19,
+      "actual_seed": 19,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d9f89f078cd2223ad8bcfd327c7688940b4dab15c1fce483ff433a2f450dfc61"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 20,
+      "actual_seed": 20,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0bb9787c99e489c28c5b79f130065244502381c6b47bd86b88000db2d7432877"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 21,
+      "actual_seed": 21,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 22,
+      "actual_seed": 22,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "fad7d8ee6caaa2fe394eb594b8807befce6e3312c2d3d4e5e057491eea67e069"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 23,
+      "actual_seed": 23,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960f268710195968de74d6659392154d10a522dfbfb49c60b473ce899b2653c5"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 24,
+      "actual_seed": 24,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "05326f7651d5e9ea4162c9a0c969e7f58860927a4e5f86cc362d12d429372de7"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 25,
+      "actual_seed": 25,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e91e08e3e1d5a88ec6ea7d5c93962615b45ec05658db00f01077bd9047d72782"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 26,
+      "actual_seed": 26,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "58a5279fa14078dd2a0337e193f28eba34788168cd9a6c7560b04a0cd82725b1"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 27,
+      "actual_seed": 27,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "d8702c2a2613252025dd970d4dcaadf048262dbf2cbfcee2db6b3758c11c456e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 28,
+      "actual_seed": 28,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "707a4ada656c54ba1618cafaae013f163b47505db934b8735d6e748d762d28dd"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 29,
+      "actual_seed": 29,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "93b6535412a2a7c7fe292d0396f42ebf36bd5b627de7d0fd720e481ed87d1963"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 30,
+      "actual_seed": 30,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b9f048b7b78ad6a1afb2606cc022ea6203b3b9674839a25c6d41e96ae94a7b88"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 31,
+      "actual_seed": 31,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5f85cb7b0b852c60d12e424c34dc2585485b2a0c75963b6af534df01ac500b9c"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 32,
+      "actual_seed": 32,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "960b3b1997a22f23b14d30ae3e69e8e03ac554c59f4527905eb17e967db4b256"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 33,
+      "actual_seed": 33,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28ca218b5265b79ba41b72fb44c89093e81cf2d942bd318732e85bb920b1166f"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 34,
+      "actual_seed": 34,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "1b884d01b02994821779577cb4ac1fb9df09b0a59bae2c4fdb85878a78f8ddfb"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 35,
+      "actual_seed": 35,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4dc2b62a3ad3fc46df6c42dfddb934e5bac9355f500b3ebdc7931d5880aabb04"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 36,
+      "actual_seed": 36,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 37,
+      "actual_seed": 37,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f491e787a654596c5d172a072f03b82b5928e8f1a27ffc83ade6747dd56fe16e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 38,
+      "actual_seed": 38,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 39,
+      "actual_seed": 39,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "050a1ee315975fce9ed6f17c6cff4121d87786cabbf2f130224460ed7c04c283"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 40,
+      "actual_seed": 40,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5cd6060648f630132d924f97f9f8fd20e458332157bb8e1fe8c187030ed2f1e2"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 8,
+      "requested_seed": 41,
+      "actual_seed": 41,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "6cb88b35032f16eb9a28df738abd9e786acb9fe9e717272a39620c868336f65e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 42,
+      "actual_seed": 42,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "29b2afe208ede0170cb3df30634d6b2254392a89c592ba0844f86e9465bcfdfc"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 8,
+      "requested_seed": 43,
+      "actual_seed": 43,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a16a2dde3c3e27daa5741e4000c104971a3d07366fd99bcd58f4a7c32021abd2"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 44,
+      "actual_seed": 44,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 45,
+      "actual_seed": 45,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "47a09b22e074d7b81bf13c671fb12139b6ec0f2629736d70ac83da33e3770a72"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 46,
+      "actual_seed": 46,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ab9e8bf45b575cf6bc05e9b651ae6fbab3b4f1c8abb3f8039eaebd8cc32420e5"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 47,
+      "actual_seed": 47,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0c94029cefd85abedab2dfc4fd18882976df1fa4ffb3bc05bc2f7831d679b812"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 48,
+      "actual_seed": 48,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5b09905745486d8d9bfc8ef8bfa450a675b236be1bc101ce8138fbd03059c9a6"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 49,
+      "actual_seed": 49,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18279913b96bd0c6b48e2897f26b9e77c75f971e632fdab2983f597345406031"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 20,
+      "requested_seed": 50,
+      "actual_seed": 50,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "18cf393687748bda77a5ce2ab2486522681b4c413b436e6f62f92483633d1550"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 51,
+      "actual_seed": 51,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dcd75191b40a9a8104e13ffd28f29051f6079ca6531a5a987bd71875f59c6c84"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 52,
+      "actual_seed": 52,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 53,
+      "actual_seed": 53,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 54,
+      "actual_seed": 54,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "85441ad537fd7fc20dee082ab230a59c019a19f4733f8d5275e4a0a9ddb9d779"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 55,
+      "actual_seed": 55,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf3ae01eec3d27b944e723daaf4ba701fbd5f4041e86664effe114ddbe540139"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 56,
+      "actual_seed": 56,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "e0715a68294b1b48e93f1e73ee80e52fb84215363ad083006ae2e74cfee64756"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 57,
+      "actual_seed": 57,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bf03b95c66103e1c4aa0ff83dc5058aff5890870cf7a30104427950f34cbfdc1"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 58,
+      "actual_seed": 58,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68135d64285c4780ed0b75c80bd41efc76a024cc1cf22164d51f26f2cae8f98"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 59,
+      "actual_seed": 59,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2b7c2b459fc0f9846de1f84763e087c3ebf6161282ef2081f743f293c126e044"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 60,
+      "actual_seed": 60,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "56f38766b4eb74555f1e45c9e2ac5bf1afc5809f160bb087697a411013b3d34a"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 61,
+      "actual_seed": 61,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd997e3c58243a641d30e22610b0a819aebbf3aaa8af670b6d87603459dcb301"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 62,
+      "actual_seed": 62,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 63,
+      "actual_seed": 63,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 27,
+      "requested_seed": 64,
+      "actual_seed": 64,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cddcd8843075fece8f58db736de805aa661b24e3a247c065ce650ad2d9692b9c"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 65,
+      "actual_seed": 65,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "eb31b09e9bebda0161aedd009d3fce11f1185dd43bc50d487f88ff14d5a62989"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 66,
+      "actual_seed": 66,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee94f6c71ae23d6b6924ce3461b63b93333cddfa09d2c256562fadedc62ca4c4"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 67,
+      "actual_seed": 67,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "681a25d2bd279ad696f5c2bbe7eba1687a80cdcde56c8f44d1fe2b9906fc87f3"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 68,
+      "actual_seed": 68,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2cb54d1f8a3c167b3ddbcfbaf64bc195cfd54a306b5a591399f884ed0ed0f92b"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 69,
+      "actual_seed": 69,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a45858b088f4f3a52de7f6e8c9a84b7ec8eb369142f5006f22db0e0f7c64a5e6"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 70,
+      "actual_seed": 70,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "8bb6724dd9ba3d710af87cc6f5122f01da91fc0a4bacdfc038eef30f387c650e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 71,
+      "actual_seed": 71,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "536043c9758c69bf15671985bc0f36a39ef6a1c1ed02cabcc596f6ce818b3c32"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 72,
+      "actual_seed": 72,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "26851d4ca075eeb21656737ff5a959673ab3f80fca0f765fa925edca36b10aeb"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 23,
+      "requested_seed": 73,
+      "actual_seed": 73,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ee7c0f545b168f573b1a888318ff330bdb0280afc30e9e478812ecbfc42e2af5"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 74,
+      "actual_seed": 74,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "ec18ab16b4374072b839dc55300e4f010f4ca0816b4afddec2c7383b8c9feb9a"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 75,
+      "actual_seed": 75,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "c354b25fb21161714ea8044dbec51596555c97dcd5548e46a5798b218049ac85"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 76,
+      "actual_seed": 76,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "dba81c7de2dcb21ae861182ffadcd7b0331c4dbb92e540b8a3fef134b6c01d40"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 77,
+      "actual_seed": 77,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "daf28436858fc6ef1c0e1d1b5df32a892bc687529297a355a7a74374d2825503"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 78,
+      "actual_seed": 78,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a511efc0c5c374ff7f2f5bb58b0c080b601b60e0a03b4bbffb127ae6117787ab"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 79,
+      "actual_seed": 79,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "697c88b053e1bb72c67c77e2f817754200e3a32ead19578b89543e9d3d9fe8c3"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 21,
+      "requested_seed": 80,
+      "actual_seed": 80,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "b7f3caa35f49b4a32ce9308eeaac05849deef6ee790de513ec9a0b69a37a7324"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 81,
+      "actual_seed": 81,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "bd17fa063aac6f185e16c88f5194e523d6add550020cce31891b722796c35e5a"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 82,
+      "actual_seed": 82,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "2a7bb1977d767d535f00093c1547281ebd468de92d7eed175d26a5403d12e99b"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 83,
+      "actual_seed": 83,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a9bba586843c6db98283a608113935eb5ec3485e52fc0794f3e3dd78dc53f7d6"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 84,
+      "actual_seed": 84,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f5abc724d8eb9fa9f0ee5302590d0d4bf13c21f17a583a30fb118687ee2683b7"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 85,
+      "actual_seed": 85,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "323346a3ea7cf1dfd37f7777ee38700de22fa8fefdfacfbc3edf2f4129fefcb6"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 19,
+      "requested_seed": 86,
+      "actual_seed": 86,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "be3cc570c7ee7a2427f9516c1b8548d44a8480765624fe3b39427819d8be41b5"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 87,
+      "actual_seed": 87,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "0b3106c502e35c0b6dd1864fe7183e93546a8ca6df4394d7a14e570dbbd83c0c"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 9,
+      "requested_seed": 88,
+      "actual_seed": 88,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "cc5936ae9778e0161ae27a40f5e83a734d9e2cb8e3421ca16f3beda65ae6021c"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 10,
+      "requested_seed": 89,
+      "actual_seed": 89,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "a3ed6f42e970464294041e3188fd096fac09176f4d67634b375869df851b950e"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 90,
+      "actual_seed": 90,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "28d5f2af1d88e40ef240e248a8b9cdc6d5f40bcadb107aba3c5fe80d4309d75d"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 12,
+      "requested_seed": 91,
+      "actual_seed": 91,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "640b87a3a0324885e51dbe46f42457c049a09993e848fd4c8e0794014dffcfce"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 13,
+      "requested_seed": 92,
+      "actual_seed": 92,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "40573853d1f11ae05c3e2f1fc296109c05cf89304350b3a524d1d999201f4873"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 16,
+      "requested_seed": 93,
+      "actual_seed": 93,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3ca870c932e5f75aa5a45b8cb5ac73d652f1b3ae06c37ae9b3b89e3120276948"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 15,
+      "requested_seed": 94,
+      "actual_seed": 94,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "7eed8a659a9afd80f17168741552cb75e9328eaac45a2245b183be19a98d04b0"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 95,
+      "actual_seed": 95,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "5ef307ea806205f6150767c6f8fa9dafdef8b94f16966fa4cf9c38a5a16b1335"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 17,
+      "requested_seed": 96,
+      "actual_seed": 96,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "3fa3ad6cabf77498e5ae592ea3ee91ac6cbef27ded0886d7b22c164ac126affa"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 14,
+      "requested_seed": 97,
+      "actual_seed": 97,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "df2bb16a707751b4a87d05b3b56f444d8842170ed74b3d88a53afee22e3531af"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 11,
+      "requested_seed": 98,
+      "actual_seed": 98,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "f68501d8c8f526e1277c9ca2ea9e068c33ea0167ac21c7fad3e1468fb29fd945"
+    },
+    {
+      "condition": "oracle_sign",
+      "success": true,
+      "steps": 18,
+      "requested_seed": 99,
+      "actual_seed": 99,
+      "eval_seed_mode": "direct",
+      "initial_state_signature": "4906325f013d0f9fa0fac2d57cd915db2954501ce28bc5b831a3f557cc474731"
+    }
+  ]
+}

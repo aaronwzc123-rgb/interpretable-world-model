@@ -1,0 +1,1772 @@
+{
+  "checkpoint": "C:\\Users\\super\\Desktop\\test\\Xdreamer\\models\\memory\\memory_experiment_1_m1\\grounded_seed0\\checkpoint_084000.pt",
+  "checkpoint_sha256": "aecd54beec6edce5eceb453ddf230487b092f69472ef6b7922fa16f1c6f5ce0c",
+  "command": [
+    "scripts/evaluate_m1_cuestart.py",
+    "--checkpoint",
+    "models/memory/memory_experiment_1_m1/grounded_seed0/checkpoint_084000.pt",
+    "--condition",
+    "grounded",
+    "--episodes",
+    "200",
+    "--seed-start",
+    "1000",
+    "--eval-seed-mode",
+    "direct",
+    "--device",
+    "cpu",
+    "--out",
+    "C:/Users/super/Desktop/UCL/dissertation/v9/evidence/m1_grounded_seed0_direct200.json"
+  ],
+  "device": "cpu",
+  "time_limit": 250,
+  "torch_threads": 1,
+  "condition": "grounded",
+  "episodes": 200,
+  "evaluation_seeds": [
+    1000,
+    1199
+  ],
+  "eval_seed_mode": "direct",
+  "success_rate": 0.48,
+  "episode_provenance": [
+    {
+      "episode": 0,
+      "requested_seed": 1000,
+      "actual_seed": 1000,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 1,
+      "requested_seed": 1001,
+      "actual_seed": 1001,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 2,
+      "requested_seed": 1002,
+      "actual_seed": 1002,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 3,
+      "requested_seed": 1003,
+      "actual_seed": 1003,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 4,
+      "requested_seed": 1004,
+      "actual_seed": 1004,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 5,
+      "requested_seed": 1005,
+      "actual_seed": 1005,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 6,
+      "requested_seed": 1006,
+      "actual_seed": 1006,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 7,
+      "requested_seed": 1007,
+      "actual_seed": 1007,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 8,
+      "requested_seed": 1008,
+      "actual_seed": 1008,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 9,
+      "requested_seed": 1009,
+      "actual_seed": 1009,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 10,
+      "requested_seed": 1010,
+      "actual_seed": 1010,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 11,
+      "requested_seed": 1011,
+      "actual_seed": 1011,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 12,
+      "requested_seed": 1012,
+      "actual_seed": 1012,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 13,
+      "requested_seed": 1013,
+      "actual_seed": 1013,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 14,
+      "requested_seed": 1014,
+      "actual_seed": 1014,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 15,
+      "requested_seed": 1015,
+      "actual_seed": 1015,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 16,
+      "requested_seed": 1016,
+      "actual_seed": 1016,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 17,
+      "requested_seed": 1017,
+      "actual_seed": 1017,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 18,
+      "requested_seed": 1018,
+      "actual_seed": 1018,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 19,
+      "requested_seed": 1019,
+      "actual_seed": 1019,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 20,
+      "requested_seed": 1020,
+      "actual_seed": 1020,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 21,
+      "requested_seed": 1021,
+      "actual_seed": 1021,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 22,
+      "requested_seed": 1022,
+      "actual_seed": 1022,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 23,
+      "requested_seed": 1023,
+      "actual_seed": 1023,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 24,
+      "requested_seed": 1024,
+      "actual_seed": 1024,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 25,
+      "requested_seed": 1025,
+      "actual_seed": 1025,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 26,
+      "requested_seed": 1026,
+      "actual_seed": 1026,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 27,
+      "requested_seed": 1027,
+      "actual_seed": 1027,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 28,
+      "requested_seed": 1028,
+      "actual_seed": 1028,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 29,
+      "requested_seed": 1029,
+      "actual_seed": 1029,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 30,
+      "requested_seed": 1030,
+      "actual_seed": 1030,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 31,
+      "requested_seed": 1031,
+      "actual_seed": 1031,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 32,
+      "requested_seed": 1032,
+      "actual_seed": 1032,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 33,
+      "requested_seed": 1033,
+      "actual_seed": 1033,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 34,
+      "requested_seed": 1034,
+      "actual_seed": 1034,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 35,
+      "requested_seed": 1035,
+      "actual_seed": 1035,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 36,
+      "requested_seed": 1036,
+      "actual_seed": 1036,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 37,
+      "requested_seed": 1037,
+      "actual_seed": 1037,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 38,
+      "requested_seed": 1038,
+      "actual_seed": 1038,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 39,
+      "requested_seed": 1039,
+      "actual_seed": 1039,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 40,
+      "requested_seed": 1040,
+      "actual_seed": 1040,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 41,
+      "requested_seed": 1041,
+      "actual_seed": 1041,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 42,
+      "requested_seed": 1042,
+      "actual_seed": 1042,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 43,
+      "requested_seed": 1043,
+      "actual_seed": 1043,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 44,
+      "requested_seed": 1044,
+      "actual_seed": 1044,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 45,
+      "requested_seed": 1045,
+      "actual_seed": 1045,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 46,
+      "requested_seed": 1046,
+      "actual_seed": 1046,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 47,
+      "requested_seed": 1047,
+      "actual_seed": 1047,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 48,
+      "requested_seed": 1048,
+      "actual_seed": 1048,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 49,
+      "requested_seed": 1049,
+      "actual_seed": 1049,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 50,
+      "requested_seed": 1050,
+      "actual_seed": 1050,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 51,
+      "requested_seed": 1051,
+      "actual_seed": 1051,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 52,
+      "requested_seed": 1052,
+      "actual_seed": 1052,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 53,
+      "requested_seed": 1053,
+      "actual_seed": 1053,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 54,
+      "requested_seed": 1054,
+      "actual_seed": 1054,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 55,
+      "requested_seed": 1055,
+      "actual_seed": 1055,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 56,
+      "requested_seed": 1056,
+      "actual_seed": 1056,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 57,
+      "requested_seed": 1057,
+      "actual_seed": 1057,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 58,
+      "requested_seed": 1058,
+      "actual_seed": 1058,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 59,
+      "requested_seed": 1059,
+      "actual_seed": 1059,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 60,
+      "requested_seed": 1060,
+      "actual_seed": 1060,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 61,
+      "requested_seed": 1061,
+      "actual_seed": 1061,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 62,
+      "requested_seed": 1062,
+      "actual_seed": 1062,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 63,
+      "requested_seed": 1063,
+      "actual_seed": 1063,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 64,
+      "requested_seed": 1064,
+      "actual_seed": 1064,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 65,
+      "requested_seed": 1065,
+      "actual_seed": 1065,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 66,
+      "requested_seed": 1066,
+      "actual_seed": 1066,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 67,
+      "requested_seed": 1067,
+      "actual_seed": 1067,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 68,
+      "requested_seed": 1068,
+      "actual_seed": 1068,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 69,
+      "requested_seed": 1069,
+      "actual_seed": 1069,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 70,
+      "requested_seed": 1070,
+      "actual_seed": 1070,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 71,
+      "requested_seed": 1071,
+      "actual_seed": 1071,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 72,
+      "requested_seed": 1072,
+      "actual_seed": 1072,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 73,
+      "requested_seed": 1073,
+      "actual_seed": 1073,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 74,
+      "requested_seed": 1074,
+      "actual_seed": 1074,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 75,
+      "requested_seed": 1075,
+      "actual_seed": 1075,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 76,
+      "requested_seed": 1076,
+      "actual_seed": 1076,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 77,
+      "requested_seed": 1077,
+      "actual_seed": 1077,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 78,
+      "requested_seed": 1078,
+      "actual_seed": 1078,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 79,
+      "requested_seed": 1079,
+      "actual_seed": 1079,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 80,
+      "requested_seed": 1080,
+      "actual_seed": 1080,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 81,
+      "requested_seed": 1081,
+      "actual_seed": 1081,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 82,
+      "requested_seed": 1082,
+      "actual_seed": 1082,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 83,
+      "requested_seed": 1083,
+      "actual_seed": 1083,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 84,
+      "requested_seed": 1084,
+      "actual_seed": 1084,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 85,
+      "requested_seed": 1085,
+      "actual_seed": 1085,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 86,
+      "requested_seed": 1086,
+      "actual_seed": 1086,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 87,
+      "requested_seed": 1087,
+      "actual_seed": 1087,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 88,
+      "requested_seed": 1088,
+      "actual_seed": 1088,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 89,
+      "requested_seed": 1089,
+      "actual_seed": 1089,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 90,
+      "requested_seed": 1090,
+      "actual_seed": 1090,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 91,
+      "requested_seed": 1091,
+      "actual_seed": 1091,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 92,
+      "requested_seed": 1092,
+      "actual_seed": 1092,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 93,
+      "requested_seed": 1093,
+      "actual_seed": 1093,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 94,
+      "requested_seed": 1094,
+      "actual_seed": 1094,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 95,
+      "requested_seed": 1095,
+      "actual_seed": 1095,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 96,
+      "requested_seed": 1096,
+      "actual_seed": 1096,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 97,
+      "requested_seed": 1097,
+      "actual_seed": 1097,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 98,
+      "requested_seed": 1098,
+      "actual_seed": 1098,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 99,
+      "requested_seed": 1099,
+      "actual_seed": 1099,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 100,
+      "requested_seed": 1100,
+      "actual_seed": 1100,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 101,
+      "requested_seed": 1101,
+      "actual_seed": 1101,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 102,
+      "requested_seed": 1102,
+      "actual_seed": 1102,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 103,
+      "requested_seed": 1103,
+      "actual_seed": 1103,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 104,
+      "requested_seed": 1104,
+      "actual_seed": 1104,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 105,
+      "requested_seed": 1105,
+      "actual_seed": 1105,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 106,
+      "requested_seed": 1106,
+      "actual_seed": 1106,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 107,
+      "requested_seed": 1107,
+      "actual_seed": 1107,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 108,
+      "requested_seed": 1108,
+      "actual_seed": 1108,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 109,
+      "requested_seed": 1109,
+      "actual_seed": 1109,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 110,
+      "requested_seed": 1110,
+      "actual_seed": 1110,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 111,
+      "requested_seed": 1111,
+      "actual_seed": 1111,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 112,
+      "requested_seed": 1112,
+      "actual_seed": 1112,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 113,
+      "requested_seed": 1113,
+      "actual_seed": 1113,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 114,
+      "requested_seed": 1114,
+      "actual_seed": 1114,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 115,
+      "requested_seed": 1115,
+      "actual_seed": 1115,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 116,
+      "requested_seed": 1116,
+      "actual_seed": 1116,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 117,
+      "requested_seed": 1117,
+      "actual_seed": 1117,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 118,
+      "requested_seed": 1118,
+      "actual_seed": 1118,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 119,
+      "requested_seed": 1119,
+      "actual_seed": 1119,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 120,
+      "requested_seed": 1120,
+      "actual_seed": 1120,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 121,
+      "requested_seed": 1121,
+      "actual_seed": 1121,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 122,
+      "requested_seed": 1122,
+      "actual_seed": 1122,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 123,
+      "requested_seed": 1123,
+      "actual_seed": 1123,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 124,
+      "requested_seed": 1124,
+      "actual_seed": 1124,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 125,
+      "requested_seed": 1125,
+      "actual_seed": 1125,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 126,
+      "requested_seed": 1126,
+      "actual_seed": 1126,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 127,
+      "requested_seed": 1127,
+      "actual_seed": 1127,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 128,
+      "requested_seed": 1128,
+      "actual_seed": 1128,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 129,
+      "requested_seed": 1129,
+      "actual_seed": 1129,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 130,
+      "requested_seed": 1130,
+      "actual_seed": 1130,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 131,
+      "requested_seed": 1131,
+      "actual_seed": 1131,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 132,
+      "requested_seed": 1132,
+      "actual_seed": 1132,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 133,
+      "requested_seed": 1133,
+      "actual_seed": 1133,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 134,
+      "requested_seed": 1134,
+      "actual_seed": 1134,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 135,
+      "requested_seed": 1135,
+      "actual_seed": 1135,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 136,
+      "requested_seed": 1136,
+      "actual_seed": 1136,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 137,
+      "requested_seed": 1137,
+      "actual_seed": 1137,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 138,
+      "requested_seed": 1138,
+      "actual_seed": 1138,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 139,
+      "requested_seed": 1139,
+      "actual_seed": 1139,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 140,
+      "requested_seed": 1140,
+      "actual_seed": 1140,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 141,
+      "requested_seed": 1141,
+      "actual_seed": 1141,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 142,
+      "requested_seed": 1142,
+      "actual_seed": 1142,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 143,
+      "requested_seed": 1143,
+      "actual_seed": 1143,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 144,
+      "requested_seed": 1144,
+      "actual_seed": 1144,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 145,
+      "requested_seed": 1145,
+      "actual_seed": 1145,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 146,
+      "requested_seed": 1146,
+      "actual_seed": 1146,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 147,
+      "requested_seed": 1147,
+      "actual_seed": 1147,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 148,
+      "requested_seed": 1148,
+      "actual_seed": 1148,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 149,
+      "requested_seed": 1149,
+      "actual_seed": 1149,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 150,
+      "requested_seed": 1150,
+      "actual_seed": 1150,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 151,
+      "requested_seed": 1151,
+      "actual_seed": 1151,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 152,
+      "requested_seed": 1152,
+      "actual_seed": 1152,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 153,
+      "requested_seed": 1153,
+      "actual_seed": 1153,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 154,
+      "requested_seed": 1154,
+      "actual_seed": 1154,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 155,
+      "requested_seed": 1155,
+      "actual_seed": 1155,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 156,
+      "requested_seed": 1156,
+      "actual_seed": 1156,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 157,
+      "requested_seed": 1157,
+      "actual_seed": 1157,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 158,
+      "requested_seed": 1158,
+      "actual_seed": 1158,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 159,
+      "requested_seed": 1159,
+      "actual_seed": 1159,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 160,
+      "requested_seed": 1160,
+      "actual_seed": 1160,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 161,
+      "requested_seed": 1161,
+      "actual_seed": 1161,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 162,
+      "requested_seed": 1162,
+      "actual_seed": 1162,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 163,
+      "requested_seed": 1163,
+      "actual_seed": 1163,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 164,
+      "requested_seed": 1164,
+      "actual_seed": 1164,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 165,
+      "requested_seed": 1165,
+      "actual_seed": 1165,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 166,
+      "requested_seed": 1166,
+      "actual_seed": 1166,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 167,
+      "requested_seed": 1167,
+      "actual_seed": 1167,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 168,
+      "requested_seed": 1168,
+      "actual_seed": 1168,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 169,
+      "requested_seed": 1169,
+      "actual_seed": 1169,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 170,
+      "requested_seed": 1170,
+      "actual_seed": 1170,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 171,
+      "requested_seed": 1171,
+      "actual_seed": 1171,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 172,
+      "requested_seed": 1172,
+      "actual_seed": 1172,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 173,
+      "requested_seed": 1173,
+      "actual_seed": 1173,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 174,
+      "requested_seed": 1174,
+      "actual_seed": 1174,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 175,
+      "requested_seed": 1175,
+      "actual_seed": 1175,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 176,
+      "requested_seed": 1176,
+      "actual_seed": 1176,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 177,
+      "requested_seed": 1177,
+      "actual_seed": 1177,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 178,
+      "requested_seed": 1178,
+      "actual_seed": 1178,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 179,
+      "requested_seed": 1179,
+      "actual_seed": 1179,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 180,
+      "requested_seed": 1180,
+      "actual_seed": 1180,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 181,
+      "requested_seed": 1181,
+      "actual_seed": 1181,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 182,
+      "requested_seed": 1182,
+      "actual_seed": 1182,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 183,
+      "requested_seed": 1183,
+      "actual_seed": 1183,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 184,
+      "requested_seed": 1184,
+      "actual_seed": 1184,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 185,
+      "requested_seed": 1185,
+      "actual_seed": 1185,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 186,
+      "requested_seed": 1186,
+      "actual_seed": 1186,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 187,
+      "requested_seed": 1187,
+      "actual_seed": 1187,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 188,
+      "requested_seed": 1188,
+      "actual_seed": 1188,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 189,
+      "requested_seed": 1189,
+      "actual_seed": 1189,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 190,
+      "requested_seed": 1190,
+      "actual_seed": 1190,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 191,
+      "requested_seed": 1191,
+      "actual_seed": 1191,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 192,
+      "requested_seed": 1192,
+      "actual_seed": 1192,
+      "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+      "cue": 0
+    },
+    {
+      "episode": 193,
+      "requested_seed": 1193,
+      "actual_seed": 1193,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 194,
+      "requested_seed": 1194,
+      "actual_seed": 1194,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 195,
+      "requested_seed": 1195,
+      "actual_seed": 1195,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 196,
+      "requested_seed": 1196,
+      "actual_seed": 1196,
+      "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+      "cue": 1
+    },
+    {
+      "episode": 197,
+      "requested_seed": 1197,
+      "actual_seed": 1197,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    },
+    {
+      "episode": 198,
+      "requested_seed": 1198,
+      "actual_seed": 1198,
+      "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+      "cue": 1
+    },
+    {
+      "episode": 199,
+      "requested_seed": 1199,
+      "actual_seed": 1199,
+      "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+      "cue": 0
+    }
+  ],
+  "unique_actual_seeds": 200,
+  "unique_initial_states": 4,
+  "split": {
+    "grouping_unit": "actual_environment_seed",
+    "split_seed": 20260813,
+    "train_actual_seeds": [
+      1001,
+      1002,
+      1004,
+      1005,
+      1008,
+      1009,
+      1010,
+      1013,
+      1014,
+      1015,
+      1016,
+      1017,
+      1018,
+      1019,
+      1020,
+      1022,
+      1026,
+      1030,
+      1031,
+      1032,
+      1033,
+      1034,
+      1035,
+      1036,
+      1037,
+      1038,
+      1040,
+      1041,
+      1042,
+      1043,
+      1044,
+      1045,
+      1047,
+      1050,
+      1052,
+      1053,
+      1054,
+      1055,
+      1056,
+      1057,
+      1058,
+      1059,
+      1060,
+      1061,
+      1062,
+      1064,
+      1065,
+      1067,
+      1068,
+      1070,
+      1071,
+      1072,
+      1075,
+      1076,
+      1078,
+      1079,
+      1080,
+      1081,
+      1082,
+      1083,
+      1084,
+      1085,
+      1087,
+      1089,
+      1090,
+      1091,
+      1092,
+      1093,
+      1094,
+      1095,
+      1096,
+      1098,
+      1100,
+      1101,
+      1102,
+      1104,
+      1106,
+      1107,
+      1109,
+      1110,
+      1112,
+      1113,
+      1115,
+      1116,
+      1117,
+      1119,
+      1120,
+      1121,
+      1122,
+      1124,
+      1125,
+      1128,
+      1129,
+      1130,
+      1132,
+      1133,
+      1134,
+      1135,
+      1136,
+      1138,
+      1139,
+      1141,
+      1142,
+      1143,
+      1146,
+      1147,
+      1149,
+      1151,
+      1152,
+      1153,
+      1154,
+      1155,
+      1156,
+      1159,
+      1160,
+      1161,
+      1162,
+      1163,
+      1165,
+      1168,
+      1171,
+      1172,
+      1173,
+      1176,
+      1177,
+      1178,
+      1179,
+      1180,
+      1182,
+      1183,
+      1184,
+      1185,
+      1186,
+      1188,
+      1190,
+      1191,
+      1192,
+      1193,
+      1195,
+      1196
+    ],
+    "test_actual_seeds": [
+      1000,
+      1003,
+      1006,
+      1007,
+      1011,
+      1012,
+      1021,
+      1023,
+      1024,
+      1025,
+      1027,
+      1028,
+      1029,
+      1039,
+      1046,
+      1048,
+      1049,
+      1051,
+      1063,
+      1066,
+      1069,
+      1073,
+      1074,
+      1077,
+      1086,
+      1088,
+      1097,
+      1099,
+      1103,
+      1105,
+      1108,
+      1111,
+      1114,
+      1118,
+      1123,
+      1126,
+      1127,
+      1131,
+      1137,
+      1140,
+      1144,
+      1145,
+      1148,
+      1150,
+      1157,
+      1158,
+      1164,
+      1166,
+      1167,
+      1169,
+      1170,
+      1174,
+      1175,
+      1181,
+      1187,
+      1189,
+      1194,
+      1197,
+      1198,
+      1199
+    ],
+    "actual_seed_overlap": 0,
+    "train_unique_initial_states": 4,
+    "test_unique_initial_states": 4,
+    "initial_state_overlap": 4,
+    "train_episodes": 140,
+    "test_episodes": 60,
+    "train_known_steps": 18328
+  },
+  "probes": {
+    "grid": {
+      "known": {
+        "n": 8824,
+        "accuracy": 0.8168631006346329,
+        "balanced_accuracy": 0.8140024265630166,
+        "base_rate": 0.5211922030825022,
+        "predicted_positive_rate": 0.4191976427923844
+      },
+      "visible": {
+        "n": 4353,
+        "accuracy": 0.9411899839191362,
+        "balanced_accuracy": 0.9237187127532778,
+        "base_rate": 0.6145187227199632,
+        "predicted_positive_rate": 0.326671261199173
+      },
+      "pure_memory": {
+        "n": 4471,
+        "accuracy": 0.6958174904942965,
+        "balanced_accuracy": 0.698375835743327,
+        "base_rate": 0.569671214493402,
+        "predicted_positive_rate": 0.5092820398121226
+      },
+      "decision": {
+        "n": 0,
+        "accuracy": null,
+        "balanced_accuracy": null
+      }
+    },
+    "stoch": {
+      "known": {
+        "n": 8824,
+        "accuracy": 0.817883046237534,
+        "balanced_accuracy": 0.8216406448018672,
+        "base_rate": 0.5211922030825022,
+        "predicted_positive_rate": 0.5750226654578422
+      },
+      "visible": {
+        "n": 4353,
+        "accuracy": 0.892487939352171,
+        "balanced_accuracy": 0.9125233644859814,
+        "base_rate": 0.6145187227199632,
+        "predicted_positive_rate": 0.4929933379278658
+      },
+      "pure_memory": {
+        "n": 4471,
+        "accuracy": 0.7452471482889734,
+        "balanced_accuracy": 0.7280935461147475,
+        "base_rate": 0.569671214493402,
+        "predicted_positive_rate": 0.654887049876985
+      },
+      "decision": {
+        "n": 0,
+        "accuracy": null,
+        "balanced_accuracy": null
+      }
+    },
+    "deter": {
+      "known": {
+        "n": 8824,
+        "accuracy": 0.9964868540344515,
+        "balanced_accuracy": 0.9963313609467456,
+        "base_rate": 0.5211922030825022,
+        "predicted_positive_rate": 0.4752946509519492
+      },
+      "visible": {
+        "n": 4353,
+        "accuracy": 0.992878474615208,
+        "balanced_accuracy": 0.9907628128724673,
+        "base_rate": 0.6145187227199632,
+        "predicted_positive_rate": 0.3783597518952447
+      },
+      "pure_memory": {
+        "n": 4471,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.569671214493402,
+        "predicted_positive_rate": 0.569671214493402
+      },
+      "decision": {
+        "n": 0,
+        "accuracy": null,
+        "balanced_accuracy": null
+      }
+    },
+    "feat": {
+      "known": {
+        "n": 8824,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.5211922030825022,
+        "predicted_positive_rate": 0.47880779691749775
+      },
+      "visible": {
+        "n": 4353,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.6145187227199632,
+        "predicted_positive_rate": 0.3854812772800368
+      },
+      "pure_memory": {
+        "n": 4471,
+        "accuracy": 1.0,
+        "balanced_accuracy": 1.0,
+        "base_rate": 0.569671214493402,
+        "predicted_positive_rate": 0.569671214493402
+      },
+      "decision": {
+        "n": 0,
+        "accuracy": null,
+        "balanced_accuracy": null
+      }
+    }
+  },
+  "acceptance": {
+    "threshold_balanced_accuracy": 0.65,
+    "minimum_gain_over_grid": 0.1,
+    "best_belief_pure_memory_balanced_accuracy": 1.0,
+    "grid_pure_memory_balanced_accuracy": 0.698375835743327,
+    "passed": true
+  }
+}

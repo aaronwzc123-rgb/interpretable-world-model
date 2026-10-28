@@ -1,0 +1,599 @@
+{
+  "scope": "Historical 200 actual seeds per actor, four complete initial states. New diagnostics are 4 actual model runs per condition per actor, unweighted finite-configuration descriptions, not 200 new runs.",
+  "actors": [
+    {
+      "actor": 0,
+      "checkpoint_sha256": "7c9c170437b0e202ce3e2ea635537e72bd86d059e762a0b55a768086c3ac8f35",
+      "grounding_coverage": {
+        "cue_early": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        },
+        "cue_mid": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        },
+        "cue_late": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        }
+      },
+      "configurations": [
+        {
+          "representative_seed": 0,
+          "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+          "pool_weight": 59,
+          "cue_is_key": 0,
+          "baseline": {
+            "outcome": "target",
+            "steps": 6,
+            "truncated": false,
+            "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": -0.997985303401947,
+            "cue_mid": -0.970769464969635,
+            "cue_late": -0.9906187057495117
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 249,
+              "cue_correct_steps": 249,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "target",
+              "steps": 6,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 2,
+          "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+          "pool_weight": 33,
+          "cue_is_key": 1,
+          "baseline": {
+            "outcome": "target",
+            "steps": 6,
+            "truncated": false,
+            "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": 0.9999958872795105,
+            "cue_mid": 0.9999997615814209,
+            "cue_late": 0.9999998211860657
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "target",
+              "steps": 147,
+              "intervened_steps": 146,
+              "cue_correct_steps": 146,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "target",
+              "steps": 147,
+              "intervened_steps": 144,
+              "cue_correct_steps": 144,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "target",
+              "steps": 6,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "target",
+              "steps": 6,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 5,
+          "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+          "pool_weight": 58,
+          "cue_is_key": 0,
+          "baseline": {
+            "outcome": "other",
+            "steps": 7,
+            "truncated": false,
+            "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": -0.997985303401947,
+            "cue_mid": -0.9740812182426453,
+            "cue_late": -0.9600939750671387
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 249,
+              "cue_correct_steps": 249,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "other",
+              "steps": 7,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 11,
+          "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+          "pool_weight": 50,
+          "cue_is_key": 1,
+          "baseline": {
+            "outcome": "timeout",
+            "steps": 250,
+            "truncated": true,
+            "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": 0.9999958872795105,
+            "cue_mid": 0.9999991059303284,
+            "cue_late": 0.9999991059303284
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "other",
+              "steps": 6,
+              "intervened_steps": 5,
+              "cue_correct_steps": 5,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 125,
+              "cue_correct_steps": 125,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 125,
+              "cue_correct_steps": 125,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "other",
+              "steps": 164,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "actor": 1,
+      "checkpoint_sha256": "8b2888792f7601a8283b1583ef832b4d663275da93cdd9dc13a46241a9cf5d35",
+      "grounding_coverage": {
+        "cue_early": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        },
+        "cue_mid": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        },
+        "cue_late": {
+          "evaluated": 4,
+          "grounding_correct_at_start": 4,
+          "baseline_target_grounding_correct": 2,
+          "continuous_cue_correct": 4,
+          "trajectories_with_cue_prediction_sign_switch": 0
+        }
+      },
+      "configurations": [
+        {
+          "representative_seed": 0,
+          "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+          "pool_weight": 59,
+          "cue_is_key": 0,
+          "baseline": {
+            "outcome": "target",
+            "steps": 6,
+            "truncated": false,
+            "initial_state_signature": "ac6c80e3c1461c5685bedec4bf9d91bad51d9dd1791fdcde17f2c33e86790ce5",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": -0.997985303401947,
+            "cue_mid": -0.970769464969635,
+            "cue_late": -0.9906187057495117
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 249,
+              "cue_correct_steps": 249,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 245,
+              "cue_correct_steps": 245,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 241,
+              "cue_prediction_sign_switches": 2
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 2,
+          "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+          "pool_weight": 33,
+          "cue_is_key": 1,
+          "baseline": {
+            "outcome": "target",
+            "steps": 6,
+            "truncated": false,
+            "initial_state_signature": "60651d8ffdc6440c04c57bab9b2971d0625babf7dc134e35751e8ecef81f5131",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": 0.9999958872795105,
+            "cue_mid": 0.9999997615814209,
+            "cue_late": 0.9999998211860657
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "target",
+              "steps": 149,
+              "intervened_steps": 148,
+              "cue_correct_steps": 148,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "target",
+              "steps": 149,
+              "intervened_steps": 146,
+              "cue_correct_steps": 146,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "target",
+              "steps": 6,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "target",
+              "steps": 6,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 5,
+          "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+          "pool_weight": 58,
+          "cue_is_key": 0,
+          "baseline": {
+            "outcome": "other",
+            "steps": 7,
+            "truncated": false,
+            "initial_state_signature": "f8e757dd34578186794a2b6d28f03e01736c0231719c3864cf51446d5ed6d106",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": -0.997985303401947,
+            "cue_mid": -0.9740812182426453,
+            "cue_late": -0.9600939750671387
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 249,
+              "cue_correct_steps": 249,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 247,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "other",
+              "steps": 7,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 247,
+              "cue_correct_steps": 242,
+              "cue_prediction_sign_switches": 2
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        },
+        {
+          "representative_seed": 11,
+          "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+          "pool_weight": 50,
+          "cue_is_key": 1,
+          "baseline": {
+            "outcome": "other",
+            "steps": 65,
+            "truncated": false,
+            "initial_state_signature": "ccfdac5345bfde19120c8d4ffe1df23fdf463168c6dd3a873b86ccfd355ea148",
+            "intervention_operation": null,
+            "grounding_at_intervention": null,
+            "intervened_steps": 0,
+            "cue_correct_steps": 0,
+            "cue_prediction_sign_switches": 0,
+            "intervention_trace": []
+          },
+          "cue_onsets": {
+            "cue_early": 0.9999958872795105,
+            "cue_mid": 0.9999989867210388,
+            "cue_late": 0.9313782453536987
+          },
+          "conditions": {
+            "cue_early": {
+              "outcome": "other",
+              "steps": 6,
+              "intervened_steps": 5,
+              "cue_correct_steps": 5,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_mid": {
+              "outcome": "other",
+              "steps": 33,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "cue_late": {
+              "outcome": "other",
+              "steps": 65,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "wall_mid": {
+              "outcome": "other",
+              "steps": 33,
+              "intervened_steps": 1,
+              "cue_correct_steps": 1,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_all": {
+              "outcome": "timeout",
+              "steps": 250,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            },
+            "zero_cue": {
+              "outcome": "other",
+              "steps": 23,
+              "intervened_steps": 0,
+              "cue_correct_steps": 0,
+              "cue_prediction_sign_switches": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

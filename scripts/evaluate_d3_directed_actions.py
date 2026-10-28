@@ -34,6 +34,23 @@ def bootstrap_mean(values, draws, seed):
     return [float(np.quantile(means, .025)), float(np.quantile(means, .975))]
 
 
+def bootstrap_episode_mean(values, episode_ids, all_episode_ids, draws, seed):
+    """Resample complete episodes, retaining the pooled-state estimand."""
+    values = np.asarray(values, dtype=float)
+    episode_ids = np.asarray(episode_ids)
+    all_episode_ids = np.asarray(all_episode_ids)
+    if not len(values):
+        return [None, None]
+    totals = np.array([values[episode_ids == e].sum() for e in all_episode_ids])
+    counts = np.array([(episode_ids == e).sum() for e in all_episode_ids])
+    rng = np.random.default_rng(seed)
+    selected = rng.integers(0, len(all_episode_ids), (draws, len(all_episode_ids)))
+    denominators = counts[selected].sum(axis=1)
+    valid = denominators > 0
+    means = totals[selected].sum(axis=1)[valid] / denominators[valid]
+    return [float(np.quantile(means, .025)), float(np.quantile(means, .975))]
+
+
 @torch.no_grad()
 def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
     overlays = ["defaults", "minigrid", "minigrid_symbolic_nav"]
@@ -43,8 +60,14 @@ def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
     labels = list(wm._sym_head.labels)
     rows = {label: [] for label in labels}
     successes = 0
+    actual_seeds = []
     for seed in range(seed_start, seed_start + episodes):
         env = ablate_sym.make_env("doorkey6x6", seed, config.time_limit)
+        actual_seed = int(env._eval_seed % ablate_sym.M.TEST_POOL)
+        if actual_seed in actual_seeds:
+            env.close()
+            raise ValueError("Repeated actual evaluation seed; restrict this historical pool audit to at most 200 episodes")
+        actual_seeds.append(actual_seed)
         obs = env.reset()
         latent = action = None
         for step in range(config.time_limit + 1):
@@ -66,6 +89,8 @@ def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
                 edited[0, index] = -edited[0, index]
                 changed_probs = behavior.actor(edited).probs[0].detach().cpu().numpy()
                 item = {
+                    "actual_seed": actual_seed,
+                    "step": step,
                     "truth": int(predicted),
                     "mode_changed": int(base_mode != int(np.argmax(changed_probs))),
                     "tv": float(.5 * np.abs(changed_probs - base_probs).sum()),
@@ -96,7 +121,10 @@ def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
         if effects:
             summary.update(
                 mean_semantic_signed_effect=float(np.mean(effects)),
-                semantic_signed_effect_ci95=bootstrap_mean(effects, bootstrap, 20260815 + index),
+                semantic_signed_effect_ci95=bootstrap_episode_mean(
+                    effects, [x["actual_seed"] for x in items], actual_seeds,
+                    bootstrap, 20260815 + index),
+                state_resampling_ci95_for_comparison=bootstrap_mean(effects, bootstrap, 20260815 + index),
                 semantic_alignment_rate=float(np.mean(np.asarray(effects) > 0)),
             )
         result[label] = summary
@@ -104,10 +132,13 @@ def evaluate(checkpoint, device, episodes, seed_start, bootstrap):
         "checkpoint": str(pathlib.Path(checkpoint).resolve()),
         "episodes": episodes,
         "evaluation_seeds": [seed_start, seed_start + episodes - 1],
+        "actual_evaluation_seeds": actual_seeds,
+        "uncertainty_unit": "complete episode; pooled-state mean; conditional on one trained checkpoint",
         "normal_success_rate": successes / episodes,
         "selection": "states where predicted atom sign equals simulator truth",
         "directed_metric": "positive means flipped atom changed its named action probability in the edited semantic direction",
         "atoms": result,
+        "state_records": rows,
     }
 
 
@@ -124,9 +155,11 @@ def main():
     parser.add_argument("--episodes", type=int, default=100)
     parser.add_argument("--seed-start", type=int, default=1000)
     parser.add_argument("--bootstrap", type=int, default=5000)
+    parser.add_argument("--torch-threads", type=int, default=1)
     parser.add_argument("--out")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
+    torch.set_num_threads(args.torch_threads)
     if args.self_test:
         self_test()
         return
